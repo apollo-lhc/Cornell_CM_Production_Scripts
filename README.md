@@ -1,11 +1,17 @@
 # Scripts Used for Cornell CM Produciton Checkout
 
 ## IBERTpy Plotting Script
-
 ### Overview
 ### Requirements
-- **Python 2.7**
+- **Python 3+**
+- **fpdf** (the package used to make a pdf file from converting a csv file of a Vivado eyescan. For instruction on how to install it, please follow https://github.com/reingart/pyfpdf) 
 ### Instructions
+The IBERTpy is a set of modified scripts from https://github.com/mvsoliveira/IBERTpy to convert Vivado eyescans from .csv to .pdf and .png formats. The csv input file is currently a hard code on Line 16 inside generate_all_plots.py. The path to a csv input file is structured for Cornell CM Production in the following manner: **Cornell_CM_Production_Scripts/scans/CM#/fpga#/mm-dd-yy/*.csv'**. 
+
+To convert a csv input file to a pdf + png file and store them in the same dir as the csv input file, run the following command in IBERTpy:
+```sh
+$ python3 generate_all_plots.py
+```
 
 ## Autotuning System for Xilinx MGTs
 
