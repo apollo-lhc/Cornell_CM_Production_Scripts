@@ -28,7 +28,7 @@
 from classes.pyIBERT import pyIBERT
 import time
 import os
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 
 # Functions
 def create_dir(dir):
@@ -50,7 +50,7 @@ def write_result_csv(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area):
             + "\n")
 
 # Load init
-config = SafeConfigParser()
+config = ConfigParser()
 config.read('config.ini')
 server0_addr = config.get('hw_server','server0_addr')
 server0_port = config.get('hw_server','server0_port')
@@ -109,8 +109,8 @@ for mgt_idx in range(len(mgt_rx)):
     obj_rx = "get_hw_sio_links *MGT_" + mgt_rx[mgt_idx] + "/RX"
     obj_tx = "get_hw_sio_links *MGT_" + mgt_tx[mgt_idx] + "/RX" # /RX is the end of the string
 
-    rcv.scan_remove_all()
-    transm.scan_remove_all()
+#    rcv.scan_remove_all() #Rui
+#    transm.scan_remove_all() #RUi
 
     iter = 0
 
@@ -159,7 +159,7 @@ for mgt_idx in range(len(mgt_rx)):
 
                             scan_area = rcv.get_property("Open_Area", "get_hw_sio_scan")
                             #scan_ber = rcv.get_property("RX_BER", obj_rx)
-                            rcv.scan_remove_all()
+                            rcv.scan_remove_all() # Rui
                             print("--- TXDIFFSWING: " + str(i) + "-- TXPRE: " + str(j) + "-- TXPOST: " + str(k) + "-- RXTERM: " + str(l) + "-- Error_Count: " + str(int(err,16)) + "-- Open_Area: " + str(scan_area) )
                             write_result_csv(f, i, j, k, l, str(int(err,16)), scan_area)
                             if int(float(scan_area)) > int(float(best_area)):
