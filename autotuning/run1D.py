@@ -49,6 +49,17 @@ def write_result_csv(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area):
             + "," +  scan_area
             + "\n")
 
+def write_result_csv_debug(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area, total_bits):
+    f.write(TXDIFFSWING
+            + "," +  TXPRE
+            + "," +  TXPOST
+            + "," +  RXTERM
+            + "," +  err
+            + "," +  scan_area
+            + "," +  total_bits
+            + "\n")
+
+
 # Load init
 config = ConfigParser()
 config.read('config.ini')
@@ -75,6 +86,7 @@ desired_area = config.getint('test','desired_area')
 BER = config.get('test','BER')
 err_req = config.getint('test','err_req')
 include_all_results = config.getboolean('test','include_all_results')
+scan_1d = config.getboolean('test','scan_1d')
 
 mgt_rx = format_to_list(mgt_rx)
 mgt_tx = format_to_list(mgt_tx)
@@ -82,6 +94,10 @@ TXDIFFSWING = format_to_list(TXDIFFSWING)
 TXPOST = format_to_list(TXPOST)
 TXPRE = format_to_list(TXPRE)
 RXTERM = format_to_list(RXTERM)
+
+scantype = "Eyescan"
+if scan_1d:
+    scantype = "Bathtub"
 
 # Main script
 print("----------------------------------------------------------------------")
@@ -98,7 +114,7 @@ create_dir(results_dir)
 print("-- Main loop -------------------")
 for mgt_idx in range(len(mgt_rx)):
 
-    f = open("./" + results_dir + results_name + "Rx" + mgt_rx[mgt_idx] + "_Tx" +mgt_tx[mgt_idx] + "_ErrReq" + str(err_req) + "_BER" + BER.replace("\"","") + ".csv","w")
+    f = open("./" + results_dir + results_name + "Rx" + mgt_rx[mgt_idx] + "_Tx" +mgt_tx[mgt_idx] + "_ErrReq" + str(err_req) + "_BER" + BER.replace("\"","") + "_" + scantype + ".csv","w")
     f.write("TXDIFFSWING"
             + "," + "TXPRE"
             + "," + "TXPOST"
@@ -144,27 +160,34 @@ for mgt_idx in range(len(mgt_rx)):
 
                     rcv.reset_sio_link_error(obj_rx)
                     rcv.refresh_hw_sio(obj_rx)
-#                    time.sleep(0.01) # parameters are not instantly  #Rui
+#                    time.sleep(1) # parameters are not instantly  #Rui
                                     # refreshed. Adjust it to be as small as
                                     # possible for your setup
                     link = rcv.get_property("LOGIC.LINK", obj_rx)
-                    print("Rui: link: ", link)
+                    print("link: ",link)
                     err = "-1"
 
                     if link == "1":
                         err = rcv.get_property("LOGIC.ERRBIT_COUNT", obj_rx)
+                        total_bits = rcv.get_property("RX_RECEIVED_BIT_COUNT", obj_rx)
 
                         if int(err,16) <= err_req: # convert str hex to int
 
-                            rcv.scan_create("xil_scan", obj_rx)
-                            rcv.scan_set_all("6", "6", BER)
+                            if scan_1d:
+                                rcv.scan_1d_create("xil_scan", obj_rx)
+                                rcv.scan_1d_set_all("1", BER)
+                            else:
+                                rcv.scan_create("xil_scan", obj_rx)
+                                rcv.scan_set_all("6", "6", BER)
                             rcv.scan_run_all()
 
                             scan_area = rcv.get_property("Open_Area", "get_hw_sio_scan")
+                            if scan_1d:
+                                scan_area = str(100*int(scan_area)/64.0)
                             #scan_ber = rcv.get_property("RX_BER", obj_rx)
                             rcv.scan_remove_all() 
-                            print("--- TXDIFFSWING: " + str(i) + "-- TXPRE: " + str(j) + "-- TXPOST: " + str(k) + "-- RXTERM: " + str(l) + "-- Error_Count: " + str(int(err,16)) + "-- Open_Area: " + str(scan_area) )
-                            write_result_csv(f, i, j, k, l, str(int(err,16)), scan_area)
+                            print("--- TXDIFFSWING: " + str(i) + "-- TXPRE: " + str(j) + "-- TXPOST: " + str(k) + "-- RXTERM: " + str(l) + "-- Error_Count: " + str(int(err,16)) + "-- Open_Area: " + str(scan_area) + "-- Total_Bits: " + str(int(total_bits,16)) )
+                            write_result_csv_debug(f, i, j, k, l, str(int(err,16)), scan_area, total_bits)
                             if int(float(scan_area)) > int(float(best_area)):
                                 best_area = scan_area
                                 best_err = str(int(err,16))

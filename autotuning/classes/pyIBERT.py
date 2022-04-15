@@ -66,6 +66,13 @@ class pyIBERT(XilinxTCL):
     self.sendCommand("set_property HORIZONTAL_INCREMENT " + str(hor_align) + " [get_hw_sio_scans]")
     self.sendCommand("set_property DWELL_BER " + str(dwell) + " [get_hw_sio_scans]")
 
+  def scan_1d_create(self, name, obj):
+    self.sendCommand("set " + name + " [create_hw_sio_scan -description {" + name + "} 1d_bathtub  [lindex [" + obj + "] 0 ]]")
+
+  def scan_1d_set_all(self, hor_align, dwell):
+    self.sendCommand("set_property HORIZONTAL_INCREMENT " + str(hor_align) + " [get_hw_sio_scans]")
+    self.sendCommand("set_property DWELL_BER " + str(dwell) + " [get_hw_sio_scans]")
+
   def scan_run_all(self):
     self.sendCommand("foreach s [get_hw_sio_scans] {\n    run_hw_sio_scan $s \n    wait_on_hw_sio_scan $s}")
 
@@ -95,6 +102,27 @@ class pyIBERT(XilinxTCL):
                      "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
                      "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
+  def reset_all_gty_txdatapath(self):
+    self.sendCommand("set_property LOGIC.TX_RESET_DATAPATH 1 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("set_property LOGIC.TX_RESET_DATAPATH 0 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
+  def reset_all_gty_rxdatapath(self):
+    self.sendCommand("set_property LOGIC.RX_RESET_DATAPATH 1 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("set_property LOGIC.RX_RESET_DATAPATH 0 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
 
   def reset_all_gth_rx(self):
     self.sendCommand("set_property PORT.GTRXRESET 1 [get_hw_sio_links "+
