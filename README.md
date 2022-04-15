@@ -112,3 +112,24 @@ TXDIFFSWING,TXPRE,TXPOST,RXTERM,Open Area
 269 mV (0000),0.00 dB (00000),0.00 dB (00000),900 mV,2664
 
 ```
+
+#### Running the margin scanning script
+The margin scanning script is run by the following command. It uses the same logic as the autotuning script but scans with 1D bathtub plot instead of 2D eyescan.
+
+```sh
+$ python3 run1D.py
+```
+This only scans parameters on the FPGA. To scan parameter on the firefly, one needs to directly change the setting on the firefly via mcu and run the scan for each of the changed setting. Make sure to modify the name of the files saved everytime the firefly setting changes.
+
+
+To plot. First run the following command to make a table with all the data.
+```sh
+# python3 table.py
+```
+This creates a log that gathers all the settings and links together as well as an array of number of good links in the end.
+
+Copy and paste the last array into the following script and run to create plot.
+
+```sh
+$ python3 plotting.py
+```
