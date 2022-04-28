@@ -62,7 +62,7 @@ def write_result_csv_debug(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area
 
 # Load init
 config = ConfigParser()
-config.read('config.ini')
+config.read('config1D.ini')
 server0_addr = config.get('hw_server','server0_addr')
 server0_port = config.get('hw_server','server0_port')
 target0_name = config.get('hw_server','target0_name')
