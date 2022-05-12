@@ -55,6 +55,9 @@ class pyIBERT(XilinxTCL):
     self.sendCommand("current_hw_device [lindex [get_hw_devices] 0]")
     self.sendCommand("refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]")
 
+  def refresh(self):
+    self.sendCommand("refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]")
+
   def source(self, path):
     self.sendCommand("source " + path)
 
@@ -133,6 +136,9 @@ class pyIBERT(XilinxTCL):
                      "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
                      "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
+  def wait(self, msec):
+    self.sendCommand("after "+msec)
 
   def close_hw(self):
     self.sendCommand("close_hw_manager")

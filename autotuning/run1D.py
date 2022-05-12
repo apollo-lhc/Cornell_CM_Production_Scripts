@@ -49,7 +49,7 @@ def write_result_csv(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area):
             + "," +  scan_area
             + "\n")
 
-def write_result_csv_debug(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area, total_bits):
+def write_result_csv_debug(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area, total_bits, BER):
     f.write(TXDIFFSWING
             + "," +  TXPRE
             + "," +  TXPOST
@@ -57,6 +57,7 @@ def write_result_csv_debug(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area
             + "," +  err
             + "," +  scan_area
             + "," +  total_bits
+            + "," +  BER
             + "\n")
 
 
@@ -160,7 +161,7 @@ for mgt_idx in range(len(mgt_rx)):
 
                     rcv.reset_sio_link_error(obj_rx)
                     rcv.refresh_hw_sio(obj_rx)
-#                    time.sleep(1) # parameters are not instantly  #Rui
+                    #time.sleep(1) # parameters are not instantly  #Rui
                                     # refreshed. Adjust it to be as small as
                                     # possible for your setup
                     link = rcv.get_property("LOGIC.LINK", obj_rx)
@@ -168,8 +169,13 @@ for mgt_idx in range(len(mgt_rx)):
                     err = "-1"
 
                     if link == "1":
+#                        rcv.source("refresh.tcl")
+#                        rcv.wait("40000")
+#                        rcv.set_property("LOGIC.MGT_ERRCNT_RESET_CTRL", "1", obj_rx)
+#                        rcv.set_property("LOGIC.MGT_ERRCNT_RESET_CTRL", "0", obj_rx)
                         err = rcv.get_property("LOGIC.ERRBIT_COUNT", obj_rx)
                         total_bits = rcv.get_property("RX_RECEIVED_BIT_COUNT", obj_rx)
+                        scan_ber= rcv.get_property("RX_BER", obj_rx)
 
                         if int(err,16) <= err_req: # convert str hex to int
 
@@ -184,10 +190,20 @@ for mgt_idx in range(len(mgt_rx)):
                             scan_area = rcv.get_property("Open_Area", "get_hw_sio_scan")
                             if scan_1d:
                                 scan_area = str(100*int(scan_area)/64.0)
-                            #scan_ber = rcv.get_property("RX_BER", obj_rx)
+#                            rcv.source("refresh.tcl")
+                            rcv.reset_sio_link_error(obj_rx)
+                            for timer in range(240):
+                                rcv.refresh_hw_sio(obj_rx)
+#                            rcv.set_property("LOGIC.MGT_ERRCNT_RESET_CTRL", "1", obj_rx)
+#                            rcv.set_property("LOGIC.MGT_ERRCNT_RESET_CTRL", "0", obj_rx)  
+#                            rcv.wait("400000")
+                            err = rcv.get_property("LOGIC.ERRBIT_COUNT", obj_rx)
+                            total_bits = rcv.get_property("RX_RECEIVED_BIT_COUNT", obj_rx)
+                            scan_ber= rcv.get_property("RX_BER", obj_rx)
+
                             rcv.scan_remove_all() 
                             print("--- TXDIFFSWING: " + str(i) + "-- TXPRE: " + str(j) + "-- TXPOST: " + str(k) + "-- RXTERM: " + str(l) + "-- Error_Count: " + str(int(err,16)) + "-- Open_Area: " + str(scan_area) + "-- Total_Bits: " + str(int(total_bits,16)) )
-                            write_result_csv_debug(f, i, j, k, l, str(int(err,16)), scan_area, total_bits)
+                            write_result_csv_debug(f, i, j, k, l, str(int(err,16)), scan_area, total_bits, scan_ber)
                             if int(float(scan_area)) > int(float(best_area)):
                                 best_area = scan_area
                                 best_err = str(int(err,16))
