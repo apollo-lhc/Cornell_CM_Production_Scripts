@@ -111,6 +111,7 @@ def get_eye(scan_list):
     yticks = [int(y) for y in yticks]
     return [img, xticks, yticks]
 
+
 #Mask Criteria: https://support.xilinx.com/s/question/0D52E00006iHnb2SAC/any-parameters-we-can-tune-gty-transceiver-to-make-eye-open-area-bigger?language=en_US
 #Generate eyescan plots
 def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=[],yticks_f=[], mask_x1x2x3y1y2 = (0.25, 0.4, 0.45, 0.25, 0.28)):

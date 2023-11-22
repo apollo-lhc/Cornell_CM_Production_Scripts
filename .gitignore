@@ -9,3 +9,16 @@ __pycache__/
 *.jou
 *.log
 .Xil/
+
+# Latex pdf output files
+IBERTpy/latex/*.aux
+IBERTpy/latex/*.out
+IBERTpy/latex/*.pdf
+IBERTpy/latex/*.toc
+
+# Scan results
+scans/CM203/
+
+# Autotuning results
+autotuning/results/*.csv
+autotuning/results_1/*.csv
