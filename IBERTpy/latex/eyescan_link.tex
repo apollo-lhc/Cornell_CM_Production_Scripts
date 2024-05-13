@@ -1,0 +1,179 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage[a4paper, margin=0.5in]{geometry}
+\usepackage{subcaption}
+%\usepackage{printlen}
+\usepackage{pdfpages}
+%\uselengthunit{cm}
+%\usepackage{import}
+%\usepackage{xifthen}
+\usepackage{ifthen}
+\usepackage{pgf}
+\usepackage{tikz}
+%\usepackage{comment}
+\usepackage{intcalc}
+\usepackage{xcolor} % Required for specifying custom colours
+\definecolor{grey}{rgb}{0.9,0.9,0.9} % Colour of the box surrounding the title
+
+\newlength\imageheight
+\newlength\imagewidth
+
+\newcommand{\includegraphicsmaybe}[1]{\IfFileExists{#1}{\includegraphics[width=\linewidth]{#1}}{\includegraphics[width=\linewidth]{not_found.pdf}}}
+\newcommand\dateofscans{04-05-23} %Enter the date on which the scans were made (e.g. 06-13-22), assuming eyescans were properly filed
+
+\usepackage{booktabs}
+
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+
+\newcounter{includepdfpage}
+\newcounter{currentpagecounter}
+\newcommand{\addlabelstoallincludedpages}[1]{
+   \refstepcounter{includepdfpage}
+   \stepcounter{currentpagecounter}
+   \label{#1.\thecurrentpagecounter}}
+\newcommand{\modifiedincludepdf}[3]{
+    \setcounter{currentpagecounter}{0}
+    \includepdf[pages=#1,pagecommand=\addlabelstoallincludedpages{#2}]{#3}}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+  
+  %------------------------------------------------
+  %Grey title box
+  %------------------------------------------------
+  
+  \colorbox{grey}{
+    \parbox[t]{0.93\textwidth}{ % Outer full width box
+      \parbox[t]{0.91\textwidth}{ % Inner box for inner right text margin
+        \raggedleft % Right align the text
+        \fontsize{80pt}{40pt}\selectfont % Title font size, the first argument is the font size and the second is the line spacing, adjust depending on title length
+        \vspace{0.7cm} % Space between the start of the title and the top of the grey box
+
+        CM209 Apollo 214\\
+        Serial Link Test Report\\
+        Date of Scans: \dateofscans\\
+        
+        \vspace{0.7cm} % Space between the end of the title and the bottom of the grey box
+        }
+      }
+    }
+  
+  \vfill % Space between the title box and author information
+  
+  %------------------------------------------------
+  %Author name and information
+  %------------------------------------------------
+  
+  \parbox[t]{0.93\textwidth}{ % Box to inset this section slightly
+    \raggedleft % Right align the text
+    \large % Increase the font size\large % Increase the font size
+    {\Large Rui Zou}\\[4pt] % Extra space after name
+    CERN\\
+    EP-ESE-BE\\[4pt] % Extra space before URL
+    
+    \hfill\rule{0.2\linewidth}{1pt}% Horizontal line, first argument width, second thickness
+    }
+  
+\end{titlepage}
+
+\phantomsection 
+\hypertarget{MyToc}{}  % Make an anchor to the toc
+\tableofcontents
+\newpage
+
+%\chapter{Initial Considerations}
+
+%\section{Eye diagram mask}
+
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=0.70\linewidth]{ieeemask.png}
+%\caption{Transmitter eye mask definition}
+%\label{fig:ieeemask}
+%\end{figure}
+
+%Figure \ref{fig:ieeemask} shows the eye mask parameters {X1, X2, X3, Y1, Y2, Y3} = {0.25, 0.40, 0.45, 0.25, 0.28, 0.80} extracted from the Table 68-3---10GBASE-LRM transmit characteristics part of the IEEE Std 802.3-2015 SECTION 5. 
+
+
+%REAL START OF PDF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{TxPost Scan (X1Y20-X1Y43)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_0 & xcvu13p_1
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \TxPost [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {0.00_dB_(00000),0.74_dB_(00011),1.32_dB_(00110),2.28_dB_(01001),3.14_dB_(01100),3.99_dB_(01111),5.05_dB_(10010),6.69_dB_(10101),7.84_dB_(11000),9.14_dB_(11010),10.51_dB_(11100),11.63_dB_(11101),12.29_dB_(11110),13.67_dB_(11111)}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM209/scan/eyescan_TxPost\TxPost_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM209/scan/eyescan_TxPost\TxPost_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{X1Y20 to X1Y43 TxPost} \label{links_xcvu13p_0_to_xcvu13p_1_overview1}
+\end{figure}
+
+\chapter{TxPost Scan Details (X1Y20-X1Y43)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n in {0p00_dB_(00000),0p74_dB_(00011),1p32_dB_(00110),2p28_dB_(01001),3p14_dB_(01100),3p99_dB_(01111),5p05_dB_(10010),6p69_dB_(10101),7p84_dB_(11000),9p14_dB_(11010),10p51_dB_(11100),11p63_dB_(11101),12p29_dB_(11110),13p67_dB_(11111)}{
+\modifiedincludepdf{-}{TxPost\n_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1)}{../../scans/CM209/scan/eyescan_TxPost\n_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{TxPre Scan (X1Y20-X1Y43)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_0 & xcvu13p_1
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \TxPre [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {0.01_dB_(00000),0.20_dB_(00001),0.32_dB_(00010),0.73_dB_(00011),0.81_dB_(00100),1.17_dB_(00101),1.30_dB_(00110),1.74_dB_(00111),1.87_dB_(01000),2.24_dB_(01001),2.28_dB_(01010),2.93_dB_(01011),3.08_dB_(01100),3.55_dB_(01101),3.66_dB_(01110),3.90_dB_(01111),4.07_dB_(10000),4.66_dB_(10001),4.94_dB_(10010),5.44_dB_(10011),5.67_dB_(10100)}{
+%{0.01_dB_(00000),0.73_dB_(00011),1.30_dB_(00110),2.24_dB_(01001),3.08_dB_(01100),3.90_dB_(01111),4.66_dB_(10001),5.67_dB_(10100)}{
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM209/scan/eyescan_TxPre\TxPre_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM209/scan/eyescan_TxPre\TxPre_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{X1Y20 to X1Y43 TxPre} \label{links_xcvu13p_0_to_xcvu13p_1_overview1}
+\end{figure}
+
+\chapter{TxPre Scan Details (X1Y20-X1Y43)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n in {0p01_dB_(00000),0p20_dB_(00001),0p32_dB_(00010),0p73_dB_(00011),0p81_dB_(00100),1p17_dB_(00101),1p30_dB_(00110),1p74_dB_(00111),1p87_dB_(01000),2p24_dB_(01001),2p28_dB_(01010),2p93_dB_(01011),3p08_dB_(01100),3p55_dB_(01101),3p66_dB_(01110),3p90_dB_(01111),4p07_dB_(10000),4p66_dB_(10001),4p94_dB_(10010),5p44_dB_(10011),5p67_dB_(10100)}{
+%{0p01_dB_(00000),0p73_dB_(00011),1p30_dB_(00110),2p24_dB_(01001),3p08_dB_(01100),3p90_dB_(01111),4p66_dB_(10001),5p67_dB_(10100)}{
+\modifiedincludepdf{-}{TxPre\n_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1)}{../../scans/CM209/scan/eyescan_TxPre\n_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{TxDiffSwing Scan (X1Y20-X1Y43)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+
+\foreach \TxDiffSwing [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {390_mV_(00000),470_mV_(00011),530_mV_(00101),550_mV_(00110),630_mV_(01001),690_mV_(01100),760_mV_(01111),840_mV_(10010),920_mV_(10110),980_mV_(11010),1040_mV_(11111)}{
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM209/scan/eyescan_TxDiff\TxDiffSwing_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM209/scan/eyescan_TxDiff\TxDiffSwing_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{X1Y20 to X1Y43 TxDiffSwing} \label{links_xcvu13p_0_to_xcvu13p_1_overview1}
+\end{figure}
+
+\chapter{TxDiffSwing Scan Details (X1Y20-X1Y43)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n in {390_mV_(00000),470_mV_(00011),530_mV_(00101),550_mV_(00110),630_mV_(01001),690_mV_(01100),760_mV_(01111),840_mV_(10010),920_mV_(10110),980_mV_(11010),1040_mV_(11111)}{
+\modifiedincludepdf{-}{TxDiffSwing\n_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1)}{../../scans/CM209/scan/eyescan_TxDiff\n_X1Y20(xcvu13p_0)_to_X1Y43(xcvu13p_1).pdf}
+}
+
+
+
+\end{document}

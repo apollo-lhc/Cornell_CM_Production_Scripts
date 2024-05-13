@@ -22,9 +22,6 @@
 # 2019-Mar-26 1.1      rglein          Added support for different Rx and Tx.
 #                                      Added error counter and BER as defined 
 #                                      in config and print it in results.
-# 2022-May-24 1.2      rzou            Modified reset procedure.
-#                                      Modified waiting procedure after reset.
-#                                      Modified output format. 
 #-----------------------------------------------------------------------------
 
 
@@ -52,9 +49,20 @@ def write_result_csv(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area):
             + "," +  scan_area
             + "\n")
 
+def write_result_csv_debug(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area, total_bits):
+    f.write(TXDIFFSWING
+            + "," +  TXPRE
+            + "," +  TXPOST
+            + "," +  RXTERM
+            + "," +  err
+            + "," +  scan_area
+            + "," +  total_bits
+            + "\n")
+
+
 # Load init
 config = ConfigParser()
-config.read('config.ini')
+config.read('config1D.ini')
 server0_addr = config.get('hw_server','server0_addr')
 server0_port = config.get('hw_server','server0_port')
 target0_name = config.get('hw_server','target0_name')
@@ -74,14 +82,11 @@ tcl_transm_name = config.get('test','tcl_transm_name')
 tcl_rcv_name = config.get('test','tcl_rcv_name')
 results_dir = config.get('test','results_dir')
 results_name = config.get('test','results_name')
-results_TXFPGA = config.get('test','results_TXFPGA')
-results_RXFPGA = config.get('test','results_RXFPGA')
-results_TXFPGAid = config.get('test','results_TXFPGAid')
-results_RXFPGAid = config.get('test','results_RXFPGAid')
 desired_area = config.getint('test','desired_area')
 BER = config.get('test','BER')
 err_req = config.getint('test','err_req')
 include_all_results = config.getboolean('test','include_all_results')
+scan_1d = config.getboolean('test','scan_1d')
 
 mgt_rx = format_to_list(mgt_rx)
 mgt_tx = format_to_list(mgt_tx)
@@ -89,6 +94,10 @@ TXDIFFSWING = format_to_list(TXDIFFSWING)
 TXPOST = format_to_list(TXPOST)
 TXPRE = format_to_list(TXPRE)
 RXTERM = format_to_list(RXTERM)
+
+scantype = "Eyescan"
+if scan_1d:
+    scantype = "Bathtub"
 
 # Main script
 print("----------------------------------------------------------------------")
@@ -105,7 +114,7 @@ create_dir(results_dir)
 print("-- Main loop -------------------")
 for mgt_idx in range(len(mgt_rx)):
 
-    f = open("./" + results_dir + results_name + "Rx" + mgt_rx[mgt_idx] + results_RXFPGA + "_Tx" + mgt_tx[mgt_idx] + results_TXFPGA + "_ErrReq" + str(err_req) + "_BER" + BER.replace("\"","") + ".csv","w")
+    f = open("./" + results_dir + results_name + "Rx" + mgt_rx[mgt_idx] + "_Tx" +mgt_tx[mgt_idx] + "_ErrReq" + str(err_req) + "_BER" + BER.replace("\"","") + "_" + scantype + ".csv","w")
     f.write("TXDIFFSWING"
             + "," + "TXPRE"
             + "," + "TXPOST"
@@ -113,12 +122,8 @@ for mgt_idx in range(len(mgt_rx)):
             + "," + "Error_Count"
             + "," + "Open Area"
             + "\n")
-    #obj_rx = "get_hw_sio_links *MGT_" + mgt_rx[mgt_idx] + "/RX"
-    #obj_tx = "get_hw_sio_links *MGT_" + mgt_tx[mgt_idx] + "/RX" # /RX is the end of the string
-    #obj_rx = "get_hw_sio_links *->*" + target0_name + "*MGT_" + mgt_rx[mgt_idx] + "/RX"  #Alec
-    #obj_tx = "get_hw_sio_links *" + target1_name + "*MGT_" + mgt_tx[mgt_idx] + "/TX->*"  #Alec
-    obj_link = "get_hw_sio_links *" + target1_name + results_TXFPGAid + "*MGT_" + mgt_tx[mgt_idx] + "/TX->*" + target0_name + results_RXFPGAid + "*MGT_" +mgt_rx[mgt_idx] + "/RX"
-    print(obj_link)
+    obj_rx = "get_hw_sio_links *MGT_" + mgt_rx[mgt_idx] + "/RX"
+    obj_tx = "get_hw_sio_links *MGT_" + mgt_tx[mgt_idx] + "/RX" # /RX is the end of the string
 
 #    rcv.scan_remove_all() #Rui
 #    transm.scan_remove_all() #RUi
@@ -135,13 +140,13 @@ for mgt_idx in range(len(mgt_rx)):
     #import pdb; pdb.set_trace() # debug
 
     for i in TXDIFFSWING[::1]:
-        transm.set_property("TXDIFFSWING", i, obj_link)
+        transm.set_property("TXDIFFSWING", i, obj_tx)
         for j in TXPRE[::1]:
-            transm.set_property("TXPRE", j, obj_link)
+            transm.set_property("TXPRE", j, obj_tx)
             for k in TXPOST[::1]:
-                transm.set_property("TXPOST", k, obj_link)
+                transm.set_property("TXPOST", k, obj_tx)
                 for l in RXTERM[::1]:
-                    rcv.set_property("RXTERM", l, obj_link)
+                    rcv.set_property("RXTERM", l, obj_rx)
 
 #                    transm.reset_all_gth_tx()
  #                   rcv.reset_all_gth_rx()
@@ -153,32 +158,36 @@ for mgt_idx in range(len(mgt_rx)):
                     print(iter)
                     iter = iter+1
 
-                    rcv.reset_sio_link_error(obj_link)
-                    rcv.refresh_hw_sio(obj_link)
-#                    time.sleep(0.01) # parameters are not instantly  #Rui
+                    rcv.reset_sio_link_error(obj_rx)
+                    rcv.refresh_hw_sio(obj_rx)
+#                    time.sleep(1) # parameters are not instantly  #Rui
                                     # refreshed. Adjust it to be as small as
                                     # possible for your setup
-
                     link = rcv.get_property("LOGIC.LINK", obj_rx)
-                    print("Rui: link: ", link)
+                    print("link: ",link)
                     err = "-1"
 
                     if link == "1":
-                        err = rcv.get_property("LOGIC.ERRBIT_COUNT", obj_link)
+                        err = rcv.get_property("LOGIC.ERRBIT_COUNT", obj_rx)
+                        total_bits = rcv.get_property("RX_RECEIVED_BIT_COUNT", obj_rx)
 
                         if int(err,16) <= err_req: # convert str hex to int
 
-                            rcv.scan_create("xil_scan", obj_link)
-                            rcv.scan_set_all("6", "6", BER)
+                            if scan_1d:
+                                rcv.scan_1d_create("xil_scan", obj_rx)
+                                rcv.scan_1d_set_all("1", BER)
+                            else:
+                                rcv.scan_create("xil_scan", obj_rx)
+                                rcv.scan_set_all("6", "6", BER)
                             rcv.scan_run_all()
 
                             scan_area = rcv.get_property("Open_Area", "get_hw_sio_scan")
-
+                            if scan_1d:
+                                scan_area = str(100*int(scan_area)/64.0)
                             #scan_ber = rcv.get_property("RX_BER", obj_rx)
-
                             rcv.scan_remove_all() 
-                            print("--- TXDIFFSWING: " + str(i) + "-- TXPRE: " + str(j) + "-- TXPOST: " + str(k) + "-- RXTERM: " + str(l) + "-- Error_Count: " + str(int(err,16)) + "-- Open_Area: " + str(scan_area) )
-                            write_result_csv(f, i, j, k, l, str(int(err,16)), scan_area)
+                            print("--- TXDIFFSWING: " + str(i) + "-- TXPRE: " + str(j) + "-- TXPOST: " + str(k) + "-- RXTERM: " + str(l) + "-- Error_Count: " + str(int(err,16)) + "-- Open_Area: " + str(scan_area) + "-- Total_Bits: " + str(int(total_bits,16)) )
+                            write_result_csv_debug(f, i, j, k, l, str(int(err,16)), scan_area, total_bits)
                             if int(float(scan_area)) > int(float(best_area)):
                                 best_area = scan_area
                                 best_err = str(int(err,16))
@@ -201,10 +210,10 @@ for mgt_idx in range(len(mgt_rx)):
 
 
 
-    transm.set_property("TXDIFFSWING", best_diff, obj_link)
-    transm.set_property("TXPRE", best_txpre, obj_link)
-    transm.set_property("TXPOST", best_txpost, obj_link)
-    rcv.set_property("RXTERM", best_rx, obj_link)
+    transm.set_property("TXDIFFSWING", best_diff, obj_tx)
+    transm.set_property("TXPRE", best_txpre, obj_tx)
+    transm.set_property("TXPOST", best_txpost, obj_tx)
+    rcv.set_property("RXTERM", best_rx, obj_rx)
 
     print("exit main()")
 

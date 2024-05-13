@@ -36,11 +36,12 @@ class pyIBERT(XilinxTCL):
   def connect(self):
     self.create()
 
-    self.sendCommand("open_hw")
-    self.sendCommand("connect_hw_server -url " + self.server_url)
+    self.sendCommand("open_hw_manager")
+#    self.sendCommand("refresh_hw_server")
+    self.sendCommand("connect_hw_server -allow_non_jtag -url " + self.server_url)
     time.sleep(3) # required delay to refresh information (xilinx bug)
     self.sendCommand("disconnect_hw_server " + self.server_url)
-    self.sendCommand("connect_hw_server -url "+ self.server_url)
+    self.sendCommand("connect_hw_server -allow_non_jtag -url "+ self.server_url)
     if self.target_freq == '0': # for xvc
       self.sendCommand("open_hw_target -verbose -xvc_url "
                        + self.target_name)
@@ -54,6 +55,9 @@ class pyIBERT(XilinxTCL):
     self.sendCommand("current_hw_device [lindex [get_hw_devices] 0]")
     self.sendCommand("refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]")
 
+  def refresh(self):
+    self.sendCommand("refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]")
+
   def source(self, path):
     self.sendCommand("source " + path)
 
@@ -62,6 +66,13 @@ class pyIBERT(XilinxTCL):
 
   def scan_set_all(self, vert_align, hor_align, dwell):
     self.sendCommand("set_property VERTICAL_INCREMENT " + str(vert_align) + " [get_hw_sio_scans]")
+    self.sendCommand("set_property HORIZONTAL_INCREMENT " + str(hor_align) + " [get_hw_sio_scans]")
+    self.sendCommand("set_property DWELL_BER " + str(dwell) + " [get_hw_sio_scans]")
+
+  def scan_1d_create(self, name, obj):
+    self.sendCommand("set " + name + " [create_hw_sio_scan -description {" + name + "} 1d_bathtub  [lindex [" + obj + "] 0 ]]")
+
+  def scan_1d_set_all(self, hor_align, dwell):
     self.sendCommand("set_property HORIZONTAL_INCREMENT " + str(hor_align) + " [get_hw_sio_scans]")
     self.sendCommand("set_property DWELL_BER " + str(dwell) + " [get_hw_sio_scans]")
 
@@ -87,24 +98,48 @@ class pyIBERT(XilinxTCL):
 
   def reset_all_gth_tx(self):
     self.sendCommand("set_property PORT.GTTXRESET 1 [get_hw_sio_links "+
-                     "-of_objects [get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
-                     "[get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("set_property PORT.GTTXRESET 0 [get_hw_sio_links "+
-                     "-of_objects [get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
-                     "[get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
+  def reset_all_gty_txdatapath(self):
+    self.sendCommand("set_property LOGIC.TX_RESET_DATAPATH 1 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("set_property LOGIC.TX_RESET_DATAPATH 0 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
+  def reset_all_gty_rxdatapath(self):
+    self.sendCommand("set_property LOGIC.RX_RESET_DATAPATH 1 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("set_property LOGIC.RX_RESET_DATAPATH 0 [get_hw_sio_links "+
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
+    self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
 
   def reset_all_gth_rx(self):
     self.sendCommand("set_property PORT.GTRXRESET 1 [get_hw_sio_links "+
-                     "-of_objects [get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
-                     "[get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("set_property PORT.GTRXRESET 0 [get_hw_sio_links "+
-                     "-of_objects [get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "-of_objects [get_hw_sio_linkgroups {Link_Group_0}]]")
     self.sendCommand("commit_hw_sio [get_hw_sio_links -of_objects "+
-                     "[get_hw_sio_linkgroups {LINKGROUP_0}]]")
+                     "[get_hw_sio_linkgroups {Link_Group_0}]]")
+
+  def wait(self, msec):
+    self.sendCommand("after "+msec)
 
   def close_hw(self):
-    self.sendCommand("close_hw")
+    self.sendCommand("close_hw_manager")
     self.terminate()

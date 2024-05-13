@@ -1,0 +1,359 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage[a4paper, margin=0.5in]{geometry}
+\usepackage{subcaption}
+%\usepackage{printlen}
+\usepackage{pdfpages}
+%\uselengthunit{cm}
+%\usepackage{import}
+%\usepackage{xifthen}
+\usepackage{ifthen}
+\usepackage{pgf}
+\usepackage{tikz}
+%\usepackage{comment}
+\usepackage{intcalc}
+\usepackage{xcolor} % Required for specifying custom colours
+\definecolor{grey}{rgb}{0.9,0.9,0.9} % Colour of the box surrounding the title
+
+\newlength\imageheight
+\newlength\imagewidth
+
+\newcommand{\includegraphicsmaybe}[1]{\IfFileExists{#1}{\includegraphics[width=\linewidth]{#1}}{\includegraphics[width=\linewidth]{not_found.pdf}}}
+\newcommand\dateofscans{04-04-23} %Enter the date on which the scans were made (e.g. 06-13-22), assuming eyescans were properly filed
+
+\usepackage{booktabs}
+
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+
+\newcounter{includepdfpage}
+\newcounter{currentpagecounter}
+\newcommand{\addlabelstoallincludedpages}[1]{
+   \refstepcounter{includepdfpage}
+   \stepcounter{currentpagecounter}
+   \label{#1.\thecurrentpagecounter}}
+\newcommand{\modifiedincludepdf}[3]{
+    \setcounter{currentpagecounter}{0}
+    \includepdf[pages=#1,pagecommand=\addlabelstoallincludedpages{#2}]{#3}}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+  
+  %------------------------------------------------
+  %Grey title box
+  %------------------------------------------------
+  
+  \colorbox{grey}{
+    \parbox[t]{0.93\textwidth}{ % Outer full width box
+      \parbox[t]{0.91\textwidth}{ % Inner box for inner right text margin
+        \raggedleft % Right align the text
+        \fontsize{80pt}{40pt}\selectfont % Title font size, the first argument is the font size and the second is the line spacing, adjust depending on title length
+        \vspace{0.7cm} % Space between the start of the title and the top of the grey box
+
+        CM209 Apollo 214\\
+        Serial Link Test Report\\
+        Date of Scans: \dateofscans\\
+        
+        \vspace{0.7cm} % Space between the end of the title and the bottom of the grey box
+        }
+      }
+    }
+  
+  \vfill % Space between the title box and author information
+  
+  %------------------------------------------------
+  %Author name and information
+  %------------------------------------------------
+  
+  \parbox[t]{0.93\textwidth}{ % Box to inset this section slightly
+    \raggedleft % Right align the text
+    \large % Increase the font size\large % Increase the font size
+    {\Large Rui Zou}\\[4pt] % Extra space after name
+    CERN\\
+    Cornell University\\[4pt] % Extra space before URL
+    
+    \hfill\rule{0.2\linewidth}{1pt}% Horizontal line, first argument width, second thickness
+    }
+  
+\end{titlepage}
+
+\phantomsection 
+\hypertarget{MyToc}{}  % Make an anchor to the toc
+\tableofcontents
+\newpage
+
+%\chapter{Initial Considerations}
+
+%\section{Eye diagram mask}
+
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=0.70\linewidth]{ieeemask.png}
+%\caption{Transmitter eye mask definition}
+%\label{fig:ieeemask}
+%\end{figure}
+
+%Figure \ref{fig:ieeemask} shows the eye mask parameters {X1, X2, X3, Y1, Y2, Y3} = {0.25, 0.40, 0.45, 0.25, 0.28, 0.80} extracted from the Table 68-3---10GBASE-LRM transmit characteristics part of the IEEE Std 802.3-2015 SECTION 5. 
+
+
+%REAL START OF PDF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links Between xcvu13p\_0 to xcvu13p\_1 Overview (1 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_0 & xcvu13p_1
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {4,...,15,20,21,...,35}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_0 to xcvu13p\_1 Overview (1 of 2)} \label{links_xcvu13p_0_to_xcvu13p_1_overview1}
+\end{figure}
+
+\chapter{Links of xcvu13p\_0 to xcvu13p\_1 Details (1 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {4,...,15,20,21,...,35}{
+\modifiedincludepdf{-}{X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1)}{../../scans/CM203/\dateofscans/eyescan_X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links Between xcvu13p\_0 to xcvu13p\_1 Overview (2 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_0 & xcvu13p_1
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {36,...,59}{ %numbers here can be modified based on loopback links scanned
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_0 to xcvu13p\_1 Overview (2 of 2)} \label{links_xcvu13p_0_to_xcvu13p_1_overview2}
+\end{figure}
+
+\chapter{Links of xcvu13p\_0 to xcvu13p\_1 Details (2 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {36,...,59}{
+\modifiedincludepdf{-}{X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1)}{../../scans/CM203/\dateofscans/eyescan_X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links Between xcvu13p\_1 to xcvu13p\_0 Overview (1 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_1 & xcvu13p_0
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {4,...,15,20,21,...,35}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\Rx(xcvu13p_1)_to_X1Y\number(xcvu13p_0).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\Rx(xcvu13p_1)_to_X1Y\number(xcvu13p_0).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_1 to xcvu13p\_0 Overview (1 of 2)} \label{links_xcvu13p_1_to_xcvu13p_0_overview1}
+\end{figure}
+
+\chapter{Links of xcvu13p\_1 to xcvu13p\_0 Details (1 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {4,...,15,20,21,...,35}{
+\modifiedincludepdf{-}{X1Y\Rx(xcvu13p_1)_to_X1Y\n(xcvu13p_0)}{../../scans/CM203/\dateofscans/eyescan_X1Y\Rx(xcvu13p_1)_to_X1Y\n(xcvu13p_0).pdf}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links Between xcvu13p\_1 to xcvu13p\_0 Overview (2 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_1 & xcvu13p_0
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {36,...,59}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\Rx(xcvu13p_1)_to_X1Y\number(xcvu13p_0).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X1Y\Rx(xcvu13p_1)_to_X1Y\number(xcvu13p_0).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_1 to xcvu13p\_0 Overview (2 of 2)} \label{links_xcvu13p_1_to_xcvu13p_0_overview2}
+\end{figure}
+
+\chapter{Links of xcvu13p\_1 to xcvu13p\_0 Details (2 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {36,...,59}{
+\modifiedincludepdf{-}{X1Y\Rx(xcvu13p_1)_to_X1Y\n(xcvu13p_0)}{../../scans/CM203/\dateofscans/eyescan_X1Y\Rx(xcvu13p_1)_to_X1Y\n(xcvu13p_0).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{FF Links Between xcvu13p\_0 and xcvu13p\_1 Overview}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_0 & xcvu13p_1
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number-8),evaluate=\i as \imod using int(\i+\nxtrow-1),evaluate=\i as \imodplus using int(\i+\nxtrow)] in {40,...,43}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=2 \or \nxtrow=4 \or \nxtrow=6 \or \nxtrow=8 \or \nxtrow=10 \or \nxtrow=12 \or \nxtrow=14}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imod}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\Rx(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imodplus}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_1)_to_X0Y\number(xcvu13p_0).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imod}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\Rx(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imodplus}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_1)_to_X0Y\number(xcvu13p_0).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{FF Links of xcvu13p\_0 and xcvu13p\_1 Overview} \label{links_xcvu13p_0_to_xcvu13p_1_overview1}
+\end{figure}
+
+\chapter{FF Links of xcvu13p\_0 and xcvu13p\_1 Details} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n [evaluate=\n as \Rx using int(\n-8)] in {40,...,43}{
+\modifiedincludepdf{-}{X0Y\n(xcvu13p_0)_to_X0Y\Rx(xcvu13p_1)}{../../scans/CM203/\dateofscans/eyescan_X0Y\n(xcvu13p_0)_to_X0Y\Rx(xcvu13p_1).pdf}
+\modifiedincludepdf{-}{X0Y\Rx(xcvu13p_1)_to_X0Y\n(xcvu13p_0)}{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_1)_to_X0Y\n(xcvu13p_0).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links Between xcvu13p\_0 and xcvu13p\_0 Overview}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_0 & xcvu13p_1
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+16),evaluate=\i as \imod using int(\i+\nxtrow-1),evaluate=\i as \imodplus using int(\i+\nxtrow)] in {4,...,15}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=2 \or \nxtrow=4 \or \nxtrow=6 \or \nxtrow=8 \or \nxtrow=10 \or \nxtrow=12 \or \nxtrow=14}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imod}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0).png}}
+\end{subfigure}\hspace*{\fill}
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imodplus}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imod}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0).png}}
+\end{subfigure}\hspace*{\fill}
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imodplus}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_0 to xcvu13p\_0 Overview} \label{links_xcvu13p_0_to_xcvu13p_0_overview1}
+\end{figure}
+
+\chapter{Links of xcvu13p\_0 to xcvu13p\_0 Details} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n [evaluate=\n as \Rx using int(\n+16)] in {4,...,15}{
+\modifiedincludepdf{-}{X0Y\n(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0)}{../../scans/CM203/\dateofscans/eyescan_X0Y\n(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0).pdf}
+\modifiedincludepdf{-}{X0Y\Rx(xcvu13p_0)_to_X0Y\n(xcvu13p_0)}{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_0)_to_X0Y\n(xcvu13p_0).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{xcvu13p\_0 Loopback Links Overview}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%loopback links for xcvu13p_0 to xcvu13p_0
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {16,...,19,32,33,...,39,48,49,...,59}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Loopback Links of xcvu13p\_0 Overview} \label{loopback_links_xcvu13p_0_overview}
+\end{figure}
+
+\chapter{xcvu13p\_0 Loopback Link Details}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n in {16,...,19,32,33,...,39,48,49,...,59}{
+\modifiedincludepdf{-}{X0Y\n(xcvu13p_0)_to_X0Y\n(xcvu13p_0)}{../../scans/CM203/\dateofscans/eyescan_X0Y\n(xcvu13p_0)_to_X0Y\n(xcvu13p_0).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links Between xcvu13p\_1 to xcvu13p\_1 Overview}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%links between xcvu13p_1 to xcvu13p_1
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+4),evaluate=\i as \imod using int(\i+\nxtrow-1),evaluate=\i as \imodplus using int(\i+\nxtrow)] in {36,...,39}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=2 \or \nxtrow=4 \or \nxtrow=6 \or \nxtrow=8 \or \nxtrow=10 \or \nxtrow=12 \or \nxtrow=14}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imod}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imodplus}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imod}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\imodplus}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_1 to xcvu13p\_1 Overview} \label{links_xcvu13p_1_to_xcvu13p_1_overview1}
+\end{figure}
+
+\chapter{Links of xcvu13p\_1 to xcvu13p\_1 Details} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n [evaluate=\n as \Rx using int(\n+4)] in {36,...,39}{
+\modifiedincludepdf{-}{X0Y\n(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1)}{../../scans/CM203/\dateofscans/eyescan_X0Y\n(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1).pdf}
+\modifiedincludepdf{-}{X0Y\Rx(xcvu13p_1)_to_X0Y\n(xcvu13p_1)}{../../scans/CM203/\dateofscans/eyescan_X0Y\Rx(xcvu13p_1)_to_X0Y\n(xcvu13p_1).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{xcvu13p\_1 Loopback Links Overview (1 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%loopback links for xcvu13p_1 to xcvu13p_1 (1 of 2)
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\i from int(\thepage+2)] in {4,5,...,31}{ %numbers here can be modified based on links scanned
+\ifthenelse{\number=7 \or \number=11 \or \number=15 \or \number=19 \or \number=23 \or \number=27 \or \number=31}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{X0Y4 through X0Y31 Loopback Links of xcvu13p\_1 Overview} \label{loopback_links_xcvu13p_1_FPGAs_overview1}
+\end{figure}
+
+\chapter{xcvu13p\_1 Loopback Link Details (1 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n in {4,5,...,31}{
+\modifiedincludepdf{-}{X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1)}{../../scans/CM203/\dateofscans/eyescan_X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1).pdf}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{xcvu13p\_1 Loopback Links Overview (2 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+%loopback links for xcvu13p_1 to xcvu13p_1 (2 of 2)
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {48,...,59}{ %numbers here can be modified based on links scanned
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/CM203/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Loopback Links of xcvu13p\_1 Overview (2 of 2)} \label{loopback_links_xcvu13p_1_FPGAs_overview2}
+\end{figure}
+
+\chapter{xcvu13p\_1 Loopback Link Details (2 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\foreach \n in {48,...,59}{
+\modifiedincludepdf{-}{X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1)}{../../scans/CM203/\dateofscans/eyescan_X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1).pdf}
+}
+
+\end{document}
