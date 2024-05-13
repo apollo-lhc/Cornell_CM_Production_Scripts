@@ -1,7 +1,9 @@
 # Scripts Used for Cornell CM Produciton Checkout
 
 ## IBERTpy Plotting Script
+
 ### Overview
+`mcu_tools` submodule contains automate scripts in the shell directory to create a weekly-report directory in `/nfs/cms/hw/apollo/` and run C2C eyescans on any apollo blades. We note that currently a one-by-one eyescan and parallel eyescans are enable. The exception is that on apollo09 only three* out of four c2c links are working.  
 ### Requirements
 - **Python 3+**
 - **fpdf** (the package used to make a pdf file from converting a csv file of a Vivado eyescan. For instruction on how to install it, please follow https://github.com/reingart/pyfpdf) 
@@ -40,6 +42,44 @@ After generating pdfs and png files, one can generate a summary pdf that organiz
 $ pdflatex --jobname=<desired name of output file, don't add on ".pdf"> "\def\dateofscans{<date of scans>} \input{eyescan_summary.tex}"
 ```
 Upon encountering a warning, type the letter r and hit enter to force the computer to ignore all further warnings.  If you wish to save the output files to a different directory you can add --output-directory=<desired output directory> as an additional argument after --jobname.
+  
+## C2C-link Eyescans Script
+- **Python 2.7** 
+- **lnx4189.classe.cornell.edu machine** 
+- ssh key-pair to **Apollo## blade**
+### Instructions
+There are four C2C transceivers with RX-eyescans enable on each rev1 apollo blade. That includes:
+```INI
+1: C2C1_PHY (RX on Zynq from Virtex)
+2: C2C2_PHY (RX on Zynq from Kintex)
+3: K_C2C_PHY (RX on Kintex from Zynq)
+4: V_C2C_PHY (RX on Virtex from Zynq)
+```
+
+*Only K_C2C_PHY is not working (update on 02/01/2022)
+
+Given that we know the Apollo## blade and ttydevice(e.g. ttyUL1)
+
+Run the following command on lnx4189 to just run a single eyescan at a time
+```sh
+shell $ ./automate_apollo_single_eyescan.sh
+```
+Or, run the following command on lnx4189 to run eyescans in parallel. 
+```sh
+shell $ ./automate_apollo_parallel_eyescans.sh
+```
+
+Depending on what program is executed, it will ask for Apollo##, ttydevice and your username or foldername on apollo's home directory as well as the C2C link number (1,2,..etc.) for the single-eyescan script. It will `ssh` to a corresponding Zynq and run either **c2c_single_eyescan_script** or **c2c_parallel_eyescans_script** in `username/ApolloTool` folder. Then, it will take a few minutes to run eyescan(s), given the customizable numbers of x-binning, y-binnning, and maximum prescale inside the above automate shell script. The current set of these parameters is {binx=40,biny=40,max_prescale=6}. 
+
+In addition to eyescan outputs to be transfered, both programs also implicitly dump CM##, ID and some commands to check statuses of FPGAs on the CM module to `mcu_tools/data` folder before transfering its `dump*.txt` to lnx4189. However, if the board ID/CM ID is not yet set (i.e ID:00000000), then the program will ask for a user-defined CM# (which is supposed to be the same as the board ID) to `set_id` on the apollo board and ammend the ID info in the `dump*.txt` that is transfered earlier. 
+
+Once, the output files are ready to be transfered. The programs will create a directory `/CM##/weekXX-MM-YYYY/` in `/nfs/cms/hw/apollo/` in order to save `*.png` and `*.log` files from running eyescans with `BUTool.exe` on Apollo##. This step is done implicitly by `check_cm_id_to_mkdir.py` and `set_cm_dir.sh`. (Note that Weekly = Mon-Sun and WeekXX where XX = 1-53)
+
+
+### Results
+
+* **Eyescan outputs:** Two files(`*.png` + `*.log`) per one eyescan, or three* `*.png` and one `*.log` files from parallel eyescans will be transfered to the weekly-report folder. 
+* **Minicom outputs:** One `dump*.txt` file per program execution will be transfered to the weekly-report folder. 
 
 ## Autotuning System for Xilinx MGTs
 

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+
+LD_LIBRARY_PATH+=./BUTool/lib/:./plugins/BUTool-IPBUS-Helpers/lib/:./plugins/ApolloSM_plugin/lib/ ./BUTool/bin/tool/BUTool.exe -l plugins/ApolloSM_plugin/lib/libBUTool_ApolloSMDevice.so "bash -s ${xx} ${binx} ${biny} ${max_prescale} ${time}" <<-EOL
+	add_device APOLLOSM /opt/address_table/connections_SM_CM.xml SM_CM
+	status 3 FIRMWARE
+        es $2 $3 $4 C2C1_PHY CM.CM_1.C2C_1.LINK_DEBUG.RX.LPM_EN es_$2_$3_$4_C2C1_PHY_apollo$1_$5.txt C2C2_PHY CM.CM_1.C2C_2.LINK_DEBUG.RX.LPM_EN es_$2_$3_$4_C2C2_PHY_apollo$1_$5.txt V_C2C_PHY V_IO.C2C.DEBUG.RX.LPM_EN es_$2_$3_$4_V_C2C_PHY_apollo$1_$5.txt  
+	exit
+EOL
