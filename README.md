@@ -164,7 +164,7 @@ This only scans parameters on the FPGA. To scan parameter on the firefly, one ne
 
 To plot. First run the following command to make a table with all the data.
 ```sh
-# python3 table.py
+$ python3 table.py
 ```
 This creates a log that gathers all the settings and links together as well as an array of number of good links in the end.
 

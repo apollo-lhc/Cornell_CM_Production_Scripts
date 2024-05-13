@@ -22,6 +22,9 @@
 # 2019-Mar-26 1.1      rglein          Added support for different Rx and Tx.
 #                                      Added error counter and BER as defined 
 #                                      in config and print it in results.
+# 2022-May-24 1.2      rzou            Modified reset procedure.
+#                                      Modified waiting procedure after reset.
+#                                      Modified output format. 
 #-----------------------------------------------------------------------------
 
 
@@ -155,7 +158,8 @@ for mgt_idx in range(len(mgt_rx)):
 #                    time.sleep(0.01) # parameters are not instantly  #Rui
                                     # refreshed. Adjust it to be as small as
                                     # possible for your setup
-                    link = rcv.get_property("LOGIC.LINK", obj_link)
+
+                    link = rcv.get_property("LOGIC.LINK", obj_rx)
                     print("Rui: link: ", link)
                     err = "-1"
 
@@ -169,7 +173,9 @@ for mgt_idx in range(len(mgt_rx)):
                             rcv.scan_run_all()
 
                             scan_area = rcv.get_property("Open_Area", "get_hw_sio_scan")
-                            #scan_ber = rcv.get_property("RX_BER", obj_link)
+
+                            #scan_ber = rcv.get_property("RX_BER", obj_rx)
+
                             rcv.scan_remove_all() 
                             print("--- TXDIFFSWING: " + str(i) + "-- TXPRE: " + str(j) + "-- TXPOST: " + str(k) + "-- RXTERM: " + str(l) + "-- Error_Count: " + str(int(err,16)) + "-- Open_Area: " + str(scan_area) )
                             write_result_csv(f, i, j, k, l, str(int(err,16)), scan_area)

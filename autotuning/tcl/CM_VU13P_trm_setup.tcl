@@ -5,6 +5,8 @@
 #program_hw_devices [get_hw_devices xcvu7p_2]
 #refresh_hw_device [lindex [get_hw_devices xcvu13p_0] 0]
 refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xcvu13p_0] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xcvu13p_1] 0]
+
 #refresh_hw_device [lindex [get_hw_devices xcku15p_1] 0]
 
 # Links

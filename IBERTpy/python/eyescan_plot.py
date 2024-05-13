@@ -5,7 +5,7 @@ Created on Fri Jul 21 12:29:54 2017
 @author: msilvaol
 https://github.com/mvsoliveira/IBERTpy
 
-modified by Alec Duquette
+modified by Alec Duquette, Rui Zou
 """
 
 import matplotlib.pyplot as plt
@@ -39,6 +39,21 @@ def plot_mask(mask):
     plt.figure(num=None, figsize=(10, 7), dpi=80, facecolor='w', edgecolor='k')
     plt.imshow(mask, interpolation='none', vmin=0, vmax=1, aspect='auto', alpha=1)
     plt.show()
+
+def gen_diamond_mask(size,x1n,y1n):
+    xm = size[0]
+    ym = size[1]
+    x1 = int(round(x1n*xm))
+    y1 = int(round(y1n*ym))
+    xhalf = int(round(0.5*xm))
+    yhalf = int(round(0.5*ym))
+    points = [[x1,yhalf],[xhalf,ym-y1],[xm-x1,yhalf],[xhalf,y1]]
+    pairs = zip(points,points[1:]+[points[0]])
+    ops = [op.lt, op.lt, op.gt, op.gt]
+    mask = []
+    for (p,o) in zip(pairs,ops):
+        mask = gen_mask(size,p,o,mask)
+    return mask
 
 def gen_hexagon_mask(size,x1n,x2n,y1n):
     xm = size[0]
@@ -97,6 +112,7 @@ def get_eye(scan_list):
     return [img, xticks, yticks]
 
 
+#Mask Criteria: https://support.xilinx.com/s/question/0D52E00006iHnb2SAC/any-parameters-we-can-tune-gty-transceiver-to-make-eye-open-area-bigger?language=en_US
 #Generate eyescan plots
 def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=[],yticks_f=[], mask_x1x2x3y1y2 = (0.25, 0.4, 0.45, 0.25, 0.28)):
     
@@ -132,13 +148,19 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
 
     # Defining mask
     size = [len(xticks), len(yticks)]
+#-0.118
+    mask = gen_diamond_mask(size, 0.382, 0.3799)
+##Mask Criteria: https://support.xilinx.com/s/question/0D52E00006iHnb2SAC/any-parameters-we-can-tune-gty-transceiver-to-make-eye-open-area-bigger?language=en_US 
+# y: 61 steps. ym: -127->127 steps: (127-61/2)/(127x2) = 0.3799
+# x: 0.236 UI wide. xm:-0.5->0.5 UIs: (0.5-0.236/2)/(0.5x2) = 0.382
     #mask = gen_hexagon_mask(size, 0.22, 0.375, 0.2)
-    mask = gen_decagon_mask(size, *mask_x1x2x3y1y2)
+#    mask = gen_decagon_mask(size, *mask_x1x2x3y1y2)
 
     # testing Mask
     Passed = True
     for (y, x), value in np.ndenumerate(mask):
         if mask[y][x]:
+#            Passed &= img[y][x] < 1e-6  #Rui
             Passed &= img[y][x] < 1e-7
 
     # creating color map

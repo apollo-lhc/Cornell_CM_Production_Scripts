@@ -3,7 +3,7 @@
 Created on Fri Jul 21 16:40:12 2017
 
 @author: msilvaol
-modified by: duquale
+modified by: duquale, Rui Zou
 """
 
 from eyescan_plot import eyescan_plot
@@ -20,7 +20,10 @@ if len(sys.argv) != 3:
 else:
     #filename_i_list = glob('../scans/CM203/06-08-22/*.csv') # ---------------> date used to need to be modified here as a variable input before running (e.g. 06-13-22)
     filename_i_list = glob('../../scans/' + sys.argv[1] + '/' + sys.argv[2] + '/*.csv')
+#    filename_i_list = glob('../../scans/' + sys.argv[1] + '/' + sys.argv[2] + '/*DFE*.csv')
     print(filename_i_list)
+#    filename_o_list = [p.replace('csv','pdf').replace(' ','_') for p in filename_i_list]
+
     filename_o_list = [p.replace('csv','pdf') for p in filename_i_list]
     filename_nfso_list = [n.replace('../../scans/' + sys.argv[1] + '/' + sys.argv[2], '/nfs/cms/tracktrigger/apollo/' + sys.argv[1] + '/scans/' + sys.argv[2]) for n in filename_o_list]
 
