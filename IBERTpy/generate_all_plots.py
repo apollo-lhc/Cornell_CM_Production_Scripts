@@ -24,13 +24,18 @@ timestamp = datetime.datetime.now().strftime(dhms)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('CMXX', type=int, help="specified CM##")            
+parser.add_argument('--input_dir', type=str, help="input directory path", default='/nfs/cms/hw/apollo/CMXX/weekYY/')
 #parser.add_argument('fpgaX', type=int, help="specified fpga# (1 or 2)")
 args = parser.parse_args()
 
 CM = args.CMXX
 #fpga = args.fpgaX  
 
-filename_i_list = glob('/nfs/cms/hw/apollo/CM'+str(CM).zfill(2)+'/week'+str(weekly)+'/*.csv') # ---------------> need to be modified as a variable input
+default_input_dir = '/nfs/cms/hw/apollo/CM'+str(CM).zfill()+'/week'+str(weekly)+'/'
+filename_i_dir = default_input_dir if not args.input_dir else args.input_dir
+
+filename_i_list = glob(filename_i_dir) 
+#filename_i_list = glob('/nfs/cms/hw/apollo/CM'+str(CM).zfill()+'/week'+str(weekly)+'/*.csv') # ---------------> need to be modified as a variable input
 #print(filename_i_list)
 filename_o_list = [p.replace('csv','pdf') for p in filename_i_list]
 filename_o_list = [p.replace('.',str(timestamp)+'.') for p in filename_o_list] 
