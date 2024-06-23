@@ -22,3 +22,4 @@ scans/CM203/
 # Autotuning results
 autotuning/results/*.csv
 autotuning/results_1/*.csv
+.DS_Store

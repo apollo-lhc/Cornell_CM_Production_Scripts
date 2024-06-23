@@ -18,15 +18,16 @@ import pandas as pd
 from pylab import title, figure, xlabel, ylabel, xticks, bar, legend, axis, savefig
 from fpdf import FPDF
 
-
+# get intercept and slope from two points
 def get_mb(two_points):
     m = np.true_divide(*reversed([np.subtract(*s) for s in zip(*two_points)]))
     b = two_points[0][1] - m * two_points[0][0]
     return [m,b]
 
+# generate mask based on two points and operator
 def gen_mask(size,two_points,operator, mask=[]):
     [m, b] = get_mb(two_points)
-    if mask ==[]:
+    if len(mask)==0:
         mask = np.ones(list(reversed(size)), dtype=bool)
     for (y,x), value in np.ndenumerate(mask):
         mask[y][x] &= operator(y,m*x+b)
@@ -99,30 +100,39 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     
     # opens the file
     with open(filename_i, 'rb') as f:
-            reader = csv.reader(map(bytes.decode,f))
-            scan_list = list(reader)
+        reader = csv.reader(map(bytes.decode,f))
 
-            
-            df = pd.DataFrame()
-            df['SW Version'] = [scan_list[0][1]]
-            df['GT Type'] = [scan_list[1][1]]
-            df['Date and Time Started'] = [scan_list[2][1]]
-            df['Date and Time Ended'] = [scan_list[3][1]]
+        
+        scan_list = list(reader)
+        scan_dict = {}
+        for row in scan_list:
+            if row[0] == 'Scan Start':
+                break
+            scan_dict[row[0]] = row[1]
+        # Print the dictionary
+        for key, value in scan_dict.items():
+            print(f"{key}: {value}")
+        
+        df = pd.DataFrame()
+        df['SW Version'] = [scan_dict.get('SW Version', '')]
+        df['GT Type'] = [scan_dict.get('GT Type', '')]
+        df['Date and Time Started'] = [scan_dict.get('Date and Time Started', '')]
+        df['Date and Time Ended'] = [scan_dict.get('Date and Time Ended', '')]
 
-            df2 = pd.DataFrame()
-            df2['Reset RX'] = [scan_list[6][1]]
-            df2['OA'] = [scan_list[7][1]]
-            df2['HO'] = [scan_list[8][1]]
-            df2['HO(%)'] = [scan_list[9][1]]
-            df2['VO'] = [scan_list[10][1]]
-            df2['VO(%)'] = [scan_list[11][1]]
+        df2 = pd.DataFrame()
+        df2['Reset RX'] = [scan_dict.get('Reset RX After Applying Settings', '')]
+        df2['OA'] = [scan_dict.get('Open Area', '')]
+        df2['HO'] = [scan_dict.get('Horizontal Opening', '')]
+        df2['HO(%)'] = [scan_dict.get('Horizontal Percentage', '')]
+        df2['VO'] = [scan_dict.get('Vertical Opening', '')]
+        df2['VO(%)'] = [scan_dict.get('Vertical Percentage', '')]
 
-            df3 = pd.DataFrame()
-            df3['Dwell Type'] = [scan_list[12][1]]
-            df3['Dwell BER'] = [scan_list[13][1]]
-            df3['Horizontal Inc.'] = [scan_list[15][1]]
-            df3['Vertical Inc.'] = [scan_list[17][1]]
-            df3['Misc Info'] = [scan_list[19][1]]
+        df3 = pd.DataFrame()
+        df3['Dwell Type'] = [scan_dict.get('Dwell', '')]
+        df3['Dwell BER'] = [scan_dict.get('Dwell BER', '')]
+        df3['Horizontal Inc.'] = [scan_dict.get('Horizontal Increment', '')]
+        df3['Vertical Inc.'] = [scan_dict.get('Vertical Increment', '')]
+        df3['Misc Info'] = [scan_dict.get('Misc Info', '')]
 
                 
     # getting eye data
@@ -169,7 +179,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     xticks_n = [float(x)/(2*xticks[-1]) for x in xticks]
     yticks_r = [y for y in reversed(yticks)]
     myplot = plt.imshow(np.log10(img),interpolation='none', vmin = minlog10ber, vmax = 0, aspect='auto', extent = get_extent(xticks_n,yticks_r), cmap = 'jet')
-    if not mask==[]:
+    if not len(mask)==0:
         plt.imshow(mask, interpolation='none', vmin=0, vmax=1, aspect='auto',
                    extent=get_extent(xticks_n, yticks_r), cmap=my_cmap, origin='lower', alpha=0.9)
 
@@ -193,6 +203,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
             return '$10^{{{0:d}}}$'.format(x)        
         plt.colorbar(myplot, format=ticker.FuncFormatter(fmt), ticks=range(minlog10ber,1,1))
     # saving plot
+    print(f"filename is {filename_o}")
     plt.savefig(filename_o.strip("pdf")+"png",bbox_inches='tight')
 
     # showing plot if needed
@@ -253,7 +264,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
         pdf.cell(30, 8, '%s' % (str(df3['Dwell BER'].iloc[i])), 1, 0, 'C')
         pdf.cell(35, 8, '%s' % (str(df3['Horizontal Inc.'].iloc[i])), 1, 0, 'C')
         pdf.cell(35, 8, '%s' % (str(df3['Vertical Inc.'].iloc[i])), 1, 0, 'C')
-        pdf.cell(60, 8, '%s' % (str(df3['Misc Info'].iloc[i])), 1, 0, 'C')
+        #pdf.cell(60, 8, '%s' % (str(df3['Misc Info'].iloc[i])), 1, 0, 'C')
         
 
     #pdf.cell(90, 10, " ", 0, 2, 'C')

@@ -31,14 +31,14 @@ args = parser.parse_args()
 CM = args.CMXX
 #fpga = args.fpgaX  
 
-default_input_dir = '/nfs/cms/hw/apollo/CM'+str(CM).zfill()+'/week'+str(weekly)+'/'
+default_input_dir = '/nfs/cms/hw/apollo/CM'+str(CM).zfill(2)+'/week'+str(weekly)+'/'
 filename_i_dir = default_input_dir if not args.input_dir else args.input_dir
 
-filename_i_list = glob(filename_i_dir) 
-#filename_i_list = glob('/nfs/cms/hw/apollo/CM'+str(CM).zfill()+'/week'+str(weekly)+'/*.csv') # ---------------> need to be modified as a variable input
+filename_i_list = glob(filename_i_dir+'/*.csv') 
+#filename_i_list = glob('/nfs/cms/hw/apollo/CM'+str(CM).zfill(2)+'/week'+str(weekly)+'/*.csv') # ---------------> need to be modified as a variable input
 #print(filename_i_list)
 filename_o_list = [p.replace('csv','pdf') for p in filename_i_list]
-filename_o_list = [p.replace('.',str(timestamp)+'.') for p in filename_o_list] 
+#filename_o_list = [p.replace('.',str(timestamp)+'.') for p in filename_o_list] 
 #print(filename_o_list)
 yticks = list(np.arange(-127,0,16))+[0]+list(np.arange(127,0,-16))[-1::-1]
 xticks = list(np.arange(-0.5,0.625,0.125))
