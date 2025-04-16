@@ -20,19 +20,42 @@ refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xcvu13p_1] 0]
 #begin fix
 source /nfs/cms/tracktrigger/ad683/Cornell_CM_Production_Scripts/autotuning/config_parser.tcl
 
-cfg::parse_file /nfs/cms/tracktrigger/ad683/Cornell_CM_Production_Scripts/autotuning/config.ini
+cfg::parse_file /nfs/cms/tracktrigger/ad683/Cornell_CM_Production_Scripts/autotuning/config_rev3_prodtest.ini
 
-set mgt_rx $cfg::mgt_parameters(mgt_rx)
-set mgt_tx $cfg::mgt_parameters(mgt_tx)
+#import strings from config file
+set 0_1_mgt_rx $cfg::mgt_parameters(0_1_mgt_rx)
+set 0_1_mgt_tx $cfg::mgt_parameters(0_1_mgt_tx)
+set 1_1_mgt_rx $cfg::mgt_parameters(1_1_mgt_rx)
+set 1_1_mgt_tx $cfg::mgt_parameters(1_1_mgt_tx)
+set inter_mgt_rx $cfg::mgt_parameters(inter_mgt_rx)
+set inter_mgt_tx $cfg::mgt_parameters(inter_mgt_tx)
 
-set mgt_rx [split $mgt_rx ","]
-set mgt_tx [split $mgt_tx ","]
-puts "values of mgt_rx: $mgt_rx"
-puts "values of mgt_tx: $mgt_tx"
-set mgt_len [llength $mgt_tx]
-for {set i 0} {$i<$mgt_len} {incr i} {
-    lappend mgt_rx_list	[get_hw_sio_rxs *$cfg::test(results_RXFPGAid)*[lindex $mgt_rx $i]/RX]
-    lappend mgt_tx_list	[get_hw_sio_txs *$cfg::test(results_TXFPGAid)*[lindex $mgt_tx $i]/TX]
+#reformat strings as lists
+set 0_1_mgt_rx [split $0_1_mgt_rx ","]
+set 0_1_mgt_tx [split $0_1_mgt_tx ","]
+set 1_1_mgt_rx [split $1_1_mgt_rx ","]
+set 1_1_mgt_tx [split $1_1_mgt_tx ","]
+set inter_mgt_rx [split $inter_mgt_rx ","]
+set inter_mgt_tx [split $inter_mgt_tx ","]
+
+#puts "values of mgt_rx: $mgt_rx"
+#puts "values of mgt_tx: $mgt_tx"
+
+#use the lists of X*Y* id numbers to create corresponding lists of hw_sio_rxs and hw_sio_txs
+set 0_1_mgt_len [llength $0_1_mgt_tx]
+for {set i 0} {$i<$0_1_mgt_len} {incr i} {
+    lappend mgt_rx_list	[get_hw_sio_rxs *$cfg::test(0_1_results_RXFPGAid)*[lindex $0_1_mgt_rx $i]/RX]
+    lappend mgt_tx_list	[get_hw_sio_txs *$cfg::test(0_1_results_TXFPGAid)*[lindex $0_1_mgt_tx $i]/TX]
+}
+set 1_1_mgt_len [llength $1_1_mgt_tx]
+for {set i 0} {$i<$1_1_mgt_len} {incr i} {
+    lappend mgt_rx_list [get_hw_sio_rxs *$cfg::test(1_1_results_RXFPGAid)*[lindex $1_1_mgt_rx $i]/RX]
+    lappend mgt_tx_list [get_hw_sio_txs *$cfg::test(1_1_results_TXFPGAid)*[lindex $1_1_mgt_tx $i]/TX]
+}
+set inter_mgt_len [llength $inter_mgt_tx]
+for {set i 0} {$i<$inter_mgt_len} {incr i} {
+    lappend mgt_rx_list [get_hw_sio_rxs *$cfg::test(inter_results_RXFPGAid)*[lindex $inter_mgt_rx $i]/RX]
+    lappend mgt_tx_list [get_hw_sio_txs *$cfg::test(inter_results_TXFPGAid)*[lindex $inter_mgt_tx $i]/TX]
 }
 puts "values of mgt_rx_list: $mgt_rx_list"
 puts "values of mgt_tx_list: $mgt_tx_list"

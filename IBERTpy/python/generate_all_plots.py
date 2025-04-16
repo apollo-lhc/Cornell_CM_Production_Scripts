@@ -36,6 +36,7 @@ else:
     #    eyedict
 
     for i,o in zip(filename_i_list, filename_o_list):
+        print('Begin generating plots for user directory.')
         print('Saving file {0:03d} out of {1:d}.'.format(k,len(filename_i_list)))
         if (not os.path.exists(o)) or overwrite:
             eyescan_plot(i, o, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=xticks, yticks_f=yticks, mask_x1x2x3y1y2=(0.25, 0.4, 0.45, 0.25, 0.28))
@@ -44,6 +45,7 @@ else:
 
     k=1
     for i,nfso in zip(filename_i_list, filename_nfso_list):
+        print('Begin generating plots for /nfs directory.')
         print('Saving file {0:03d} out of {1:d}.'.format(k,len(filename_i_list)))
         if (not os.path.exists(nfso)) or overwrite:
             eyescan_plot(i, nfso, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=xticks, yticks_f=yticks, mask_x1x2x3y1y2=(0.25, 0.4, 0.45, 0.25, 0.28))

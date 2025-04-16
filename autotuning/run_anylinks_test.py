@@ -54,7 +54,7 @@ def write_result_csv(f, TXDIFFSWING, TXPRE, TXPOST, RXTERM, err, scan_area):
 
 # Load init
 config = ConfigParser()
-config.read('config.ini')
+config.read('config_anylinks_test.ini')
 server0_addr = config.get('hw_server','server0_addr')
 server0_port = config.get('hw_server','server0_port')
 target0_name = config.get('hw_server','target0_name')
@@ -63,8 +63,14 @@ server1_addr = config.get('hw_server','server1_addr')
 server1_port = config.get('hw_server','server1_port')
 target1_name = config.get('hw_server','target1_name')
 target1_freq = config.get('hw_server','target1_freq')
-mgt_rx = config.get('mgt_parameters','mgt_rx')
-mgt_tx = config.get('mgt_parameters','mgt_tx')
+#mgt_rx = config.get('mgt_parameters','mgt_rx')
+#mgt_tx = config.get('mgt_parameters','mgt_tx')
+mgt_rx_0_1 = config.get('mgt_parameters','0_1_mgt_rx')
+mgt_tx_0_1 = config.get('mgt_parameters','0_1_mgt_tx')
+mgt_rx_1_1 = config.get('mgt_parameters','1_1_mgt_rx')
+mgt_tx_1_1 = config.get('mgt_parameters','1_1_mgt_tx')
+mgt_rx_inter = config.get('mgt_parameters','inter_mgt_rx')
+mgt_tx_inter = config.get('mgt_parameters','inter_mgt_tx')
 TXDIFFSWING = config.get('mgt_parameters','TXDIFFSWING')
 TXPOST = config.get('mgt_parameters','TXPOST')
 TXPRE = config.get('mgt_parameters','TXPRE')
@@ -74,17 +80,37 @@ tcl_transm_name = config.get('test','tcl_transm_name')
 tcl_rcv_name = config.get('test','tcl_rcv_name')
 results_dir = config.get('test','results_dir')
 results_name = config.get('test','results_name')
-results_TXFPGA = config.get('test','results_TXFPGA')
-results_RXFPGA = config.get('test','results_RXFPGA')
-results_TXFPGAid = config.get('test','results_TXFPGAid')
-results_RXFPGAid = config.get('test','results_RXFPGAid')
+#results_TXFPGA = config.get('test','results_TXFPGA')
+#results_RXFPGA = config.get('test','results_RXFPGA')
+#results_TXFPGAid = config.get('test','results_TXFPGAid')
+#results_RXFPGAid = config.get('test','results_RXFPGAid')
+results_TXFPGA_0_1 = config.get('test','0_1_results_TXFPGA')
+results_RXFPGA_0_1 = config.get('test','0_1_results_RXFPGA')
+results_TXFPGAid_0_1 = config.get('test','0_1_results_TXFPGAid')
+results_RXFPGAid_0_1 = config.get('test','0_1_results_RXFPGAid')
+results_TXFPGA_1_1 = config.get('test','1_1_results_TXFPGA')
+results_RXFPGA_1_1 = config.get('test','1_1_results_RXFPGA')
+results_TXFPGAid_1_1 = config.get('test','1_1_results_TXFPGAid')
+results_RXFPGAid_1_1 = config.get('test','1_1_results_RXFPGAid')
+results_TXFPGA_inter = config.get('test','inter_results_TXFPGA')
+results_RXFPGA_inter = config.get('test','inter_results_RXFPGA')
+results_TXFPGAid_inter = config.get('test','inter_results_TXFPGAid')
+results_RXFPGAid_inter = config.get('test','inter_results_RXFPGAid')
 desired_area = config.getint('test','desired_area')
 BER = config.get('test','BER')
 err_req = config.getint('test','err_req')
 include_all_results = config.getboolean('test','include_all_results')
 
-mgt_rx = format_to_list(mgt_rx)
-mgt_tx = format_to_list(mgt_tx)
+#mgt_rx = format_to_list(mgt_rx)
+#mgt_tx = format_to_list(mgt_tx)
+mgt_rx_0_1 = format_to_list(0_1_mgt_rx)
+mgt_tx_0_1 = format_to_list(0_1_mgt_tx)
+mgt_rx_1_1 = format_to_list(1_1_mgt_rx)
+mgt_tx_1_1 = format_to_list(1_1_mgt_tx)
+mgt_rx_inter = format_to_list(inter_mgt_rx)
+mgt_tx_inter = format_to_list(inter_mgt_tx)
+mgt_rx = mgt_rx_0_1 + mgt_rx_1_1 + mgt_rx_inter
+mgt_tx = mgt_tx_0_1 + mgt_tx_1_1 + mgt_tx_inter
 TXDIFFSWING = format_to_list(TXDIFFSWING)
 TXPOST = format_to_list(TXPOST)
 TXPRE = format_to_list(TXPRE)
@@ -98,13 +124,28 @@ print("-- Creating Instance 1 ---------")
 transm = pyIBERT(server1_addr,server1_port,target1_name,target1_freq)
 print("-- Source rcv ------------------")
 rcv.source("./" + tcl_dir + tcl_rcv_name + ".tcl")
-#transm.source("./" + tcl_dir + tcl_rcv_name + ".tcl")
 print("-- Source trm ------------------")
 transm.source("./" + tcl_dir + tcl_transm_name + ".tcl")
 print("-- Creating dir ----------------")
 create_dir(results_dir)
 print("-- Main loop -------------------")
 for mgt_idx in range(len(mgt_rx)):
+
+    if mgt_idx < len(mgt_rx_0_1):
+        results_TXFPGA = results_TXFPGA_0_1
+        results_RXFPGA = results_RXFPGA_0_1
+        results_TXFPGAid = results_TXFPGAid_0_1
+        results_RXFPGAid = results_RXFPGAid_0_1
+    elif mgt_idx >= len(mgt_rx_0_1) and mgt_idx < len(mgt_rx_0_1 + mgt_rx_1_1):
+        results_TXFPGA = results_TXFPGA_1_1
+        results_RXFPGA = results_RXFPGA_1_1
+        results_TXFPGAid = results_TXFPGAid_1_1
+        results_RXFPGAid = results_RXFPGAid_1_1
+    else:
+        results_TXFPGA = results_TXFPGA_inter
+        results_RXFPGA = results_RXFPGA_inter
+        results_TXFPGAid = results_TXFPGAid_inter
+        results_RXFPGAid = results_RXFPGAid_inter
 
     f = open("./" + results_dir + results_name + "Rx" + mgt_rx[mgt_idx] + results_RXFPGA + "_Tx" + mgt_tx[mgt_idx] + results_TXFPGA + "_ErrReq" + str(err_req) + "_BER" + BER.replace("\"","") + ".csv","w")
     f.write("TXDIFFSWING"
@@ -116,8 +157,8 @@ for mgt_idx in range(len(mgt_rx)):
             + "\n")
     #obj_rx = "get_hw_sio_links *MGT_" + mgt_rx[mgt_idx] + "/RX"
     #obj_tx = "get_hw_sio_links *MGT_" + mgt_tx[mgt_idx] + "/RX" # /RX is the end of the string
-    #obj_rx = "get_hw_sio_links *->*" + target0_name + "*" + results_RXFPGAid + "*MGT_" + mgt_rx[mgt_idx] + "/RX"  #Alec
-    #obj_tx = "get_hw_sio_links *" + target1_name + "*" + results_TXFPGAid + "*MGT_" + mgt_tx[mgt_idx] + "/TX->*"  #Alec
+    obj_rx = "get_hw_sio_links *->*" + target0_name + "*" + results_RXFPGAid + "*MGT_" + mgt_rx[mgt_idx] + "/RX"  #Alec
+    obj_tx = "get_hw_sio_links *" + target1_name + "*" + results_TXFPGAid + "*MGT_" + mgt_tx[mgt_idx] + "/TX->*"  #Alec
     obj_link = "get_hw_sio_links *" + target1_name + "*" + results_TXFPGAid + "*MGT_" + mgt_tx[mgt_idx] + "/TX->*" + target0_name + "*" + results_RXFPGAid + "*MGT_" +mgt_rx[mgt_idx] + "/RX"
     print(obj_link)
 
@@ -148,9 +189,9 @@ for mgt_idx in range(len(mgt_rx)):
 
 #                    transm.reset_all_gth_tx()
  #                   rcv.reset_all_gth_rx()
-                    #transm.reset_all_gty_txdatapath() #Rui
+                    transm.reset_all_gty_txdatapath() #Rui
                     rcv.reset_all_gty_rxdatapath() #Rui
-                    transm.reset_all_gty_rxdatapath()
+                    #transm.reset_all_gty_rxdatapath()
                     print("Finished reset of tx and rx datapath.")
 
                     print("------ Transceiver - " + mgt_rx[mgt_idx])

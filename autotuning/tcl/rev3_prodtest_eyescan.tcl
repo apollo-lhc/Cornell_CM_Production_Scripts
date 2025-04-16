@@ -6,47 +6,55 @@ set mgt_link_list [eval get_hw_sio_links]
 ##set Txs {20,59}
 ##set Rxs {43,4}
 
-set date 12-17-24
-#Modify this variable to correspond to current date before running, Example date: 01-19-22
+set systemTime [clock seconds]
+set date [clock format $systemTime -format %m-%d-%y]
+#This modifies this variable to correspond to current date before running, Example date: 01-19-22
 
-set path /nfs/cms/tracktrigger/ad683/Cornell_CM_Production_Scripts/scans/CM203/${date}
-set nfspath /nfs/cms/tracktrigger/apollo/CM203/scans/${date}
-#Also, be sure to first create corresponding directories to save the scans to (e.g. /mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/01-19-22)
+set path /nfs/cms/tracktrigger/ad683/Cornell_CM_Production_Scripts/scans/CM3002/${date}
+set nfspath /nfs/cms/tracktrigger/apollo/CM3002/scans/${date}
+file mkdir $path
+file mkdir $nfspath
+#Also, be sure to first modify these lines to save the scans how you would like (e.g. /mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/01-19-22)
 
 ## Links between FPGA (Tx are the ones from FPGA1, Rxs are from FPGA2)
 set Txs {}
 set Rxs {}
 
-for {set t 20} {$t<60} {incr t} {
+for {set t 20} {$t<44} {incr t} {
     set tstring "X1Y$t/"
     lappend Txs $tstring
 }
-
-for {set r 43} {$r>3} {incr r -1} {
+for {set r 43} {$r>19} {incr r -1} {
     set rstring "X1Y$r/"
     lappend Rxs $rstring                                                                                                                                                          
 }
 
-for {set t 4} {$t<16} {incr t} {
+for {set t 4} {$t<18} {incr t} {
     set tstring "X1Y$t/"
     lappend Txs $tstring
 }
-
-for {set r 59} {$r>47} {incr r -1} {
+for {set r 59} {$r>45} {incr r -1} {
     set rstring "X1Y$r/"
     lappend Rxs $rstring
 }
 
-## FFs FPGA1 - FPGA2
-for {set t 40} {$t<44} {incr t} {
-    set tstring "X0Y$t/"
+for {set t 44} {$t<60} {incr t} {
+    set tstring "X1Y$t/"
     lappend Txs $tstring
 }
-
-for {set r 32} {$r<36} {incr r} {
-    set rstring "X0Y$r/"
+for {set r 19} {$r>3} {incr r -1} {
+    set rstring "X1Y$r/"
     lappend Rxs $rstring
 }
+#ADD THESE BACK IN WHEN CAN GET QUAD 120 AND 220 VISIBLE IN VIVADO
+#set tstring "X0Y3/"
+#lappend Txs $tstring
+#set rstring "X0Y0/"
+#lappend Rxs $rstring
+#set tstring "X1Y3/"
+#lappend Txs $tstring
+#set rstring "X1Y3/"
+#lappend Rxs $rstring
 
 set i 0
 foreach Tx $Txs Rx $Rxs {
@@ -83,23 +91,28 @@ set RxFF1s {}
 
 #####
 #FPGA1
-for {set t 4} {$t<16} {incr t} {
+for {set t 16} {$t<20} {incr t} {
     set tstring "X0Y$t/"
     lappend TxFF1s $tstring
 }
 
-for {set r 20} {$r<32} {incr r} {
+for {set r 44} {$r<48} {incr r} {
     set rstring "X0Y$r/"
     lappend RxFF1s $rstring
 }
 
 #loopback ones
-for {set t 16} {$t<20} {incr t} {
+for {set t 4} {$t<16} {incr t} {
     set tstring "X0Y$t/"
     lappend TxFF1s $tstring
     lappend RxFF1s $tstring
 }
-for {set t 32} {$t<40} {incr t} {
+for {set t 20} {$t<32} {incr t} {
+    set tstring "X0Y$t/"
+    lappend TxFF1s $tstring
+    lappend RxFF1s $tstring
+}
+for {set t 32} {$t<44} {incr t} {
     set tstring "X0Y$t/"
     lappend TxFF1s $tstring
     lappend RxFF1s $tstring
@@ -109,6 +122,19 @@ for {set t 48} {$t<60} {incr t} {
     lappend TxFF1s $tstring
     lappend RxFF1s $tstring
 }
+#ADD THESE BACK IN WHEN CAN GET QUAD 120 AND 220 VISIBLE IN VIVADO
+#set tstring "X0Y0/"
+#lappend TxFF1s $tstring
+#lappend RxFF1s $tstring
+#set tstring "X0Y2/"
+#lappend TxFF1s $tstring
+#lappend RxFF1s $tstring
+#set tstring "X1Y0/"
+#lappend TxFF1s $tstring
+#lappend RxFF1s $tstring
+#set tstring "X1Y1/"
+#lappend TxFF1s $tstring
+#lappend RxFF1s $tstring
 
 puts $TxFF1s
 
@@ -148,29 +174,44 @@ set RxFF2s {}
 
 ####
 #FPGA2
-for {set t 36} {$t<40} {incr t} {
+for {set t 16} {$t<20} {incr t} {
     set tstring "X0Y$t/"
     lappend TxFF2s $tstring
 }
 
-for {set r 40} {$r<44} {incr r} {
+for {set r 44} {$r<48} {incr r} {
     set rstring "X0Y$r/"
     lappend RxFF2s $rstring
 }
 
-for {set t 4} {$t<32} {incr t} {
+#loopback ones
+for {set t 4} {$t<16} {incr t} {
     set tstring "X0Y$t/"
     lappend TxFF2s $tstring
     lappend RxFF2s $tstring
 }
-
-
-
+for {set t 20} {$t<32} {incr t} {
+    set tstring "X0Y$t/"
+    lappend TxFF2s $tstring
+    lappend RxFF2s $tstring
+}
+for {set t 32} {$t<44} {incr t} {
+    set tstring "X0Y$t/"
+    lappend TxFF2s $tstring
+    lappend RxFF2s $tstring
+}
 for {set t 48} {$t<60} {incr t} {
     set tstring "X0Y$t/"
     lappend TxFF2s $tstring
     lappend RxFF2s $tstring
 }
+#ADD THESE BACK IN WHEN CAN GET QUAD 120 AND 220 VISIBLE IN VIVADO
+#set tstring "X1Y0"
+#lappend TxFF1s $tstring
+#lappend RxFF1s $tstring
+#set tstring "X1Y1"
+#lappend TxFF1s $tstring
+#lappend RxFF1s $tstring
 
 foreach Tx $TxFF2s Rx $RxFF2s {
     puts "MGT $i"
