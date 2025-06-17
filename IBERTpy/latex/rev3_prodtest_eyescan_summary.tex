@@ -20,9 +20,10 @@
 \newlength\imagewidth
 
 \newcommand{\includegraphicsmaybe}[1]{\IfFileExists{#1}{\includegraphics[width=\linewidth]{#1}}{\includegraphics[width=\linewidth]{not_found.pdf}}}
-\newcommand\dateofscans{04-04-23} %Enter the date on which the scans were made (e.g. 06-13-22), assuming eyescans were properly filed
-%\newdateformat{mydate}{\twodigit{\THEDAY}-\twodigit{\THEMONTH}-\twodigit{\THEYEAR}}     maybe use this instead?
-\newcommand\CM{CM205}
+\newcommand\apolloid{204} %This should be the id of the apollo slot used for these scans, e.g. 204
+%\newcommand\dateofscans{04-04-23} %Enter the date on which the scans were made (e.g. 06-13-22), assuming eyescans were properly filed
+%\newdateformat{mydate}{\twodigit{\THEMONTH}-\twodigit{\THEDAY}-\twodigit{\THEYEAR}}     maybe use this instead?
+%\newcommand\CM{CM205}
 %Alec figure out how to implement these variable definitions as arguments and test all of this later, this might work:
 %pdflatex "\def\dateofscans{03-15-25} \def\CM{CM205} \input{rev3_prodtest_eyescan_summary.tex}"
 
@@ -34,13 +35,186 @@
 
 \newcounter{includepdfpage}
 \newcounter{currentpagecounter}
+\newcommand{\commentlines}[1]{}
 \newcommand{\addlabelstoallincludedpages}[1]{
-   \refstepcounter{includepdfpage}
-   \stepcounter{currentpagecounter}
-   \label{#1.\thecurrentpagecounter}}
+  \refstepcounter{includepdfpage}
+  \stepcounter{currentpagecounter}
+  \label{#1.\thecurrentpagecounter}}
 \newcommand{\modifiedincludepdf}[3]{
-    \setcounter{currentpagecounter}{0}
-    \includepdf[pages=#1,pagecommand=\addlabelstoallincludedpages{#2}]{#3}}
+  \setcounter{currentpagecounter}{0}
+  \includepdf[pages=#1,pagecommand=\addlabelstoallincludedpages{#2}]{#3}}
+\commentlines{
+\newcommand{\Quaddict}[1]{
+  \ifthenelse{\equal{#1}{X0Y4}}{Quad\_121\_}{}
+  \ifthenelse{\equal{#1}{X0Y5}}{Quad\_121\_}{}
+  \ifthenelse{\equal{#1}{X0Y6}}{Quad\_121\_}{}
+  \ifthenelse{\equal{#1}{X0Y7}}{Quad\_121\_}{}
+  \ifthenelse{\equal{#1}{X0Y8}}{Quad\_122\_}{}
+  \ifthenelse{\equal{#1}{X0Y9}}{Quad\_122\_}{}
+  \ifthenelse{\equal{#1}{X0Y10}}{Quad\_122\_}{}
+  \ifthenelse{\equal{#1}{X0Y11}}{Quad\_122\_}{}
+  \ifthenelse{\equal{#1}{X0Y12}}{Quad\_123\_}{}
+  \ifthenelse{\equal{#1}{X0Y13}}{Quad\_123\_}{}
+  \ifthenelse{\equal{#1}{X0Y14}}{Quad\_123\_}{}
+  \ifthenelse{\equal{#1}{X0Y15}}{Quad\_123\_}{}
+  \ifthenelse{\equal{#1}{X0Y16}}{Quad\_124\_}{}
+  \ifthenelse{\equal{#1}{X0Y17}}{Quad\_124\_}{}
+  \ifthenelse{\equal{#1}{X0Y18}}{Quad\_124\_}{}
+  \ifthenelse{\equal{#1}{X0Y19}}{Quad\_124\_}{}
+  \ifthenelse{\equal{#1}{X0Y20}}{Quad\_125\_}{}
+  \ifthenelse{\equal{#1}{X0Y21}}{Quad\_125\_}{}
+  \ifthenelse{\equal{#1}{X0Y22}}{Quad\_125\_}{}
+  \ifthenelse{\equal{#1}{X0Y23}}{Quad\_125\_}{}
+  \ifthenelse{\equal{#1}{X0Y24}}{Quad\_126\_}{}
+  \ifthenelse{\equal{#1}{X0Y25}}{Quad\_126\_}{}
+  \ifthenelse{\equal{#1}{X0Y26}}{Quad\_126\_}{}
+  \ifthenelse{\equal{#1}{X0Y27}}{Quad\_126\_}{}
+  \ifthenelse{\equal{#1}{X0Y28}}{Quad\_127\_}{}
+  \ifthenelse{\equal{#1}{X0Y29}}{Quad\_127\_}{}
+  \ifthenelse{\equal{#1}{X0Y30}}{Quad\_127\_}{}
+  \ifthenelse{\equal{#1}{X0Y31}}{Quad\_127\_}{}
+  \ifthenelse{\equal{#1}{X0Y32}}{Quad\_128\_}{}
+  \ifthenelse{\equal{#1}{X0Y33}}{Quad\_128\_}{}
+  \ifthenelse{\equal{#1}{X0Y34}}{Quad\_128\_}{}
+  \ifthenelse{\equal{#1}{X0Y35}}{Quad\_128\_}{}
+  \ifthenelse{\equal{#1}{X0Y36}}{Quad\_129\_}{}
+  \ifthenelse{\equal{#1}{X0Y37}}{Quad\_129\_}{}
+  \ifthenelse{\equal{#1}{X0Y38}}{Quad\_129\_}{}
+  \ifthenelse{\equal{#1}{X0Y39}}{Quad\_129\_}{}
+  \ifthenelse{\equal{#1}{X0Y40}}{Quad\_130\_}{}
+  \ifthenelse{\equal{#1}{X0Y41}}{Quad\_130\_}{}
+  \ifthenelse{\equal{#1}{X0Y42}}{Quad\_130\_}{}
+  \ifthenelse{\equal{#1}{X0Y43}}{Quad\_130\_}{}
+  \ifthenelse{\equal{#1}{X0Y44}}{Quad\_131\_}{}
+  \ifthenelse{\equal{#1}{X0Y45}}{Quad\_131\_}{}
+  \ifthenelse{\equal{#1}{X0Y46}}{Quad\_131\_}{}
+  \ifthenelse{\equal{#1}{X0Y47}}{Quad\_131\_}{}
+  \ifthenelse{\equal{#1}{X0Y48}}{Quad\_132\_}{}
+  \ifthenelse{\equal{#1}{X0Y49}}{Quad\_132\_}{}
+  \ifthenelse{\equal{#1}{X0Y50}}{Quad\_132\_}{}
+  \ifthenelse{\equal{#1}{X0Y51}}{Quad\_132\_}{}
+  \ifthenelse{\equal{#1}{X0Y52}}{Quad\_133\_}{}
+  \ifthenelse{\equal{#1}{X0Y53}}{Quad\_133\_}{}
+  \ifthenelse{\equal{#1}{X0Y54}}{Quad\_133\_}{}
+  \ifthenelse{\equal{#1}{X0Y55}}{Quad\_133\_}{}
+  \ifthenelse{\equal{#1}{X0Y56}}{Quad\_134\_}{}
+  \ifthenelse{\equal{#1}{X0Y57}}{Quad\_134\_}{}
+  \ifthenelse{\equal{#1}{X0Y58}}{Quad\_134\_}{}
+  \ifthenelse{\equal{#1}{X0Y59}}{Quad\_134\_}{}
+  \ifthenelse{\equal{#1}{X1Y4}}{Quad\_221\_}{}
+  \ifthenelse{\equal{#1}{X1Y5}}{Quad\_221\_}{}
+  \ifthenelse{\equal{#1}{X1Y6}}{Quad\_221\_}{}
+  \ifthenelse{\equal{#1}{X1Y7}}{Quad\_221\_}{}
+  \ifthenelse{\equal{#1}{X1Y8}}{Quad\_222\_}{}
+  \ifthenelse{\equal{#1}{X1Y9}}{Quad\_222\_}{}
+  \ifthenelse{\equal{#1}{X1Y10}}{Quad\_222\_}{}
+  \ifthenelse{\equal{#1}{X1Y11}}{Quad\_222\_}{}
+  \ifthenelse{\equal{#1}{X1Y12}}{Quad\_223\_}{}
+  \ifthenelse{\equal{#1}{X1Y13}}{Quad\_223\_}{}
+  \ifthenelse{\equal{#1}{X1Y14}}{Quad\_223\_}{}
+  \ifthenelse{\equal{#1}{X1Y15}}{Quad\_223\_}{}
+  \ifthenelse{\equal{#1}{X1Y16}}{Quad\_224\_}{}
+  \ifthenelse{\equal{#1}{X1Y17}}{Quad\_224\_}{}
+  \ifthenelse{\equal{#1}{X1Y18}}{Quad\_224\_}{}
+  \ifthenelse{\equal{#1}{X1Y19}}{Quad\_224\_}{}
+  \ifthenelse{\equal{#1}{X1Y20}}{Quad\_225\_}{}
+  \ifthenelse{\equal{#1}{X1Y21}}{Quad\_225\_}{}
+  \ifthenelse{\equal{#1}{X1Y22}}{Quad\_225\_}{}
+  \ifthenelse{\equal{#1}{X1Y23}}{Quad\_225\_}{}
+  \ifthenelse{\equal{#1}{X1Y24}}{Quad\_226\_}{}
+  \ifthenelse{\equal{#1}{X1Y25}}{Quad\_226\_}{}
+  \ifthenelse{\equal{#1}{X1Y26}}{Quad\_226\_}{}
+  \ifthenelse{\equal{#1}{X1Y27}}{Quad\_226\_}{}
+  \ifthenelse{\equal{#1}{X1Y28}}{Quad\_227\_}{}
+  \ifthenelse{\equal{#1}{X1Y29}}{Quad\_227\_}{}
+  \ifthenelse{\equal{#1}{X1Y30}}{Quad\_227\_}{}
+  \ifthenelse{\equal{#1}{X1Y31}}{Quad\_227\_}{}
+  \ifthenelse{\equal{#1}{X1Y32}}{Quad\_228\_}{}
+  \ifthenelse{\equal{#1}{X1Y33}}{Quad\_228\_}{}
+  \ifthenelse{\equal{#1}{X1Y34}}{Quad\_228\_}{}
+  \ifthenelse{\equal{#1}{X1Y35}}{Quad\_228\_}{}
+  \ifthenelse{\equal{#1}{X1Y36}}{Quad\_229\_}{}
+  \ifthenelse{\equal{#1}{X1Y37}}{Quad\_229\_}{}
+  \ifthenelse{\equal{#1}{X1Y38}}{Quad\_229\_}{}
+  \ifthenelse{\equal{#1}{X1Y39}}{Quad\_229\_}{}
+  \ifthenelse{\equal{#1}{X1Y40}}{Quad\_230\_}{}
+  \ifthenelse{\equal{#1}{X1Y41}}{Quad\_230\_}{}
+  \ifthenelse{\equal{#1}{X1Y42}}{Quad\_230\_}{}
+  \ifthenelse{\equal{#1}{X1Y43}}{Quad\_230\_}{}
+  \ifthenelse{\equal{#1}{X1Y44}}{Quad\_231\_}{}
+  \ifthenelse{\equal{#1}{X1Y45}}{Quad\_231\_}{}
+  \ifthenelse{\equal{#1}{X1Y46}}{Quad\_231\_}{}
+  \ifthenelse{\equal{#1}{X1Y47}}{Quad\_231\_}{}
+  \ifthenelse{\equal{#1}{X1Y48}}{Quad\_232\_}{}
+  \ifthenelse{\equal{#1}{X1Y49}}{Quad\_232\_}{}
+  \ifthenelse{\equal{#1}{X1Y50}}{Quad\_232\_}{}
+  \ifthenelse{\equal{#1}{X1Y51}}{Quad\_232\_}{}
+  \ifthenelse{\equal{#1}{X1Y52}}{Quad\_233\_}{}
+  \ifthenelse{\equal{#1}{X1Y53}}{Quad\_233\_}{}
+  \ifthenelse{\equal{#1}{X1Y54}}{Quad\_233\_}{}
+  \ifthenelse{\equal{#1}{X1Y55}}{Quad\_233\_}{}
+  \ifthenelse{\equal{#1}{X1Y56}}{Quad\_234\_}{}
+  \ifthenelse{\equal{#1}{X1Y57}}{Quad\_234\_}{}
+  \ifthenelse{\equal{#1}{X1Y58}}{Quad\_234\_}{}
+  \ifthenelse{\equal{#1}{X1Y59}}{Quad\_234\_}{}}
+\newcommand{\FFdict}[1]{
+  \ifthenelse{\equal{#1}{X0Y4}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y5}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y6}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y7}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y8}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y9}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y10}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y11}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y12}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y13}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y14}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y15}}{\_1\_}{}
+  \ifthenelse{\equal{#1}{X0Y16}}{\_5\_}{}
+  \ifthenelse{\equal{#1}{X0Y17}}{\_5\_}{}
+  \ifthenelse{\equal{#1}{X0Y18}}{\_5\_}{}
+  \ifthenelse{\equal{#1}{X0Y19}}{\_5\_}{}
+  \ifthenelse{\equal{#1}{X0Y20}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y21}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y22}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y23}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y24}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y25}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y26}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y27}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y28}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y29}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y30}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y31}}{\_2\_}{}
+  \ifthenelse{\equal{#1}{X0Y32}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y33}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y34}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y35}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y36}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y37}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y38}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y39}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y40}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y41}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y42}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y43}}{\_3\_}{}
+  \ifthenelse{\equal{#1}{X0Y44}}{\_6\_}{}
+  \ifthenelse{\equal{#1}{X0Y45}}{\_6\_}{}
+  \ifthenelse{\equal{#1}{X0Y46}}{\_6\_}{}
+  \ifthenelse{\equal{#1}{X0Y47}}{\_6\_}{}
+  \ifthenelse{\equal{#1}{X0Y48}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y49}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y50}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y51}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y52}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y53}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y54}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y55}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y56}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y57}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y58}}{\_4\_}{}
+  \ifthenelse{\equal{#1}{X0Y59}}{\_4\_}{}}
+}
 
 \begin{document}
 
@@ -61,7 +235,7 @@
         \fontsize{80pt}{40pt}\selectfont % Title font size, the first argument is the font size and the second is the line spacing, adjust depending on title length
         \vspace{0.7cm} % Space between the start of the title and the top of the grey box
 
-        \CM Apollo 214\\ %Alec FIX THIS
+        \CM Apollo \apolloid\\
         Serial Link Test Report\\
         Date of Scans: \dateofscans\\
         
@@ -79,7 +253,7 @@
   \parbox[t]{0.93\textwidth}{ % Box to inset this section slightly
     \raggedleft % Right align the text
     \large % Increase the font size\large % Increase the font size
-    {\Large Rui Zou}\\[4pt] % Extra space after name
+    {\Large Alec Duquette}\\[4pt] % Extra space after name
     CERN\\
     Cornell University\\[4pt] % Extra space before URL
     
@@ -114,29 +288,31 @@
 
 %links between xcvu13p_0 & xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
-\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\thepage+2}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y3(xcvu13p_0)_to_X0Y0(xcvu13p_1).png}}
-\end{subfigure}\hspace*{\fill}
-\begin{subfigure}{0.25\textwidth}  %CHECK TO MAKE SURE THE PAGE LINKS ARE CORRECT FOR THIS FOR LOOP, you had to add these two preceeding eye diagrams that might mess it up
-\hyperlink{page.\thepage+3}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X1Y3(xcvu13p_0)_to_X1Y3(xcvu13p_1).png}}
-\end{subfigure}\hspace*{\fill}
-\foreach \number [count=\nxtrow from int(3),count=\i from int(\thepage+4),evaluate=\number as \Rx using int(63-\number)] in {4,...,17,20,21,...,31}{ %numbers here can be modified based on links scanned
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {4,...,17,20,21,...,33}{
+%numbers here can be modified based on links scanned
+\foreach \number\QuadTx\QuadRx [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {4/221/234,5/221/234,6/221/234,7/221/234,8/222/233,9/222/233,10/222/233,11/222/233,12/223/232,13/223/232,14/223/232,15/223/232,16/224/231,17/224/231,20/225/230,21/225/230,22/225/230,23/225/230,24/226/229,25/226/229,26/226/229,27/226/229,28/227/228,29/227/228,30/227/228,31/227/228,32/228/227,33/228/227}{
+%\def\TQuad{\Quaddict{X1Y\number}}
+%\def\RQuad{\Quaddict{X1Y\Rx}}
+%\typeout{../../scans/\CM/\dateofscans/eyescan_F1_{\TQuad}X1Y\number_to_F2_{\RQuad}X1Y\Rx.png}
+%\typeout{\TQuad}
 \ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
 {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+%\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\Quaddict{X1Y\number}X1Y\number_to_F2_\Quaddict{X1Y\Rx}X1Y\Rx.png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\number_to_F2_Quad_\QuadRx_X1Y\Rx.png}}
 \end{subfigure}
 
 }{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+%\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\Quaddict{X1Y\number}X1Y\number_to_F2_\Quaddict{X1Y\Rx}X1Y\Rx.png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\number_to_F2_Quad_\QuadRx_X1Y\Rx.png}}
 \end{subfigure}\hspace*{\fill}}}
 \caption{Links of xcvu13p\_0 to xcvu13p\_1 Overview (1 of 2)} \label{links_xcvu13p_0_to_xcvu13p_1_overview1}
 \end{figure}
 
 \chapter{Links from xcvu13p\_0 to xcvu13p\_1 Details (1 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
-\modifiedincludepdf{-}{X0Y3(xcvu13p_0)_to_X1Y0(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X0Y3(xcvu13p_0)_to_X0Y0(xcvu13p_1).pdf}
-\modifiedincludepdf{-}{X1Y3(xcvu13p_0)_to_X1Y3(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X1Y3(xcvu13p_0)_to_X1Y3(xcvu13p_1).pdf}
-\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {4,...,17,20,21,...,31}{
-\modifiedincludepdf{-}{X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).pdf}
+%\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {4,...,17,20,21,...,33}{
+\foreach \n\QuadTx\QuadRx [evaluate=\n as \Rx using int(63-\n)] in {4/221/234,5/221/234,6/221/234,7/221/234,8/222/233,9/222/233,10/222/233,11/222/233,12/223/232,13/223/232,14/223/232,15/223/232,16/224/231,17/224/231,20/225/230,21/225/230,22/225/230,23/225/230,24/226/229,25/226/229,26/226/229,27/226/229,28/227/228,29/227/228,30/227/228,31/227/228,32/228/227,33/228/227}{
+%\modifiedincludepdf{-}{F1_\Quaddict{X1Y\n}X1Y\n_to_F2_\Quaddict{X1Y\Rx}X1Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F1_\Quaddict{X1Y\n}X1Y\n_to_F2_\Quaddict{X1Y\Rx}X1Y\Rx.pdf}
+\modifiedincludepdf{-}{F1_Quad_\QuadTx_X1Y\n_to_F2_Quad_\QuadRx_X1Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\n_to_F2_Quad_\QuadRx_X1Y\Rx.pdf}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -145,44 +321,99 @@
 
 %links between xcvu13p_0 & xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
-\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {32,...,59}{ %numbers here can be modified based on loopback links scanned
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {34,...,59}{
+\foreach \number\QuadTx\QuadRx [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {34/228/227,35/228/227,36/229/226,37/229/226,38/229/226,39/229/226,40/230/225,41/230/225,42/230/225,43/230/225,44/231/224,45/231/224,46/231/224,47/231/224,48/232/223,49/232/223,50/232/223,51/232/223,52/233/222,53/233/222,54/233/222,55/233/222,56/234/221,57/234/221,58/234/221,59/234/221}{
 \ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
 {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\number_to_F2_Quad_\QuadRx_X1Y\Rx.png}}
 \end{subfigure}
 
 }{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X1Y\number(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\number_to_F2_Quad_\QuadRx_X1Y\Rx.png}}
 \end{subfigure}\hspace*{\fill}}}
 \caption{Links of xcvu13p\_0 to xcvu13p\_1 Overview (2 of 2)} \label{links_xcvu13p_0_to_xcvu13p_1_overview2}
 \end{figure}
 
 \chapter{Links from xcvu13p\_0 to xcvu13p\_1 Details (2 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
-\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {32,...,59}{
-\modifiedincludepdf{-}{X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X1Y\n(xcvu13p_0)_to_X1Y\Rx(xcvu13p_1).pdf}
+%\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {34,...,59}{
+\foreach \n\QuadTx\QuadRx [evaluate=\n as \Rx using int(63-\n)] in {34/228/227,35/228/227,36/229/226,37/229/226,38/229/226,39/229/226,40/230/225,41/230/225,42/230/225,43/230/225,44/231/224,45/231/224,46/231/224,47/231/224,48/232/223,49/232/223,50/232/223,51/232/223,52/233/222,53/233/222,54/233/222,55/233/222,56/234/221,57/234/221,58/234/221,59/234/221}{
+\modifiedincludepdf{-}{F1_Quad_\QuadTx_X1Y\n_to_F2_Quad_\QuadRx_X1Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\n_to_F2_Quad_\QuadRx_X1Y\Rx.pdf}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links from xcvu13p\_1 to xcvu13p\_0 Overview (1 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {4,...,17,20,21,...,33}{
+\foreach \number\QuadTx\QuadRx [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {4/221/234,5/221/234,6/221/234,7/221/234,8/222/233,9/222/233,10/222/233,11/222/233,12/223/232,13/223/232,14/223/232,15/223/232,16/224/231,17/224/231,18/224/231,19/224/231,20/225/230,21/225/230,22/225/230,23/225/230,24/226/229,25/226/229,26/226/229,27/226/229,28/227/228,29/227/228,30/227/228,31/227/228}{
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28} %added 18 and 19 above, moved 32 and 33 to next page
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_Quad_\QuadTx_X1Y\number_to_F1_Quad_\QuadRx_X1Y\Rx.png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_Quad_\QuadTx_X1Y\number_to_F1_Quad_\QuadRx_X1Y\Rx.png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_1 to xcvu13p\_0 Overview (1 of 2)} \label{links_xcvu13p_1_to_xcvu13p_0_overview1}
+\end{figure}
+
+\chapter{Links from xcvu13p\_1 to xcvu13p\_0 Details (1 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+%\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {4,...,17,20,21,...,33}{
+\foreach \n\QuadTx\QuadRx [evaluate=\n as \Rx using int(63-\n)] in {4/221/234,5/221/234,6/221/234,7/221/234,8/222/233,9/222/233,10/222/233,11/222/233,12/223/232,13/223/232,14/223/232,15/223/232,16/224/231,17/224/231,18/224/231,19/224/231,20/225/230,21/225/230,22/225/230,23/225/230,24/226/229,25/226/229,26/226/229,27/226/229,28/227/228,29/227/228,30/227/228,31/227/228}{
+\modifiedincludepdf{-}{F2_Quad_\QuadTx_X1Y\n_to_F1_Quad_\QuadRx_X1Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F2_Quad_\QuadTx_X1Y\n_to_F1_Quad_\QuadRx_X1Y\Rx.pdf}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Links from xcvu13p\_1 to xcvu13p\_0 Overview (2 of 2)}
+\hyperlink{MyToc}{Return to Table of Contents} \newpage
+
+\begin{figure}[h] % ``[t!]'' placement specifier just for this example
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {34,...,59}{
+%\foreach \number\QuadTx\QuadRx [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {34/228/227,35/228/227,36/229/226,37/229/226,38/229/226,39/229/226,40/230/225,41/230/225,42/230/225,43/230/225,44/231/224,45/231/224,46/231/224,47/231/224,48/232/223,49/232/223,50/232/223,51/232/223,52/233/222,53/233/222,54/233/222,55/233/222,56/234/221,57/234/221,58/234/221,59/234/221}{
+\foreach \number\QuadTx\QuadRx [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {32/228/227,33/228/227,34/228/227,35/228/227,36/229/226,37/229/226,38/229/226,39/229/226,40/230/225,41/230/225,42/230/225,43/230/225,46/231/224,47/231/224,48/232/223,49/232/223,50/232/223,51/232/223,52/233/222,53/233/222,54/233/222,55/233/222,56/234/221,57/234/221,58/234/221,59/234/221}{
+\ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
+{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_Quad_\QuadTx_X1Y\number_to_F1_Quad_\QuadRx_X1Y\Rx.png}}
+\end{subfigure}
+
+}{\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_Quad_\QuadTx_X1Y\number_to_F1_Quad_\QuadRx_X1Y\Rx.png}}
+\end{subfigure}\hspace*{\fill}}}
+\caption{Links of xcvu13p\_1 to xcvu13p\_0 Overview (2 of 2)} \label{links_xcvu13p_1_to_xcvu13p_0_overview2}
+\end{figure}
+
+\chapter{Links from xcvu13p\_1 to xcvu13p\_0 Details (2 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
+%\foreach \n [evaluate=\n as \Rx using int(63-\n)] in {34,...,59}{
+%\foreach \n\QuadTx\QuadRx [evaluate=\n as \Rx using int(63-\n)] in {34/228/227,35/228/227,36/229/226,37/229/226,38/229/226,39/229/226,40/230/225,41/230/225,42/230/225,43/230/225,44/231/224,45/231/224,46/231/224,47/231/224,48/232/223,49/232/223,50/232/223,51/232/223,52/233/222,53/233/222,54/233/222,55/233/222,56/234/221,57/234/221,58/234/221,59/234/221}{
+\foreach \n\QuadTx\QuadRx [evaluate=\n as \Rx using int(63-\n)] in {32/228/227,33/228/227,34/228/227,35/228/227,36/229/226,37/229/226,38/229/226,39/229/226,40/230/225,41/230/225,42/230/225,43/230/225,46/231/224,47/231/224,48/232/223,49/232/223,50/232/223,51/232/223,52/233/222,53/233/222,54/233/222,55/233/222,56/234/221,57/234/221,58/234/221,59/234/221}{
+\modifiedincludepdf{-}{F2_Quad_\QuadTx_X1Y\n_to_F1_Quad_\QuadRx_X1Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F2_Quad_\QuadTx_X1Y\n_to_F1_Quad_\QuadRx_X1Y\Rx.pdf}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{FF Links on xcvu13p\_0 Overview (1 of 2)}
 \hyperlink{MyToc}{Return to Table of Contents} \newpage
 
 %FF links for xcvu13p_0 to xcvu13p_0
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
-\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {4,...,15,20,21,...,35}{ %numbers here can be modified based on links scanned
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {4,...,15,20,21,...,35}{
+\foreach \number\FF\Quad [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {4/1/121,5/1/121,6/1/121,7/1/121,8/1/122,9/1/122,10/1/122,11/1/122,12/1/123,13/1/123,14/1/123,15/1/123,20/2/125,21/2/125,22/2/125,23/2/125,24/2/126,25/2/126,26/2/126,27/2/126,28/2/127,29/2/127,30/2/127,31/2/127,32/3/128,33/3/128,34/3/128,35/3/128}{
 \ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
 {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FF_Quad_\Quad_X0Y\number.png}}
 \end{subfigure}
 
 }{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FF_Quad_\Quad_X0Y\number.png}}
 \end{subfigure}\hspace*{\fill}}}
 \caption{Fire Fly Links of xcvu13p\_0 connected back to xcvu13p\_0 Overview (1 of 2)} \label{FFlinks_xcvu13p_0_to_xcvu13p_0_overview1}
 \end{figure}
 
 \chapter{FF Links on xcvu13p\_0 Details (1 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
-\foreach \n in {4,...,15,20,21,...,35}{
-\modifiedincludepdf{-}{X0Y\n(xcvu13p_0)_to_X0Y\n(xcvu13p_0)}{../../scans/\CM/\dateofscans/eyescan_X0Y\n(xcvu13p_0)_to_X0Y\n(xcvu13p_0).pdf}
+%\foreach \n in {4,...,15,20,21,...,35}{
+\foreach \n\FF\Quad in {4/1/121,5/1/121,6/1/121,7/1/121,8/1/122,9/1/122,10/1/122,11/1/122,12/1/123,13/1/123,14/1/123,15/1/123,20/2/125,21/2/125,22/2/125,23/2/125,24/2/126,25/2/126,26/2/126,27/2/126,28/2/127,29/2/127,30/2/127,31/2/127,32/3/128,33/3/128,34/3/128,35/3/128}{
+\modifiedincludepdf{-}{F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FF_Quad_\Quad_X0Y\n}{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FF_Quad_\Quad_X0Y\n.pdf}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -191,31 +422,45 @@
 
 %FF links for xcvu13p_0 to xcvu13p_0
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example     %MIGHT HAVE TO FIX THIS CROSSOVER CABLES GO 0123->3210 rather than 0123->0123 
-\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+28)] in {36,...,43,48,49,...,59,16,17,18,19}{ %numbers here can be modified based on links scanned
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+28)] in {36,...,43,48,49,...,59,16,17,18,19}{
+\foreach \number\FF\Quad\FFnoloop\Quadnoloop [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+28),evaluate=\number as \Rxalt using int(\number-28)] in {36/3/129/NA/NA,37/3/129/NA/NA,38/3/129/NA/NA,39/3/129/NA/NA,40/3/130/NA/NA,41/3/130/NA/NA,42/3/130/NA/NA,43/3/130/NA/NA,48/4/132/NA/NA,49/4/132/NA/NA,50/4/132/NA/NA,51/4/132/NA/NA,52/4/133/NA/NA,53/4/133/NA/NA,54/4/133/NA/NA,55/4/133/NA/NA,56/4/134/NA/NA,57/4/134/NA/NA,58/4/134/NA/NA,59/4/134/NA/NA,16/5/124/6/131,17/5/124/6/131,18/5/124/6/131,19/5/124/6/131,44/6/131/5/124,45/6/131/5/124,46/6/131/5/124,47/6/131/5/124}{
 \ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
 { \ifthenelse{\number=16 \or \number=17 \or \number=18 \or \number=19} {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0).png}}
-\end{subfigure}}
-{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
-\end{subfigure}}  
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx.png}}
+\end{subfigure}} %end of then
+{
+\ifthenelse{\number=44 \or \number=45 \or \number=46 \or \number=47}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rxalt.png}}
+\end{subfigure}}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FF_Quad_\Quad_X0Y\number.png}}
+\end{subfigure}}} %end of else
 
 }{ \ifthenelse{\number=16 \or \number=17 \or \number=18 \or \number=19} {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0).png}}
-\end{subfigure}\hspace*{\fill}}
-{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_0)_to_X0Y\number(xcvu13p_0).png}}
-\end{subfigure}\hspace*{\fill}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx.png}}
+\end{subfigure}\hspace*{\fill}} %end of then
+{
+\ifthenelse{\number=44 \or \number=45 \or \number=46 \or \number=47}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rxalt.png}}
+\end{subfigure}\hspace*{\fill}}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\number_to_F1_\FF_Quad_\Quad_X0Y\number.png}}
+\end{subfigure}\hspace*{\fill}}} %end of else
 }}
 \caption{Fire Fly Links of xcvu13p\_0 connected back to xcvu13p\_0 Overview (2 of 2)} \label{FFlinks_xcvu13p_0_to_xcvu13p_0_overview2}
 \end{figure}
 
 \chapter{FF Links on xcvu13p\_0 Details (2 of 2)}
 \hyperlink{MyToc}{Return to Table of Contents} \newpage
-\foreach \n [evaluate=\n as \Rx using int(\n+28)] in {36,...,43,48,49,...,59,16,17,18,19}{
+%\foreach \n [evaluate=\n as \Rx using int(\n+28)] in {36,...,43,48,49,...,59,16,17,18,19}{
+\foreach \n\FF\Quad\FFnoloop\Quadnoloop [evaluate=\n as \Rx using int(\n+28),evaluate=\n as \Rxalt using int(\n-28)] in {36/3/129/NA/NA,37/3/129/NA/NA,38/3/129/NA/NA,39/3/129/NA/NA,40/3/130/NA/NA,41/3/130/NA/NA,42/3/130/NA/NA,43/3/130/NA/NA,48/4/132/NA/NA,49/4/132/NA/NA,50/4/132/NA/NA,51/4/132/NA/NA,52/4/133/NA/NA,53/4/133/NA/NA,54/4/133/NA/NA,55/4/133/NA/NA,56/4/134/NA/NA,57/4/134/NA/NA,58/4/134/NA/NA,59/4/134/NA/NA,16/5/124/6/131,17/5/124/6/131,18/5/124/6/131,19/5/124/6/131,44/6/131/5/124,45/6/131/5/124,46/6/131/5/124,47/6/131/5/124}{
 \ifthenelse{\n=16 \or \n=17 \or \n=18 \or \n=19}
-{\modifiedincludepdf{-}{X0Y\n(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0)}{../../scans/\CM/\dateofscans/eyescan_X0Y\n(xcvu13p_0)_to_X0Y\Rx(xcvu13p_0).pdf}}
-{\modifiedincludepdf{-}{X0Y\n(xcvu13p_0)_to_X0Y\n(xcvu13p_0)}{../../scans/\CM/\dateofscans/eyescan_X0Y\n(xcvu13p_0)_to_X0Y\n(xcvu13p_0).pdf}}
+{\modifiedincludepdf{-}{F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx.pdf}}
+{\ifthenelse{\n=44 \or \n=45 \or \n=46 \or \n=47}{
+\modifiedincludepdf{-}{F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FFnoloop_Quad_\Quadnoloop_X0Y\Rxalt.pdf}}{
+\modifiedincludepdf{-}{F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FF_Quad_\Quad_X0Y\n}{../../scans/\CM/\dateofscans/eyescan_F1_\FF_Quad_\Quad_X0Y\n_to_F1_\FF_Quad_\Quad_X0Y\n.pdf}}}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -224,56 +469,74 @@
 
 %FF links for xcvu13p_1 to xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
-\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {4,...,15,20,21,...,35}{ %numbers here can be modified based on links scanned
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {4,...,15,20,21,...,35}{
+\foreach \number\FF\Quad [count=\nxtrow from int(1),count=\i from int(\thepage+2)] in {4/1/121,5/1/121,6/1/121,7/1/121,8/1/122,9/1/122,10/1/122,11/1/122,12/1/123,13/1/123,14/1/123,15/1/123,20/2/125,21/2/125,22/2/125,23/2/125,24/2/126,25/2/126,26/2/126,27/2/126,28/2/127,29/2/127,30/2/127,31/2/127,32/3/128,33/3/128,34/3/128,35/3/128}{
 \ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
 {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FF_Quad_\Quad_X0Y\number.png}}
 \end{subfigure}
 
 }{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FF_Quad_\Quad_X0Y\number.png}}
 \end{subfigure}\hspace*{\fill}}}
 \caption{Fire Fly Links of xcvu13p\_1 connected back to xcvu13p\_1 Overview (1 of 2)} \label{FFlinks_xcvu13p_1_to_xcvu13p_1_overview1}
 \end{figure}
 
 \chapter{FF Links on xcvu13p\_1 Details (1 of 2)} \hyperlink{MyToc}{Return to Table of Contents} \newpage
-\foreach \n in {4,...,15,20,21,...,35}{
-\modifiedincludepdf{-}{X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1).pdf}
+%\foreach \n in {4,...,15,20,21,...,35}{
+\foreach \n\FF\Quad in {4/1/121,5/1/121,6/1/121,7/1/121,8/1/122,9/1/122,10/1/122,11/1/122,12/1/123,13/1/123,14/1/123,15/1/123,20/2/125,21/2/125,22/2/125,23/2/125,24/2/126,25/2/126,26/2/126,27/2/126,28/2/127,29/2/127,30/2/127,31/2/127,32/3/128,33/3/128,34/3/128,35/3/128}{
+\modifiedincludepdf{-}{F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FF_Quad_\Quad_X0Y\n}{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FF_Quad_\Quad_X0Y\n.pdf}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{FF Links on xcvu13p\_1 Overview (2 of 2)}
+\chapter{FF Links on xcvu13p\_1 Overview (2 of 2)}%FINISH THIS!!!!!!!!!!!!!!!!!!!!!
 \hyperlink{MyToc}{Return to Table of Contents} \newpage
 
 %FF links for xcvu13p_1 to xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example     %MIGHT HAVE TO FIX THIS CROSSOVER CABLES GO 0123->3210 rather than 0123->0123
-\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+28)] in {36,...,43,48,49,...,59,16,17,18,19}{ %numbers here can be modified based on links scanned
+%\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+28)] in {36,...,43,48,49,...,59,16,17,18,19}{
+\foreach \number\FF\Quad\FFnoloop\Quadnoloop [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(\number+28),evaluate=\number as \Rxalt using int(\number-28)] in {36/3/129/NA/NA,37/3/129/NA/NA,38/3/129/NA/NA,39/3/129/NA/NA,40/3/130/NA/NA,41/3/130/NA/NA,42/3/130/NA/NA,43/3/130/NA/NA,48/4/132/NA/NA,49/4/132/NA/NA,50/4/132/NA/NA,51/4/132/NA/NA,52/4/133/NA/NA,53/4/133/NA/NA,54/4/133/NA/NA,55/4/133/NA/NA,56/4/134/NA/NA,57/4/134/NA/NA,58/4/134/NA/NA,59/4/134/NA/NA,16/5/124/6/131,17/5/124/6/131,18/5/124/6/131,19/5/124/6/131,45/6/131/5/124,46/6/131/5/124,47/6/131/5/124,47/6/131/5/124}{
+%Yes, I know, link 47 appears twice at the end of the loop above. It fails to display it without this deliberate error, only shows it once with the error. No idea why.
+%I use this same code for the FF links on the first FPGA. I did not have to duplicate one of the links to show it.
 \ifthenelse{\nxtrow=4 \or \nxtrow=8 \or \nxtrow=12 \or \nxtrow=16 \or \nxtrow=20 \or \nxtrow=24 \or \nxtrow=28}
 { \ifthenelse{\number=16 \or \number=17 \or \number=18 \or \number=19} {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx.png}}
 \end{subfigure}}
-{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
-\end{subfigure}}
+{\ifthenelse{\number=44 \or \number=45 \or \number=46 \or \number=47}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rxalt.png}}
+\end{subfigure}}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FF_Quad_\Quad_X0Y\number.png}}
+\end{subfigure}}}
 
 }{ \ifthenelse{\number=16 \or \number=17 \or \number=18 \or \number=19} {\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1).png}}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx.png}}
 \end{subfigure}\hspace*{\fill}}
-{\begin{subfigure}{0.25\textwidth}
-\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_X0Y\number(xcvu13p_1)_to_X0Y\number(xcvu13p_1).png}}
-\end{subfigure}\hspace*{\fill}}
+{\ifthenelse{\number=44 \or \number=45 \or \number=46 \or \number=47}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rxalt.png}}
+\end{subfigure}\hspace*{\fill}}{
+\begin{subfigure}{0.25\textwidth}
+\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\number_to_F2_\FF_Quad_\Quad_X0Y\number.png}}
+\end{subfigure}\hspace*{\fill}}}
 }}
 \caption{Fire Fly Links of xcvu13p\_1 connected back to xcvu13p\_1 Overview (2 of 2)} \label{FFlinks_xcvu13p_1_to_xcvu13p_1_overview2}
 \end{figure}
 
 \chapter{FF Links on xcvu13p\_1 Details (2 of 2)}
 \hyperlink{MyToc}{Return to Table of Contents} \newpage
-\foreach \n [evaluate=\n as \Rx using int(\n+28)] in {36,...,43,48,49,...,59,16,17,18,19}{
+%\foreach \n [evaluate=\n as \Rx using int(\n+28)] in {36,...,43,48,49,...,59,16,17,18,19}{
+\foreach \n\FF\Quad\FFnoloop\Quadnoloop [evaluate=\n as \Rx using int(\n+28),evaluate=\n as \Rxalt using int(\n-28)] in {36/3/129/NA/NA,37/3/129/NA/NA,38/3/129/NA/NA,39/3/129/NA/NA,40/3/130/NA/NA,41/3/130/NA/NA,42/3/130/NA/NA,43/3/130/NA/NA,48/4/132/NA/NA,49/4/132/NA/NA,50/4/132/NA/NA,51/4/132/NA/NA,52/4/133/NA/NA,53/4/133/NA/NA,54/4/133/NA/NA,55/4/133/NA/NA,56/4/134/NA/NA,57/4/134/NA/NA,58/4/134/NA/NA,59/4/134/NA/NA,16/5/124/6/131,17/5/124/6/131,18/5/124/6/131,19/5/124/6/131,44/6/131/5/124,45/6/131/5/124,46/6/131/5/124,47/6/131/5/124}{
+%this loop works fine without repeating link 47. Again, no idea why.
 \ifthenelse{\n=16 \or \n=17 \or \n=18 \or \n=19}
-{\modifiedincludepdf{-}{X0Y\n(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X0Y\n(xcvu13p_1)_to_X0Y\Rx(xcvu13p_1).pdf}}
-{\modifiedincludepdf{-}{X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X0Y\n(xcvu13p_1)_to_X0Y\n(xcvu13p_1).pdf}}
+{\modifiedincludepdf{-}{F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx.pdf}}
+{\ifthenelse{\n=44 \or \n=45 \or \n=46 \or \n=47}{
+\modifiedincludepdf{-}{F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rx}{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FFnoloop_Quad_\Quadnoloop_X0Y\Rxalt.pdf}}{
+\modifiedincludepdf{-}{F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FF_Quad_\Quad_X0Y\n}{../../scans/\CM/\dateofscans/eyescan_F2_\FF_Quad_\Quad_X0Y\n_to_F2_\FF_Quad_\Quad_X0Y\n.pdf}}}
 }
 
+\commentlines{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{xcvu13p\_0 Loopback Links Overview}
 \hyperlink{MyToc}{Return to Table of Contents} \newpage
@@ -331,5 +594,5 @@
 \foreach \n in {0,1}{
 \modifiedincludepdf{-}{X1Y\n(xcvu13p_1)_to_X1Y\n(xcvu13p_1)}{../../scans/\CM/\dateofscans/eyescan_X1Y\n(xcvu13p_1)_to_X1Y\n(xcvu13p_1).pdf}
 }
-
+}
 \end{document}

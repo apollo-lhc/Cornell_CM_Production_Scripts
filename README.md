@@ -1,46 +1,48 @@
 # Scripts Used for Cornell CM Produciton Checkout
 
-## IBERTpy Plotting Script
+## IBERTpy Eyescan & Plotting Scripts
 ### Overview
-`mcu_tools` submodule contains automate scripts in the shell directory to create a weekly-report directory in `/nfs/cms/hw/apollo/` and run C2C eyescans on any apollo blades. We note that currently a one-by-one eyescan and parallel eyescans are enable. The exception is that on apollo09 only three* out of four c2c links are working.  
+`mcu_tools` submodule contains automated scripts in the shell directory to create a weekly-report directory in `/nfs/cms/hw/apollo/` and run C2C eyescans on any apollo blades. We note that currently a one-by-one eyescan and parallel eyescans (for C2C links) are enabled.
 ### Requirements
 - **Python 3+**
-- **fpdf** (the package used to make a pdf file from converting a csv file of a Vivado eyescan. For instruction on how to install it, please follow https://github.com/reingart/pyfpdf) 
-### Instructions
+- **fpdf** (the package used to make a pdf file from converting a csv file of a Vivado eyescan. For instruction on how to install it, please follow https://github.com/reingart/pyfpdf)
+- **FF Connectors** connected in standard configuration
+### Instructions for running the rev3 production test eyescan scripts
 The IBERTpy is a set of modified scripts from https://github.com/mvsoliveira/IBERTpy to convert Vivado eyescans from .csv to .pdf and .png formats. The path to a csv input file is structured for Cornell CM Production in the following manner: **Cornell_CM_Production_Scripts/scans/CM#/mm-dd-yy/*.csv'**. 
 
-To generate these csv files, first connect to the CM203 in Vivado.  Program the FPGAs with the desired firmware.  If the CM203 is connected to the lnx4189, the following firmware properly programs the two FPGAs for eyescans of the standard links:
+To generate these csv files, first connect to the rev3 board in Vivado and establish the virtual cable if needed for Vivado to detect the FPGAs as devices.  Program the FPGAs with the desired firmware.  If the rev3 board is connected to the lnx4189, the following firmware properly programs the two FPGAs for eyescans of the standard links:
 ```sh
-FPGA1 bitstream: /mnt/scratch/rz393/firmware/top_Cornell_rev2_p1_VU13p-1-SM_7s_IBERT_lpGBT_v1_25GLHS.bit
-FPGA2 bitstream: /mnt/scratch/rz393/firmware/top_Cornell_rev2_p2_VU13p-1-SM_7s_IBERT_lpGBT_v1_25GLHS.bit
+FPGA1 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p1_VU13p-1-SM_USP_heaters_TF.bit
+FPGA2 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p2_VU13p-1-SM_USP_heaters_TF.bit
 ```
 
 Next, set the MGT links.  Autodetect links often misses several of the links, so instead run the command below in the Vivado tcl console:
 ```sh
-source <path to this imported repository>/Cornell_CM_Production_Scripts/autotuning/tcl/CM_VU13P_setup_IBERT.tcl
+source <path to this imported repository>/Cornell_CM_Production_Scripts/autotuning/tcl/rev3_prodtest_setup_IBERT.tcl
 ```
 
-We can now run eyescans over all of these links, but first we must create a directories in which to save the csv files.  The current version of the command that runs the eyescans in Vivado saves the scans to two locations: once into the downloaded Cornell_CM_ProductionScripts output directories and once into the shared track trigger output directories (<date> should be of the form mm-dd-yy):
+We can now define the rev3 board id (e.g. CM3002) and run eyescans over all of these links. Run the following commands in the tcl console to run eyescans over all of the links that we just set:
 ```sh
-mkdir <path to this imported repository>/Cornell_CM_Production_Scripts/scans/CM203/<date>
-mkdir /nfs/cms/tracktrigger/apollo/CM203/scans/<date>
+set CM <board id>
+source <path to this imported repository>/Cornell_CM_Production_Scripts/autotuning/tcl/rev3_prodtest_eyescan.tcl
 ```
 
-Then, modify line 9 of <path to this imported repository>/Cornell_CM_Production_Scripts/autotuning/tcl/apollo10_eyescan.tcl so that the date in the file path corresponds to the directory in which you wish to save the results of the scans, and run the following command in the tcl console to run eyescans over all of the links that we just set:
-```sh
-source <path to this imported repository>/Cornell_CM_Production_Scripts/autotuning/tcl/apollo10_eyescan.tcl
-```
+The current version of the command that runs the eyescans in Vivado saves the scans to two locations: once into the downloaded Cornell_CM_ProductionScripts output directories (<path to this imported repository>/Cornell_CM_Production_Scripts/scans/<board id>/<date>) and once into the shared track trigger output directories (/nfs/cms/tracktrigger/apollo/<board id>/scans/<date>), where <date> will automatically be generated of the form mm-dd-yy:
 
-To convert a csv input file to a pdf + png file and store them in the same directory as the csv input file, run the following command in <path to this imported repository>/Cornell_CM_Production_Scripts/IBERTpy/python, where <board> is the id of the scanned board (e.g. CM203) and date is of the form mm-dd-yy:
+To convert all of the csv files to pdf + png files and store them in the same directory as the csv files, run the following commands in <path to this imported repository>/Cornell_CM_Production_Scripts/IBERTpy/python, where <board id> is the id of the scanned board (e.g. CM3002) and date is of the form mm-dd-yy:
 ```sh
-$ python3 generate_all_plots.py <board> <date of scans>
+$ export PATH="/cdat/tem/pw94/miniconda/bin:${PATH}"
+$ . "/cdat/tem/pw94/miniconda/etc/profile.d/conda.sh"
+$ conda activate
+$ python3 generate_all_plots.py <board id> <date of scans>
 ```
+The first three of the above commands are to set up the necessary python environment.
 
-After generating pdfs and png files, one can generate a summary pdf that organizes all eyescans of the standard CM203 MGT configuration into a more easily navigated summary document by entering the following command in <path to this imported repository>/Cornell_CM_Production_Scripts/IBERTpy/latex:
+After generating pdfs and png files, one can generate a summary pdf that organizes all eyescans of the standard rev3 MGT configuration into a more easily navigated summary document by entering the following command in <path to this imported repository>/Cornell_CM_Production_Scripts/IBERTpy/latex:
 ```sh
-$ pdflatex --jobname=<desired name of output file, don't add on ".pdf"> "\def\dateofscans{<date of scans>} \input{eyescan_summary.tex}"
+$ pdflatex --jobname=summary_eyescans --output-directory=/nfs/cms/tracktrigger/apollo/<board id>/scans/<date of scans> "\def\dateofscans{<date of scans>} \def\CM{<board id>} \input{rev3_prodtest_eyescan_summary.tex}"
 ```
-Upon encountering a warning, type the letter r and hit enter to force the computer to ignore all further warnings.  If you wish to save the output files to a different directory you can add --output-directory=<desired output directory> as an additional argument after --jobname.
+Upon encountering a warning, type the letter r and hit enter to force the computer to ignore all further warnings. The "jobname" argument sets the name of the output pdf. If you wish to save the output files to a different directory you can change --output-directory=<desired output directory>. Finally, THE ABOVE COMMAND MUST BE RUN TWICE for the summary document's table of contents to generate properly.
   
 ## C2C-link Eyescans Script
 - **Python 2.7** 
@@ -150,15 +152,15 @@ Both of these files have a line near the top of the code that specifies the FPGA
 xcvu13p_0 for FPGA 1 and xcvu13p_1 for FPGA 2.
 
 #### Running the autotuning script
-The autotuning script is run by the following command:
+The autotuning script for rev 3 production testing is run by the following command:
 
 ```sh
-$ python3 run.py
+$ python3 run_rev3_prodtest.py
 ```
 
-It loads the parameters in *config.ini*, opening two vivado instances and
+It loads the parameters in *config_rev3_prodtest.ini*, opening two vivado instances and
 connecting one to the transmitter and the other to the receiver FPGA. The
-initial setting it then loaded through TCL files, which can set the initial
+initial setting is then loaded through TCL files, which can set the initial
 tuning configuration, PRBS pattern, DFE setting and invert RX/TX differential
 pins (if this is required by the PCB design. The script then tests everyone of
 the tuning configurations, saves its performance in a CSV file and then presents
