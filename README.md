@@ -8,9 +8,19 @@
 - **fpdf** (the package used to make a pdf file from converting a csv file of a Vivado eyescan. For instruction on how to install it, please follow https://github.com/reingart/pyfpdf)
 - **FF Connectors** connected in standard configuration
 ### Instructions for running the rev3 production test eyescan scripts
-The IBERTpy is a set of modified scripts from https://github.com/mvsoliveira/IBERTpy to convert Vivado eyescans from .csv to .pdf and .png formats. The path to a csv input file is structured for Cornell CM Production in the following manner: **Cornell_CM_Production_Scripts/scans/CM#/mm-dd-yy/*.csv'**. 
+The IBERTpy is a set of modified scripts from https://github.com/mvsoliveira/IBERTpy to convert Vivado eyescans from .csv to .pdf and .png formats. The path to a csv input file is structured for Cornell CM Production in the following manner: **Cornell_CM_Production_Scripts/scans/CM#/mm-dd-yy/*.csv'**.
 
-To generate these csv files, first connect to the rev3 board in Vivado and establish the virtual cable if needed for Vivado to detect the FPGAs as devices.  Program the FPGAs with the desired firmware.  If the rev3 board is connected to the lnx4189, the following firmware properly programs the two FPGAs for eyescans of the standard links:
+We would like to generate eye diagrams of the links. To do this, we must first
+program the board. Connect to the rev3 board in the Vivado GUI, and program the FPGAs
+with the desired firmware. If the test is being run on the lnx231 with copper cables,
+program the board with the firmwares immediately below. DO NOT USE THESE BIT FILES IF
+THE LINKS ARE SET UP WITH OPTICAL CABLES. DOING SO MAY DAMAGE THE BOARD!
+```sh
+FPGA1 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p1_VU13p-1-SM_USP_LHS_25G_DC_on_12ch_site.bit
+FPGA2 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p2_VU13p-1-SM_USP_LHS_25G_DC_on_12ch_site.bit
+```
+
+If the rev3 board is connected to the lnx4189 with links connected via copper cable, the following firmware properly programs the two FPGAs for eyescans of the standard links:
 ```sh
 FPGA1 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p1_VU13p-1-SM_USP_heaters_TF.bit
 FPGA2 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p2_VU13p-1-SM_USP_heaters_TF.bit
@@ -152,10 +162,10 @@ Both of these files have a line near the top of the code that specifies the FPGA
 xcvu13p_0 for FPGA 1 and xcvu13p_1 for FPGA 2.
 
 #### Running the autotuning script
-The autotuning script for rev 3 production testing is run by the following command:
-
+The autotuning script for rev 3 production testing is run by the following command. The
+argument <board id> should correspond to the board being tuned (e.g. CM3003).
 ```sh
-$ python3 run_rev3_prodtest.py
+$ python3 run_rev3_prodtest.py <board id>
 ```
 
 It loads the parameters in *config_rev3_prodtest.ini*, opening two vivado instances and
