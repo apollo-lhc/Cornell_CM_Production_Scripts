@@ -20,7 +20,7 @@ FPGA1 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p1_VU13p-1
 FPGA2 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p2_VU13p-1-SM_USP_LHS_25G_DC_on_12ch_site.bit
 ```
 
-If the rev3 board is connected to the lnx4189 with links connected via copper cable, the following firmware properly programs the two FPGAs for eyescans of the standard links:
+If the rev3 board is connected to the lnx4189 with links connected via optical cable, the following firmware properly programs the two FPGAs for eyescans of the standard links:
 ```sh
 FPGA1 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p1_VU13p-1-SM_USP_heaters_TF.bit
 FPGA2 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p2_VU13p-1-SM_USP_heaters_TF.bit
