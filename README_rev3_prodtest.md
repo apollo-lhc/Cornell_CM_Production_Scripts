@@ -30,7 +30,7 @@ The autotuning scripts tune each link's paramaeters to maximize the link open ar
 Navigate to /nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/autotuning. 
 Then run the autotuning scripts for rev 3 production testing with the command below. It
 will take a while to run. As an example, if the board being tested has the id CM3003,
-the <board id> argument should be CM3003.
+the '<board id>' argument should be CM3003.
 ```sh
 $ python3 run_rev3_prodtest.py <board id>
 ```
@@ -62,15 +62,15 @@ This command will run eyescans one at a time over all of the links in the standa
 configuration and save then as csv files. The current version of the command that runs the
 eyescans in Vivado saves the scans to two locations: once into the downloaded
 Cornell_CM_Production_Scripts output directories
-(/nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/scans/<board id>/<date>)
+(/nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/scans/'<board id>'/'<date>')
 and once into the shared track trigger output directories
-(/nfs/cms/tracktrigger/apollo/<board id>/scans/<date>), where <date> will be automatically
+(/nfs/cms/tracktrigger/apollo/'<board id>'/scans/'<date>'), where '<date>' will be automatically
 generated of the form mm-dd-yy.
 
 To convert all of the csv files to pdf + png files and store them in the same directory
 as the csv files, run the following commands in
 /nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/IBERTpy/python, where
-<board id> is the id of the scanned board (e.g. CM3002) and date is of the form mm-dd-yy:
+'<board id>' is the id of the scanned board (e.g. CM3002) and date is of the form mm-dd-yy:
 ```sh
 $ python3 generate_all_plots.py <board id> <date of scans>
 ```
@@ -84,5 +84,5 @@ $ pdflatex --jobname=summary_eyescans --output-directory=/nfs/cms/tracktrigger/a
 ```
 Upon encountering a warning, type the letter r and hit enter to force the computer to ignore
 all further warnings. The "jobname" argument sets the name of the output pdf. If you wish to
-save the output files to a different directory you can change --output-directory=<desired output directory>.
+save the output files to a different directory you can change --output-directory='<desired output directory>'.
 Finally, THE ABOVE pdflatex COMMAND MUST BE RUN TWICE for the summary document's table of contents to generate properly.
