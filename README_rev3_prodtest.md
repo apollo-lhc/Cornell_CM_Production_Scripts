@@ -5,14 +5,14 @@ Running these commands requires an up to date python and vivado installation.
 You can tell the rev 3 production scripts how to find the python installation
 on Cornell computers by running the following commands:
 ```sh
-$ export PATH="/cdat/tem/pw94/miniconda/bin:${PATH}"
-$ . "/cdat/tem/pw94/miniconda/etc/profile.d/conda.sh"
-$ conda activate
+export PATH="/cdat/tem/pw94/miniconda/bin:${PATH}"
+. "/cdat/tem/pw94/miniconda/etc/profile.d/conda.sh"
+conda activate
 ```
 Then, run these commands to do the same for vivado:
 ```sh
-$ source /nfs/opt/Xilinx/Vivado/2020.2/settings64.sh
-$ export XILINXD_LICENSE_FILE=2100@lnxlm
+source /nfs/opt/Xilinx/Vivado/2020.2/settings64.sh
+export XILINXD_LICENSE_FILE=2100@lnxlm
 ```
 
 Next, program the board. Connect to the rev3 board in the Vivado GUI, and program the FPGAs
@@ -32,7 +32,7 @@ Then run the autotuning scripts for rev 3 production testing with the command be
 will take a while to run. As an example, if the board being tested has the id CM3003,
 the `<board id>` argument should be CM3003.
 ```sh
-$ python3 run_rev3_prodtest.py <board id>
+python3 run_rev3_prodtest.py <board id>
 ```
 
 It loads the parameters in *config_rev3_prodtest.ini*, opening two vivado instances and
@@ -72,7 +72,7 @@ as the csv files, run the following commands in
 /nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/IBERTpy/python, where
 `<board id>` is the id of the scanned board (e.g. CM3002) and date is of the form mm-dd-yy:
 ```sh
-$ python3 generate_all_plots.py <board id> <date of scans>
+python3 generate_all_plots.py <board id> <date of scans>
 ```
 If you encounter a problem, check that your python environment is set up correctly.
 
@@ -80,7 +80,7 @@ After generating pdfs and png files, one can generate a summary pdf that organiz
 of the standard rev3 MGT configuration into a more easily navigated summary document by entering
 the following command in /nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/IBERTpy/latex:
 ```sh
-$ pdflatex --jobname=summary_eyescans --output-directory=/nfs/cms/tracktrigger/apollo/<board id>/scans/<date of scans> "\def\dateofscans{<date of scans>} \def\CM{<board id>} \input{rev3_prodtest_eyescan_summary.tex}"
+pdflatex --jobname=summary_eyescans --output-directory=/nfs/cms/tracktrigger/apollo/<board id>/scans/<date of scans> "\def\dateofscans{<date of scans>} \def\CM{<board id>} \input{rev3_prodtest_eyescan_summary.tex}"
 ```
 Upon encountering a warning, type the letter r and hit enter to force the computer to ignore
 all further warnings. The "jobname" argument sets the name of the output pdf. If you wish to
