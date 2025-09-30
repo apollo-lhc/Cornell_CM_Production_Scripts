@@ -58,13 +58,13 @@ for {set r 19} {$r>3} {incr r -1} {
 set i 0
 foreach Tx $Txs Rx $Rxs {
     puts "MGT $i" 
-    puts [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*2542/0_1*"] 
-    puts [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*2542/1_1*"]
-    set xil_newLink [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*2542/0_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*2542/1_1*"]] 0]]
+    puts [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*00001631afcb01/0_1*"] 
+    puts [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*00001631afcb01/1_1*"]
+    set xil_newLink [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*00001631afcb01/0_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*00001631afcb01/1_1*"]] 0]]
     lappend xil_newLinks $xil_newLink
     
     incr i 1
-    set xil_newLink1 [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Rx*] "*2542/1_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Tx*] "*2542/0_1*"]] 0]]
+    set xil_newLink1 [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Rx*] "*00001631afcb01/1_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Tx*] "*00001631afcb01/0_1*"]] 0]]
     lappend xil_newLinks $xil_newLink1 
     incr i 1
     ;
@@ -124,13 +124,13 @@ puts $TxFF1s
 
 foreach Tx $TxFF1s Rx $RxFF1s {
     puts "MGT $i"
-    puts [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*2542/0_1*"]
-    puts [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*2542/0_1*"]
-    set xil_newLink [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*2542/0_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*2542/0_1*"]] 0]]
+    puts [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*00001631afcb01/0_1*"]
+    puts [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*00001631afcb01/0_1*"]
+    set xil_newLink [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*00001631afcb01/0_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*00001631afcb01/0_1*"]] 0]]
     lappend xil_newLinks $xil_newLink
     if {$Tx != $Rx} {
 	incr i 1
-	set xil_newLink1 [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Rx*] "*2542/0_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Tx*] "*2542/0_1*"]] 0]]
+	set xil_newLink1 [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Rx*] "*00001631afcb01/0_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Tx*] "*00001631afcb01/0_1*"]] 0]]
 	lappend xil_newLinks $xil_newLink1
     }
     incr i 1
@@ -187,13 +187,13 @@ for {set t 48} {$t<60} {incr t} {
 
 foreach Tx $TxFF2s Rx $RxFF2s {
     puts "MGT $i"
-    puts [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*2542/1_1*"]
-    puts [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*2542/1_1*"]
-    set xil_newLink [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*2542/1_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*2542/1_1*"]] 0]]
+    puts [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*00001631afcb01/1_1*"]
+    puts [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*00001631afcb01/1_1*"]
+    set xil_newLink [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Tx*] "*00001631afcb01/1_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Rx*] "*00001631afcb01/1_1*"]] 0]]
     lappend xil_newLinks $xil_newLink
     if {$Tx != $Rx} {
 	incr i 1
-	set xil_newLink1 [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Rx*] "*2542/1_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Tx*] "*2542/1_1*"]] 0]]
+	set xil_newLink1 [create_hw_sio_link -description "MGT $i" [lindex [get_hw_sio_txs [lsearch -all -inline [lsearch -all -inline $mgt_tx_list *$Rx*] "*00001631afcb01/1_1*"]] 0] [lindex [get_hw_sio_rxs [lsearch -all -inline [lsearch -all -inline $mgt_rx_list *$Tx*] "*00001631afcb01/1_1*"]] 0]]
 	lappend xil_newLinks $xil_newLink1
     }
     incr i 1
@@ -204,7 +204,7 @@ foreach Tx $TxFF2s Rx $RxFF2s {
 #puts $mgt_tx_list
 
 #foreach Tx $Txs Rx $Rxs { 
-#2542/0_1 2542/1_1#
+#00001631afcb01/0_1 00001631afcb01/1_1#
 #    puts [lsearch -inline $mgt_tx_list $Tx*]
 #}
 # for {set i 0} {$i<$mgt_len} {incr i} {
