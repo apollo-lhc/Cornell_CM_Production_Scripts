@@ -20,8 +20,8 @@ with the desired firmware. If the test is being run on the lnx231 with copper ca
 program the board with the firmwares immediately below. DO NOT USE THESE BIT FILES IF
 THE LINKS ARE SET UP WITH OPTICAL CABLES. DOING SO MAY DAMAGE THE BOARD!
 ```sh
-FPGA1 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p1_VU13p-1-SM_USP_LHS_25G_DC_on_12ch_site.bit
-FPGA2 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p2_VU13p-1-SM_USP_LHS_25G_DC_on_12ch_site.bit
+FPGA1 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p1_VU13p-1-SM_USP_LHS_25G_DC_on_12ch_site_25GRHS.bit
+FPGA2 bitstream: /nfs/cms/tracktrigger/rzou/firmware/top_Cornell_rev3_p2_VU13p-1-SM_USP_LHS_25G_DC_on_12ch_site_25GRHS.bit
 ```
 
 ### Running the autotuning script
