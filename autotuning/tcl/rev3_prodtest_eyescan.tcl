@@ -22,8 +22,12 @@ set nfspath /nfs/cms/tracktrigger/apollo/${CM}/scans/${date}
 #set nfspath /nfs/cms/tracktrigger/apollo/CM3002/scans/${date}
 file mkdir $path
 file mkdir $nfspath
-file attributes $path -permissions rwxrwxr-x
-file attributes $nfspath -permissions rwxrwxr-x
+#file attributes /nfs/cms/tracktrigger/apollo/${CM} -permissions rwxrwxr-x
+#file attributes [file join $dir "../../scans/${CM}/${date}"]
+#file attributes $path -permissions rwxrwxr-x
+#file attributes $nfspath -permissions rwxrwxr-x
+exec chmod -R g+w [file join $dir "../../scans"]
+exec chmod -R g+w /nfs/cms/tracktrigger/apollo/${CM}
 #Also, be sure to first modify these lines to save the scans how you would like (e.g. /mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/01-19-22)
 
 set Quad_dict {"X0Y56" "Quad_134_" "X0Y57" "Quad_134_" "X0Y58" "Quad_134_" "X0Y59" "Quad_134_"
