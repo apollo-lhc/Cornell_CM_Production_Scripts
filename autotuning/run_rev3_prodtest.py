@@ -197,7 +197,12 @@ print("-- Creating dir ----------------")
 #create_dir("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date)
 if len(sys.argv) != 2:
     print("Error: Incorrect number of arguments. Please add the CM id as an argument when running this script, e.g. python3 run_rev3_prodtest.py CM3002")
-os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+#os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+if os.path.isdir("/nfs/cms/tracktrigger/apollo/" + sys.argv[1]):
+    os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+else:
+    os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+    os.system("chmod -R g+w /nfs/cms/tracktrigger/apollo/" + sys.argv[1])
 print("Saving autotune results to /nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date)
 print("-- Main loop -------------------")
 link_counter = 0

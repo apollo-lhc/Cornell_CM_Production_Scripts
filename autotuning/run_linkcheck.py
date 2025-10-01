@@ -163,6 +163,7 @@ preclean_mgt_rx = mgt_rx_0_1 + mgt_rx_1_1 + mgt_rx_0to1 + mgt_rx_1to0
 preclean_mgt_tx = mgt_tx_0_1 + mgt_tx_1_1 + mgt_tx_0to1 + mgt_tx_1to0
 mgt_rx = list(filter(None, preclean_mgt_rx))
 mgt_tx = list(filter(None, preclean_mgt_tx))
+print(mgt_rx)
 TXDIFFSWING = format_to_list(TXDIFFSWING)
 TXPOST = format_to_list(TXPOST)
 TXPRE = format_to_list(TXPRE)
@@ -227,7 +228,12 @@ print("-- Creating dir ----------------")
 #create_dir("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date)
 if len(sys.argv) != 2:
     print("Error: Incorrect number of arguments. Please add the CM id as an argument when running this script, e.g. python3 run_linkcheck.py CM3002")
-os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+#os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+if os.path.isdir("/nfs/cms/tracktrigger/apollo/" + sys.argv[1]):
+    os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+else:
+    os.makedirs("/nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date, exist_ok=True)
+    os.system("chmod -R g+w /nfs/cms/tracktrigger/apollo/" + sys.argv[1])
 print("Saving autotune results to /nfs/cms/tracktrigger/apollo/" + sys.argv[1] + "/" + results_dir + date)
 print("-- Main loop -------------------")
 link_counter = 0
@@ -372,22 +378,22 @@ for mgt_idx in range(len(mgt_rx)):
 
                     if int(float(best_area)) > desired_area:
                         break
-                    if bad_biterror_counter > 5:
-                        break
+                    #if bad_biterror_counter > 5:
+                    #    break
                 if int(float(best_area)) > desired_area:
                     break
-                if bad_biterror_counter > 5:
-                    break
+                #if bad_biterror_counter > 5:
+                #    break
             if int(float(best_area)) > desired_area:
                 break
-            if bad_biterror_counter > 5:
-                break
+            #if bad_biterror_counter > 5:
+            #    break
         if int(float(best_area)) > desired_area:
             break
-        if bad_biterror_counter > 5:
-            print("LINK ERROR: Link has a bit error rate that is too high to properly autotune.")
-            print("Skipping to next link to autotune")
-            break
+        #if bad_biterror_counter > 5:
+        #    print("LINK ERROR: Link has a bit error rate that is too high to properly autotune.")
+        #    print("Skipping to next link to autotune")
+        #    break
 
 
 
