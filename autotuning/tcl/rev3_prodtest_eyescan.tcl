@@ -26,7 +26,7 @@ file mkdir $nfspath
 #file attributes [file join $dir "../../scans/${CM}/${date}"]
 #file attributes $path -permissions rwxrwxr-x
 #file attributes $nfspath -permissions rwxrwxr-x
-exec chmod -R g+w [file join $dir "../../scans"]
+exec chmod -R g+w [file join $dir "../../scans/${CM}"]
 exec chmod -R g+w /nfs/cms/tracktrigger/apollo/${CM}
 #Also, be sure to first modify these lines to save the scans how you would like (e.g. /mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/01-19-22)
 
