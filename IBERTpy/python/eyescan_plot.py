@@ -145,14 +145,19 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
                 
     # getting eye data
     [img, xticks, yticks] = get_eye(scan_list)
+    print("xticks: ", xticks)
 
     # Defining mask
     size = [len(xticks), len(yticks)]
 #-0.118
-    mask = gen_diamond_mask(size, 0.382, 0.3799)
+    #mask = gen_diamond_mask(size, 0.382, 0.3799)
+    mask = gen_diamond_mask(size, 0.205, 0.2598) #constricted scan range
 ##Mask Criteria: https://support.xilinx.com/s/question/0D52E00006iHnb2SAC/any-parameters-we-can-tune-gty-transceiver-to-make-eye-open-area-bigger?language=en_US 
-# y: 61 steps. ym: -127->127 steps: (127-61/2)/(127x2) = 0.3799
-# x: 0.236 UI wide. xm:-0.5->0.5 UIs: (0.5-0.236/2)/(0.5x2) = 0.382
+# y mask width: 61 steps. ym: -127->127 steps: (127-61/2)/(127x2) = 0.3799
+# x mask width: 0.236 UI wide. xm:-0.5->0.5 UIs: (0.5-0.236/2)/(0.5x2) = 0.382
+#PROPOSED CHANGE for constricted scan range
+# y mask width: 61 steps. ym: -63.5->63.5 steps: (63.5-61/2)/(63.5x2) = 0.2598
+# x mask width: 0.236 UI wide. xm:-0.2->0.2 UIs: (0.2-0.236/2)/(0.2x2) = 0.205
     #mask = gen_hexagon_mask(size, 0.22, 0.375, 0.2)
 #    mask = gen_decagon_mask(size, *mask_x1x2x3y1y2)
 
@@ -168,6 +173,8 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
         color = 'green'
     else:
         color = 'red'
+        print("The link in ", filename_i, " has insufficient open area and FAILED the eyescan test.\n") #Alec added to get script to say if a link failed
+        return filename_i
     cmap = mpl.colors.LinearSegmentedColormap.from_list('my_cmap', ['white', color], 2)
     my_cmap = cmap(np.arange(cmap.N))
     my_cmap[:, -1] = np.linspace(0, 1, cmap.N)
@@ -177,6 +184,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     def get_extent(xticks_n,yticks_r):
         xmin = xticks_n[0]
         xmax = xticks_n[-1]
+        print("xmin: ", xmin, " xmax: ", xmax)
         xstep = (xmax-xmin)/(len(xticks_n)-1)
         xmin_e = xmin-xstep/2
         xmax_e = xmax+xstep/2
@@ -190,7 +198,9 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
 
     # Generating, formating plot    
     plt.figure(num=None, figsize=(10, 7), dpi=80, facecolor='w', edgecolor='k')
-    xticks_n = [float(x)/(2*xticks[-1]) for x in xticks]
+    #xticks_n = [float(x)/(2*xticks[-1]) for x in xticks] #sets x range to -0.5 to 0.5
+    xticks_n = [float(x)/(5*xticks[-1]) for x in xticks] #sets x range to -0.2 to 0.2
+    print("xticks_n: ", xticks_n)
     yticks_r = [y for y in reversed(yticks)]
     myplot = plt.imshow(np.log10(img),interpolation='none', vmin = minlog10ber, vmax = 0, aspect='auto', extent = get_extent(xticks_n,yticks_r), cmap = 'jet')
     if not mask==[]:

@@ -27,27 +27,38 @@ else:
     filename_o_list = [p.replace('csv','pdf') for p in filename_i_list]
     filename_nfso_list = [n.replace('../../scans/' + sys.argv[1] + '/' + sys.argv[2], '/nfs/cms/tracktrigger/apollo/' + sys.argv[1] + '/scans/' + sys.argv[2]) for n in filename_o_list]
 
-    yticks = list(np.arange(-127,0,16))+[0]+list(np.arange(127,0,-16))[-1::-1]
-    xticks = list(np.arange(-0.5,0.625,0.125))
+    #yticks = list(np.arange(-127,0,16))+[0]+list(np.arange(127,0,-16))[-1::-1]
+    #xticks = list(np.arange(-0.5,0.625,0.125))
+    #Proposed change 127->63.5, 0.5->0.2, xticks 0.125->0.05
+    yticks = list(np.arange(-63.5,0,16))+[0]+list(np.arange(63.5,0,-16))[-1::-1]
+    xticks = list(np.arange(-0.2,0.25,0.05))
     k=1
     #if os.path.exists('..\scans\eyedata.csv'):
     #    pass
     #else
     #    eyedict
 
+    failed_link_list_o = []
     for i,o in zip(filename_i_list, filename_o_list):
         print('Begin generating plots for user directory.')
         print('Saving file {0:03d} out of {1:d}.'.format(k,len(filename_i_list)))
         if (not os.path.exists(o)) or overwrite:
-            eyescan_plot(i, o, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=xticks, yticks_f=yticks, mask_x1x2x3y1y2=(0.25, 0.4, 0.45, 0.25, 0.28))
+            failed_link_list_o.append(eyescan_plot(i, o, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=xticks, yticks_f=yticks, mask_x1x2x3y1y2=(0.25, 0.4, 0.45, 0.25, 0.28)))
         k += 1
         #break
+    failed_link_list_o = list(filter(None, failed_link_list_o))
 
+    failed_link_list_nfso = []
     k=1
     for i,nfso in zip(filename_i_list, filename_nfso_list):
         print('Begin generating plots for /nfs directory.')
         print('Saving file {0:03d} out of {1:d}.'.format(k,len(filename_i_list)))
         if (not os.path.exists(nfso)) or overwrite:
-            eyescan_plot(i, nfso, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=xticks, yticks_f=yticks, mask_x1x2x3y1y2=(0.25, 0.4, 0.45, 0.25, 0.28))
+            failed_link_list_nfso.append(eyescan_plot(i, nfso, minlog10ber, colorbar=True, xaxis=True, yaxis=True, xticks_f=xticks, yticks_f=yticks, mask_x1x2x3y1y2=(0.25, 0.4, 0.45, 0.25, 0.28)))
         k += 1
-        #break 
+        #break
+    failed_link_list_nfso = list(filter(None, failed_link_list_nfso))
+
+    print("List of links that fail the open area test:\n", failed_link_list_o, "\n")
+    print("List of links that fail the open area test:\n", failed_link_list_nfso, "\n")
+    print("The above lists should show the same links failing if the eyescan scripts were run properly.")

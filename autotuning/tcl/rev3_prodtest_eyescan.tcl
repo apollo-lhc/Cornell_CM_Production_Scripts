@@ -121,6 +121,8 @@ foreach Tx $Txs Rx $Rxs {
     set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Tx*->*00001631afcb01/1_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
+    set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
+    set_property VERTICAL_RANGE {50%} [get_hw_sio_scans $xil_newScan]
     run_hw_sio_scan [get_hw_sio_scans $xil_newScan]
     incr i 1
     wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
@@ -137,6 +139,8 @@ foreach Tx $Txs Rx $Rxs {
     set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Rx*->*00001631afcb01/0_1*$Tx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
+    set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
+    set_property VERTICAL_RANGE {50%} [get_hw_sio_scans $xil_newScan]
     run_hw_sio_scan [get_hw_sio_scans $xil_newScan]
     incr i 1
     wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
@@ -204,6 +208,8 @@ foreach Tx $TxFF1s Rx $RxFF1s {
     set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Tx*->*00001631afcb01/0_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
+    set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
+    set_property VERTICAL_RANGE {50%} [get_hw_sio_scans $xil_newScan]
     run_hw_sio_scan [get_hw_sio_scans $xil_newScan]
     incr i 1
     wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
@@ -223,6 +229,8 @@ foreach Tx $TxFF1s Rx $RxFF1s {
 	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Rx*->*00001631afcb01/0_1*$Tx*"]] 0 ]]
 	set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
+	set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
+	set_property VERTICAL_RANGE {50%} [get_hw_sio_scans $xil_newScan]
 	run_hw_sio_scan [get_hw_sio_scans $xil_newScan]
 	incr i 1
 	wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
@@ -283,6 +291,8 @@ foreach Tx $TxFF2s Rx $RxFF2s {
     set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Tx*->*00001631afcb01/1_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
+    set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
+    set_property VERTICAL_RANGE {50%} [get_hw_sio_scans $xil_newScan]
     run_hw_sio_scan [get_hw_sio_scans $xil_newScan]
     incr i 1
     wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
@@ -302,6 +312,8 @@ foreach Tx $TxFF2s Rx $RxFF2s {
 	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Rx*->*00001631afcb01/1_1*$Tx*"]] 0 ]]
 	set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
+	set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
+	set_property VERTICAL_RANGE {50%} [get_hw_sio_scans $xil_newScan]
 	run_hw_sio_scan [get_hw_sio_scans $xil_newScan]
 	incr i 1
 	wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
