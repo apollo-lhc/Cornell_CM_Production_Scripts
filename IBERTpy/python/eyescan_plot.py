@@ -145,7 +145,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
                 
     # getting eye data
     [img, xticks, yticks] = get_eye(scan_list)
-    print("xticks: ", xticks)
+    #print("xticks: ", xticks)
 
     # Defining mask
     size = [len(xticks), len(yticks)]
@@ -184,7 +184,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     def get_extent(xticks_n,yticks_r):
         xmin = xticks_n[0]
         xmax = xticks_n[-1]
-        print("xmin: ", xmin, " xmax: ", xmax)
+        #print("xmin: ", xmin, " xmax: ", xmax)
         xstep = (xmax-xmin)/(len(xticks_n)-1)
         xmin_e = xmin-xstep/2
         xmax_e = xmax+xstep/2
@@ -200,7 +200,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     plt.figure(num=None, figsize=(10, 7), dpi=80, facecolor='w', edgecolor='k')
     #xticks_n = [float(x)/(2*xticks[-1]) for x in xticks] #sets x range to -0.5 to 0.5
     xticks_n = [float(x)/(5*xticks[-1]) for x in xticks] #sets x range to -0.2 to 0.2
-    print("xticks_n: ", xticks_n)
+    #print("xticks_n: ", xticks_n)
     yticks_r = [y for y in reversed(yticks)]
     myplot = plt.imshow(np.log10(img),interpolation='none', vmin = minlog10ber, vmax = 0, aspect='auto', extent = get_extent(xticks_n,yticks_r), cmap = 'jet')
     if not mask==[]:
