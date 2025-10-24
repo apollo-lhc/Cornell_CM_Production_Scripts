@@ -174,7 +174,6 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     else:
         color = 'red'
         print("The link in ", filename_i, " has insufficient open area and FAILED the eyescan test.\n") #Alec added to get script to say if a link failed
-        return filename_i
     cmap = mpl.colors.LinearSegmentedColormap.from_list('my_cmap', ['white', color], 2)
     my_cmap = cmap(np.arange(cmap.N))
     my_cmap[:, -1] = np.linspace(0, 1, cmap.N)
@@ -301,3 +300,6 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     pdf.image(filename_o.strip("pdf")+"png", x = None, y = None, w = 0, h = 0, type = '', link = '')
     pdf.output(filename_o, 'F')
     plt.close()
+
+    if not Passed:
+        return filename_i
