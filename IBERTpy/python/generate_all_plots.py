@@ -11,6 +11,7 @@ from glob import glob
 import os.path
 import numpy as np
 import sys
+import re
 
 minlog10ber = -8
 overwrite = True
@@ -58,7 +59,23 @@ else:
         k += 1
         #break
     failed_link_list_nfso = list(filter(None, failed_link_list_nfso))
+    #work in progress begin
+    pattern_to_remove = r"_\test|\../../scans/"+sys.argv[1]+'/'+sys.argv[2]+"/eyescan_|\.csv"
+    failed_link_list = [re.sub(pattern_to_remove, "", item) for item in failed_link_list_nfso]
+    failed_output_dir = '/nfs/cms/tracktrigger/apollo/' + sys.argv[1] + '/scans/' + sys.argv[2]
+    failed_output_file = 'failed_links.txt'
+    full_failed_output_path = os.path.join(failed_output_dir, failed_output_file)
+    os.makedirs(failed_output_dir, exist_ok=True)
+    delimiter = " \n "
+    failed_link_string = delimiter.join(failed_link_list)
 
-    print("List of links that fail the open area test:\n", failed_link_list_o, "\n")
-    print("List of links that fail the open area test:\n", failed_link_list_nfso, "\n")
-    print("The above lists should show the same links failing if the eyescan scripts were run properly.")
+    with open(full_failed_output_path, 'w') as f:
+        f.write('Failed links: ')
+        f.write(failed_link_string)
+        f.write('\n')
+    #work in progress end
+
+    #print("List of links that fail the open area test:\n", failed_link_list_o, "\n")
+    #print("List of links that fail the open area test:\n", failed_link_list_nfso, "\n")
+    #print("The above lists should show the same links failing if the eyescan scripts were run properly.")
+    print("List of links that fail the open area test:\n", failed_link_string)

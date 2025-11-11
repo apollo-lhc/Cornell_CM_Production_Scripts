@@ -74,7 +74,10 @@ as the csv files, run the following commands in
 ```sh
 python3 generate_all_plots.py <board id> <date of scans>
 ```
-If you encounter a problem, check that your python environment is set up correctly.
+In addition to generating the desired pdf and png files, this script will also generate a text file 
+that contains the links that failed the eyescan test. This text file will be incorporated into a
+summary pdf along with the scans. If you encounter a problem, check that your python environment
+is set up correctly.
 
 After generating pdfs and png files, one can generate a summary pdf that organizes all eyescans
 of the standard rev3 MGT configuration into a more easily navigated summary document by entering

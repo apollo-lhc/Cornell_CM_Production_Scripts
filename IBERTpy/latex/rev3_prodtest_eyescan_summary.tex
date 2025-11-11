@@ -13,6 +13,7 @@
 %\usepackage{comment}
 \usepackage{intcalc}
 \usepackage{xcolor} % Required for specifying custom colors
+\usepackage{verbatim}
 \usepackage[nodayofweek]{datetime}
 \definecolor{grey}{rgb}{0.9,0.9,0.9} % Color of the box surrounding the title
 
@@ -20,12 +21,10 @@
 \newlength\imagewidth
 
 \newcommand{\includegraphicsmaybe}[1]{\IfFileExists{#1}{\includegraphics[width=\linewidth]{#1}}{\includegraphics[width=\linewidth]{not_found.pdf}}}
-\newcommand\apolloid{204} %This should be the id of the apollo slot used for these scans, e.g. 204
+%\newcommand\apolloid{204} %This should be the id of the apollo slot used for these scans, e.g. 204
 %\newcommand\dateofscans{04-04-23} %Enter the date on which the scans were made (e.g. 06-13-22), assuming eyescans were properly filed
 %\newdateformat{mydate}{\twodigit{\THEMONTH}-\twodigit{\THEDAY}-\twodigit{\THEYEAR}}     maybe use this instead?
 %\newcommand\CM{CM205}
-%Alec figure out how to implement these variable definitions as arguments and test all of this later, this might work:
-%pdflatex "\def\dateofscans{03-15-25} \def\CM{CM205} \input{rev3_prodtest_eyescan_summary.tex}"
 
 \usepackage{booktabs}
 
@@ -43,6 +42,7 @@
 \newcommand{\modifiedincludepdf}[3]{
   \setcounter{currentpagecounter}{0}
   \includepdf[pages=#1,pagecommand=\addlabelstoallincludedpages{#2}]{#3}}
+\newcounter{nextpage}
 \commentlines{
 \newcommand{\Quaddict}[1]{
   \ifthenelse{\equal{#1}{X0Y4}}{Quad\_121\_}{}
@@ -235,7 +235,7 @@
         \fontsize{80pt}{40pt}\selectfont % Title font size, the first argument is the font size and the second is the line spacing, adjust depending on title length
         \vspace{0.7cm} % Space between the start of the title and the top of the grey box
 
-        \CM Apollo \apolloid\\
+        \CM\\
         Serial Link Test Report\\
         Date of Scans: \dateofscans\\
         
@@ -243,7 +243,7 @@
         }
       }
     }
-  
+
   \vfill % Space between the title box and author information
   
   %------------------------------------------------
@@ -282,9 +282,15 @@
 
 
 %REAL START OF PDF
+\chapter{Links Failing Eyescans}
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\verbatiminput{/nfs/cms/tracktrigger/apollo/\CM/scans/\dateofscans/failed_links.txt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Links from xcvu13p\_0 to xcvu13p\_1 Overview (1 of 2)}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %links between xcvu13p_0 & xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
@@ -299,6 +305,7 @@
 {\begin{subfigure}{0.25\textwidth}
 %\hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_\Quaddict{X1Y\number}X1Y\number_to_F2_\Quaddict{X1Y\Rx}X1Y\Rx.png}}
 \hyperlink{page.\i}{\includegraphicsmaybe{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\number_to_F2_Quad_\QuadRx_X1Y\Rx.png}}
+%\hyperlink{page.\i}{\includegraphics[width=\linewidth]{../../scans/\CM/\dateofscans/eyescan_F1_Quad_\QuadTx_X1Y\number_to_F2_Quad_\QuadRx_X1Y\Rx.png}}
 \end{subfigure}
 
 }{\begin{subfigure}{0.25\textwidth}
@@ -317,7 +324,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Links from xcvu13p\_0 to xcvu13p\_1 Overview (2 of 2)}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %links between xcvu13p_0 & xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
@@ -342,7 +352,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Links from xcvu13p\_1 to xcvu13p\_0 Overview (1 of 2)}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
 %\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {4,...,17,20,21,...,33}{
@@ -366,7 +379,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Links from xcvu13p\_1 to xcvu13p\_0 Overview (2 of 2)}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
 %\foreach \number [count=\nxtrow from int(1),count=\i from int(\thepage+2),evaluate=\number as \Rx using int(63-\number)] in {34,...,59}{
@@ -393,7 +409,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{FF Links on xcvu13p\_0 Overview (1 of 2)}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %FF links for xcvu13p_0 to xcvu13p_0
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
@@ -418,7 +437,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{FF Links on xcvu13p\_0 Overview (2 of 2)}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %FF links for xcvu13p_0 to xcvu13p_0
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example     %MIGHT HAVE TO FIX THIS CROSSOVER CABLES GO 0123->3210 rather than 0123->0123 
@@ -465,7 +487,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{FF Links on xcvu13p\_1 Overview (1 of 2)}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %FF links for xcvu13p_1 to xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
@@ -489,8 +514,11 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{FF Links on xcvu13p\_1 Overview (2 of 2)}%FINISH THIS!!!!!!!!!!!!!!!!!!!!!
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\chapter{FF Links on xcvu13p\_1 Overview (2 of 2)}%FIGURE OUT STRANGE BUG HERE!!!!!!!! The code works but this is odd.
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %FF links for xcvu13p_1 to xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example     %MIGHT HAVE TO FIX THIS CROSSOVER CABLES GO 0123->3210 rather than 0123->0123
@@ -539,7 +567,10 @@
 \commentlines{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{xcvu13p\_0 Loopback Links Overview}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %loopback links for xcvu13p_0
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example
@@ -573,7 +604,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{xcvu13p\_1 Loopback Links Overview}
-\hyperlink{MyToc}{Return to Table of Contents} \newpage
+\hyperlink{MyToc}{Return to Table of Contents} \newline \newline
+\setcounter{nextpage}{\thepage}
+\stepcounter{nextpage}
+\hyperlink{page.\the\value{nextpage}}{Go to link overview on next page} \newpage
 
 %loopback links for xcvu13p_1 to xcvu13p_1
 \begin{figure}[h] % ``[t!]'' placement specifier just for this example

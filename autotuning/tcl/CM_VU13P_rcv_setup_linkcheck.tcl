@@ -87,6 +87,7 @@ for {set i 0} {$i<$mgt_len} {incr i} {
     set xil_newLink [create_hw_sio_link -description "MGT $i" [lindex $mgt_tx_list $i] [lindex $mgt_rx_list $i] ]
     lappend xil_newLinks $xil_newLink
 }
+puts $xil_newLinks
 set xil_newLinkGroup [create_hw_sio_linkgroup -description {Link_Group_0} [get_hw_sio_links $xil_newLinks]]
 #hw_sio_link -description {Link 0} [lindex [get_hw_sio_txs localhost:3121/xilinx_tcf/Xilinx/192.168.38.140:2542/1_1_0_0/IBERT/Quad_126/MGT_X0Y8/TX] 0] [lindex [get_hw_sio_rxs localhost:3121/xilinx_tcf/Xilinx/192.168.38.140:2542/1_1_0_0/IBERT/Quad_126/MGT_X0Y8/RX] 0] ]
 unset xil_newLinks

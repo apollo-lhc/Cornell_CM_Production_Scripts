@@ -18,36 +18,16 @@ if {!([info exists CM])} {
 }
 set path [file join $dir "../../scans/${CM}/${date}"]
 set nfspath /nfs/cms/tracktrigger/apollo/${CM}/scans/${date}
-set pathCM [file join $dir "../../scans/${CM}"]
-set nfspathCM /nfs/cms/tracktrigger/apollo/${CM}
 #set path /nfs/cms/tracktrigger/ad683/Cornell_CM_Production_Scripts/scans/CM3002/${date}
 #set nfspath /nfs/cms/tracktrigger/apollo/CM3002/scans/${date}
-if {[file isdirectory $path]} {
-    puts "The directory '$path' already exists, so overwriting and refraining from changing directory permissions."
-} elseif {[file isdirectory $pathCM]} {
-    file mkdir $path
-    exec chmod -R g+w $path
-} else {
-    file mkdir $path
-    exec chmod -R g+w $pathCM
-}
-if {[file isdirectory $nfspath]} {
-    puts "The directory '$nfspath' already exists, so overwriting and refraining from changing directory permissions."
-} elseif {[file isdirectory $nfspathCM]} {
-    file mkdir $nfspath
-    exec chmod -R g+w $nfspath
-} else {
-    file mkdir $nfspath
-    exec chmod -R g+w $nfspathCM
-}
-#file mkdir $path
-#file mkdir $nfspath
+file mkdir $path
+file mkdir $nfspath
 #file attributes /nfs/cms/tracktrigger/apollo/${CM} -permissions rwxrwxr-x
 #file attributes [file join $dir "../../scans/${CM}/${date}"]
 #file attributes $path -permissions rwxrwxr-x
 #file attributes $nfspath -permissions rwxrwxr-x
-#exec chmod -R g+w [file join $dir "../../scans/${CM}"]
-#exec chmod -R g+w /nfs/cms/tracktrigger/apollo/${CM}
+exec chmod -R g+w [file join $dir "../../scans/${CM}"]
+exec chmod -R g+w /nfs/cms/tracktrigger/apollo/${CM}
 #Also, be sure to first modify these lines to save the scans how you would like (e.g. /mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/01-19-22)
 
 set Quad_dict {"X0Y56" "Quad_134_" "X0Y57" "Quad_134_" "X0Y58" "Quad_134_" "X0Y59" "Quad_134_"
@@ -137,8 +117,8 @@ for {set r 19} {$r>3} {incr r -1} {
 set i 0
 foreach Tx $Txs Rx $Rxs {
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Tx*->*00001631afcb01/1_1*$Rx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Tx*->*00001631afcb01/1_1*$Rx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -155,8 +135,8 @@ foreach Tx $Txs Rx $Rxs {
     write_hw_sio_scan -force "${nfspath}/eyescan_F1_${QuadTx}${trimTx}_to_F2_${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]    
 
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Rx*->*00001631afcb01/0_1*$Tx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Rx*->*00001631afcb01/0_1*$Tx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -224,8 +204,8 @@ puts $TxFF1s
 
 foreach Tx $TxFF1s Rx $RxFF1s {
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Tx*->*00001631afcb01/0_1*$Rx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Tx*->*00001631afcb01/0_1*$Rx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/0_1*$Rx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/0_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -245,8 +225,8 @@ foreach Tx $TxFF1s Rx $RxFF1s {
 
     if {$Tx != $Rx} {
 	puts "MGT $i"
-	puts [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Rx*->*00001631afcb01/0_1*$Tx*"]
-	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/0_1*$Rx*->*00001631afcb01/0_1*$Tx*"]] 0 ]]
+	puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]
+	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]] 0 ]]
 	set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -307,8 +287,8 @@ for {set t 48} {$t<60} {incr t} {
 
 foreach Tx $TxFF2s Rx $RxFF2s {
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Tx*->*00001631afcb01/1_1*$Rx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Tx*->*00001631afcb01/1_1*$Rx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -328,8 +308,8 @@ foreach Tx $TxFF2s Rx $RxFF2s {
 
     if {$Tx != $Rx} {
 	puts "MGT $i"
-	puts [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Rx*->*00001631afcb01/1_1*$Tx*"]
-	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*00001631afcb01/1_1*$Rx*->*00001631afcb01/1_1*$Tx*"]] 0 ]]
+	puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/1_1*$Tx*"]
+	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/1_1*$Tx*"]] 0 ]]
 	set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
