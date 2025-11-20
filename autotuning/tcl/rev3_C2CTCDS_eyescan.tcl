@@ -6,6 +6,9 @@ set mgt_link_list [eval get_hw_sio_links]
 ##set Txs {20,59}
 ##set Rxs {43,4}
 
+set hw_target [eval get_hw_targets]
+#THIS WILL NOT WORK IF THERE ARE MORE THAN ONE HARDWARE TARGETS CONNECTED TO THE MACHINE!
+
 set systemTime [clock seconds]
 set date [clock format $systemTime -format %m-%d-%y]
 #This modifies this variable to correspond to current date before running, Example date: 01-19-22
@@ -18,16 +21,36 @@ if {!([info exists CM])} {
 }
 set path [file join $dir "../../scans/${CM}/${date}"]
 set nfspath /nfs/cms/tracktrigger/apollo/${CM}/scans/${date}
+set pathCM [file join $dir "../../scans/${CM}"]
+set nfspathCM /nfs/cms/tracktrigger/apollo/${CM}
 #set path /nfs/cms/tracktrigger/ad683/Cornell_CM_Production_Scripts/scans/CM3002/${date}
 #set nfspath /nfs/cms/tracktrigger/apollo/CM3002/scans/${date}
-file mkdir $path
-file mkdir $nfspath
+if {[file isdirectory $path]} {
+    puts "The directory '$path' already exists, so overwriting and refraining from changing directory permissions."
+} elseif {[file isdirectory $pathCM]} {
+    file mkdir $path
+    exec chmod -R g+w $path
+} else {
+    file mkdir $path
+    exec chmod -R g+w $pathCM
+}
+if {[file isdirectory $nfspath]} {
+    puts "The directory '$nfspath' already exists, so overwriting and refraining from changing directory permissions."
+} elseif {[file isdirectory $nfspathCM]} {
+    file mkdir $nfspath
+    exec chmod -R g+w $nfspath
+} else {
+    file mkdir $nfspath
+    exec chmod -R g+w $nfspathCM
+}
+#file mkdir $path
+#file mkdir $nfspath
 #file attributes /nfs/cms/tracktrigger/apollo/${CM} -permissions rwxrwxr-x
 #file attributes [file join $dir "../../scans/${CM}/${date}"]
 #file attributes $path -permissions rwxrwxr-x
 #file attributes $nfspath -permissions rwxrwxr-x
-exec chmod -R g+w [file join $dir "../../scans/${CM}"]
-exec chmod -R g+w /nfs/cms/tracktrigger/apollo/${CM}
+#exec chmod -R g+w [file join $dir "../../scans/${CM}"]
+#exec chmod -R g+w /nfs/cms/tracktrigger/apollo/${CM}
 #Also, be sure to first modify these lines to save the scans how you would like (e.g. /mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/01-19-22)
 
 set Quad_dict {"X0Y56" "Quad_134_" "X0Y57" "Quad_134_" "X0Y58" "Quad_134_" "X0Y59" "Quad_134_"
@@ -44,6 +67,7 @@ set Quad_dict {"X0Y56" "Quad_134_" "X0Y57" "Quad_134_" "X0Y58" "Quad_134_" "X0Y5
     "X0Y12" "Quad_123_" "X0Y13" "Quad_123_" "X0Y14" "Quad_123_" "X0Y15" "Quad_123_"
     "X0Y8" "Quad_122_" "X0Y9" "Quad_122_" "X0Y10" "Quad_122_" "X0Y11" "Quad_122_"
     "X0Y4" "Quad_121_" "X0Y5" "Quad_121_" "X0Y6" "Quad_121_" "X0Y7" "Quad_121_"
+    "X0Y0" "C2CTCDS_Quad_120_" "X0Y1" "C2CTCDS_Quad_120_" "X0Y2" "C2CTCDS_Quad_120_" "X0Y3" "C2CTCDS_Quad_120_"
     "X1Y56" "Quad_234_" "X1Y57" "Quad_234_" "X1Y58" "Quad_234_" "X1Y59" "Quad_234_"
     "X1Y52" "Quad_233_" "X1Y53" "Quad_233_" "X1Y54" "Quad_233_" "X1Y55" "Quad_233_"
     "X1Y48" "Quad_232_" "X1Y49" "Quad_232_" "X1Y50" "Quad_232_" "X1Y51" "Quad_232_"
@@ -57,68 +81,71 @@ set Quad_dict {"X0Y56" "Quad_134_" "X0Y57" "Quad_134_" "X0Y58" "Quad_134_" "X0Y5
     "X1Y16" "Quad_224_" "X1Y17" "Quad_224_" "X1Y18" "Quad_224_" "X1Y19" "Quad_224_"
     "X1Y12" "Quad_223_" "X1Y13" "Quad_223_" "X1Y14" "Quad_223_" "X1Y15" "Quad_223_"
     "X1Y8" "Quad_222_" "X1Y9" "Quad_222_" "X1Y10" "Quad_222_" "X1Y11" "Quad_222_"
-    "X1Y4" "Quad_221_" "X1Y5" "Quad_221_" "X1Y6" "Quad_221_" "X1Y7" "Quad_221_"}
+    "X1Y4" "Quad_221_" "X1Y5" "Quad_221_" "X1Y6" "Quad_221_" "X1Y7" "Quad_221_"
+    "X1Y0" "C2CTCDS_Quad_220_" "X1Y1" "C2CTCDS_Quad_220_" "X1Y2" "C2CTCDS_Quad_220_" "X1Y3" "C2CTCDS_Quad_220_"}
 set FF_FPGA_dict {"xcvu13p_0" "_F1" "xcvu13p_1" "_F2"}
-set FF_dict {"X0Y56" "_4_" "X0Y57" "_4_" "X0Y58" "_4_" "X0Y59" "_4_"
-    "X0Y52" "_4_" "X0Y53" "_4_" "X0Y54" "_4_" "X0Y55" "_4_"
-    "X0Y48" "_4_" "X0Y49" "_4_" "X0Y50" "_4_" "X0Y51" "_4_"
-    "X0Y44" "_6_" "X0Y45" "_6_" "X0Y46" "_6_" "X0Y47" "_6_"
-    "X0Y40" "_3_" "X0Y41" "_3_" "X0Y42" "_3_" "X0Y43" "_3_"
-    "X0Y36" "_3_" "X0Y37" "_3_" "X0Y38" "_3_" "X0Y39" "_3_"
-    "X0Y32" "_3_" "X0Y33" "_3_" "X0Y34" "_3_" "X0Y35" "_3_"
-    "X0Y28" "_2_" "X0Y29" "_2_" "X0Y30" "_2_" "X0Y31" "_2_"
-    "X0Y24" "_2_" "X0Y25" "_2_" "X0Y26" "_2_" "X0Y27" "_2_"
-    "X0Y20" "_2_" "X0Y21" "_2_" "X0Y22" "_2_" "X0Y23" "_2_"
-    "X0Y16" "_5_" "X0Y17" "_5_" "X0Y18" "_5_" "X0Y19" "_5_"
-    "X0Y12" "_1_" "X0Y13" "_1_" "X0Y14" "_1_" "X0Y15" "_1_"
-    "X0Y8" "_1_" "X0Y9" "_1_" "X0Y10" "_1_" "X0Y11" "_1_"
-    "X0Y4" "_1_" "X0Y5" "_1_" "X0Y6" "_1_" "X0Y7" "_1_"}
+set FF_dict {"X0Y56" "4_" "X0Y57" "4_" "X0Y58" "4_" "X0Y59" "4_"
+    "X0Y52" "4_" "X0Y53" "4_" "X0Y54" "4_" "X0Y55" "4_"
+    "X0Y48" "4_" "X0Y49" "4_" "X0Y50" "4_" "X0Y51" "4_"
+    "X0Y44" "6_" "X0Y45" "6_" "X0Y46" "6_" "X0Y47" "6_"
+    "X0Y40" "3_" "X0Y41" "3_" "X0Y42" "3_" "X0Y43" "3_"
+    "X0Y36" "3_" "X0Y37" "3_" "X0Y38" "3_" "X0Y39" "3_"
+    "X0Y32" "3_" "X0Y33" "3_" "X0Y34" "3_" "X0Y35" "3_"
+    "X0Y28" "2_" "X0Y29" "2_" "X0Y30" "2_" "X0Y31" "2_"
+    "X0Y24" "2_" "X0Y25" "2_" "X0Y26" "2_" "X0Y27" "2_"
+    "X0Y20" "2_" "X0Y21" "2_" "X0Y22" "2_" "X0Y23" "2_"
+    "X0Y16" "5_" "X0Y17" "5_" "X0Y18" "5_" "X0Y19" "5_"
+    "X0Y12" "1_" "X0Y13" "1_" "X0Y14" "1_" "X0Y15" "1_"
+    "X0Y8" "1_" "X0Y9" "1_" "X0Y10" "1_" "X0Y11" "1_"
+    "X0Y4" "1_" "X0Y5" "1_" "X0Y6" "1_" "X0Y7" "1_"
+    "X0Y0" "" "X0Y1" "" "X0Y2" "" "X0Y3" ""
+    "X1Y0" "" "X1Y1" "" "X1Y2" "" "X1Y3" ""}
 
 ## Links between FPGA (Tx are the ones from FPGA1, Rxs are from FPGA2)
 set Txs {}
 set Rxs {}
 
-for {set t 20} {$t<44} {incr t} {
-    set tstring "X1Y$t/"
-    lappend Txs $tstring
-}
-for {set r 43} {$r>19} {incr r -1} {
-    set rstring "X1Y$r/"
-    lappend Rxs $rstring
-}
-
-for {set t 4} {$t<18} {incr t} {
-    set tstring "X1Y$t/"
-    lappend Txs $tstring
-}
-for {set r 59} {$r>45} {incr r -1} {
-    set rstring "X1Y$r/"
-    lappend Rxs $rstring
-}
-
-for {set t 44} {$t<60} {incr t} {
-    set tstring "X1Y$t/"
-    lappend Txs $tstring
-}
-for {set r 19} {$r>3} {incr r -1} {
-    set rstring "X1Y$r/"
-    lappend Rxs $rstring
-}
+#for {set t 20} {$t<44} {incr t} {
+#    set tstring "X1Y$t/"
+#    lappend Txs $tstring
+#}
+#for {set r 43} {$r>19} {incr r -1} {
+#    set rstring "X1Y$r/"
+#    lappend Rxs $rstring
+#}
+#
+#for {set t 4} {$t<18} {incr t} {
+#    set tstring "X1Y$t/"
+#    lappend Txs $tstring
+#}
+#for {set r 59} {$r>45} {incr r -1} {
+#    set rstring "X1Y$r/"
+#    lappend Rxs $rstring
+#}
+#
+#for {set t 44} {$t<60} {incr t} {
+#    set tstring "X1Y$t/"
+#    lappend Txs $tstring
+#}
+#for {set r 19} {$r>3} {incr r -1} {
+#    set rstring "X1Y$r/"
+#    lappend Rxs $rstring
+#}
 #ADD THESE BACK IN WHEN CAN GET QUAD 120 AND 220 VISIBLE IN VIVADO
-#set tstring "X0Y3/"
-#lappend Txs $tstring
-#set rstring "X0Y0/"
-#lappend Rxs $rstring
-#set tstring "X1Y3/"
-#lappend Txs $tstring
-#set rstring "X1Y3/"
-#lappend Rxs $rstring
+set tstring "X0Y3/"
+lappend Txs $tstring
+set rstring "X0Y0/"
+lappend Rxs $rstring
+set tstring "X1Y3/"
+lappend Txs $tstring
+set rstring "X1Y3/"
+lappend Rxs $rstring
 
 set i 0
 foreach Tx $Txs Rx $Rxs {
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "$hw_target/0_1*$Tx*->$hw_target/1_1*$Rx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "$hw_target/0_1*$Tx*->$hw_target/1_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -135,8 +162,8 @@ foreach Tx $Txs Rx $Rxs {
     write_hw_sio_scan -force "${nfspath}/eyescan_F1_${QuadTx}${trimTx}_to_F2_${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]    
 
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "$hw_target/1_1*$Rx*->$hw_target/0_1*$Tx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "$hw_target/1_1*$Rx*->$hw_target/0_1*$Tx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -155,57 +182,57 @@ set RxFF1s {}
 
 #####
 #FPGA1
-for {set t 16} {$t<20} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF1s $tstring
-}
-
-for {set r 44} {$r<48} {incr r} {
-    set rstring "X0Y$r/"
-    lappend RxFF1s $rstring
-}
-
+#for {set t 16} {$t<20} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF1s $tstring
+#}
+#
+#for {set r 44} {$r<48} {incr r} {
+#    set rstring "X0Y$r/"
+#    lappend RxFF1s $rstring
+#}
+#
 #loopback ones
-for {set t 4} {$t<16} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF1s $tstring
-    lappend RxFF1s $tstring
-}
-for {set t 20} {$t<32} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF1s $tstring
-    lappend RxFF1s $tstring
-}
-for {set t 32} {$t<44} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF1s $tstring
-    lappend RxFF1s $tstring
-}
-for {set t 48} {$t<60} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF1s $tstring
-    lappend RxFF1s $tstring
-}
+#for {set t 4} {$t<16} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF1s $tstring
+#    lappend RxFF1s $tstring
+#}
+#for {set t 20} {$t<32} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF1s $tstring
+#    lappend RxFF1s $tstring
+#}
+#for {set t 32} {$t<44} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF1s $tstring
+#    lappend RxFF1s $tstring
+#}
+#for {set t 48} {$t<60} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF1s $tstring
+#    lappend RxFF1s $tstring
+#}
 #ADD THESE BACK IN WHEN CAN GET QUAD 120 AND 220 VISIBLE IN VIVADO
-#set tstring "X0Y0/"
-#lappend TxFF1s $tstring
-#lappend RxFF1s $tstring
-#set tstring "X0Y2/"
-#lappend TxFF1s $tstring
-#lappend RxFF1s $tstring
-#set tstring "X1Y0/"
-#lappend TxFF1s $tstring
-#lappend RxFF1s $tstring
-#set tstring "X1Y1/"
-#lappend TxFF1s $tstring
-#lappend RxFF1s $tstring
+set tstring "X0Y0/"
+lappend TxFF1s $tstring
+lappend RxFF1s $tstring
+set tstring "X0Y2/"
+lappend TxFF1s $tstring
+lappend RxFF1s $tstring
+set tstring "X1Y0/"
+lappend TxFF1s $tstring
+lappend RxFF1s $tstring
+set tstring "X1Y1/"
+lappend TxFF1s $tstring
+lappend RxFF1s $tstring
 
 puts $TxFF1s
 
 foreach Tx $TxFF1s Rx $RxFF1s {
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/0_1*$Rx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Tx*->*apollo3006:2542/0_1*$Rx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "$hw_target/0_1*$Tx*->$hw_target/0_1*$Rx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "$hw_target/0_1*$Tx*->$hw_target/0_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -220,13 +247,13 @@ foreach Tx $TxFF1s Rx $RxFF1s {
     set FFRx [string map $FF_dict $trimRx]
     set QuadTx [string map $Quad_dict $trimTx]
     set QuadRx [string map $Quad_dict $trimRx]
-    write_hw_sio_scan -force "${path}/eyescan_F1${FFTx}${QuadTx}${trimTx}_to_F1${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
-    write_hw_sio_scan -force "${nfspath}/eyescan_F1${FFTx}${QuadTx}${trimTx}_to_F1${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
+    write_hw_sio_scan -force "${path}/eyescan_F1_${FFTx}${QuadTx}${trimTx}_to_F1_${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
+    write_hw_sio_scan -force "${nfspath}/eyescan_F1_${FFTx}${QuadTx}${trimTx}_to_F1_${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
 
     if {$Tx != $Rx} {
 	puts "MGT $i"
-	puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]
-	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/0_1*$Rx*->*apollo3006:2542/0_1*$Tx*"]] 0 ]]
+	puts [lsearch -all -inline $mgt_link_list "$hw_target/0_1*$Rx*->$hw_target/0_1*$Tx*"]
+	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "$hw_target/0_1*$Rx*->$hw_target/0_1*$Tx*"]] 0 ]]
 	set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -235,8 +262,8 @@ foreach Tx $TxFF1s Rx $RxFF1s {
 	incr i 1
 	wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
 	#write_hw_sio_scan -force "/mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/${date}/eyescan_${trimRx}(xcvu13p_0)_to_${trimTx}(xcvu13p_0)" [get_hw_sio_scans $xil_newScan]
-        write_hw_sio_scan -force "${path}/eyescan_F1${FFRx}${QuadRx}${trimRx}_to_F1${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
-        write_hw_sio_scan -force "${nfspath}/eyescan_F1${FFRx}${QuadRx}${trimRx}_to_F1${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
+        write_hw_sio_scan -force "${path}/eyescan_F1_${FFRx}${QuadRx}${trimRx}_to_F1_${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
+        write_hw_sio_scan -force "${nfspath}/eyescan_F1_${FFRx}${QuadRx}${trimRx}_to_F1_${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
     }
     ;
 }
@@ -246,49 +273,49 @@ set RxFF2s {}
 
 ####
 #FPGA2
-for {set t 16} {$t<20} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF2s $tstring
-}
-
-for {set r 44} {$r<48} {incr r} {
-    set rstring "X0Y$r/"
-    lappend RxFF2s $rstring
-}
-
+#for {set t 16} {$t<20} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF2s $tstring
+#}
+#
+#for {set r 44} {$r<48} {incr r} {
+#    set rstring "X0Y$r/"
+#    lappend RxFF2s $rstring
+#}
+#
 #loopback ones
-for {set t 4} {$t<16} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF2s $tstring
-    lappend RxFF2s $tstring
-}
-for {set t 20} {$t<32} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF2s $tstring
-    lappend RxFF2s $tstring
-}
-for {set t 32} {$t<44} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF2s $tstring
-    lappend RxFF2s $tstring
-}
-for {set t 48} {$t<60} {incr t} {
-    set tstring "X0Y$t/"
-    lappend TxFF2s $tstring
-    lappend RxFF2s $tstring
-}
+#for {set t 4} {$t<16} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF2s $tstring
+#    lappend RxFF2s $tstring
+#}
+#for {set t 20} {$t<32} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF2s $tstring
+#    lappend RxFF2s $tstring
+#}
+#for {set t 32} {$t<44} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF2s $tstring
+#    lappend RxFF2s $tstring
+#}
+#for {set t 48} {$t<60} {incr t} {
+#    set tstring "X0Y$t/"
+#    lappend TxFF2s $tstring
+#    lappend RxFF2s $tstring
+#}
 #ADD THESE BACK IN WHEN CAN GET QUAD 120 AND 220 VISIBLE IN VIVADO
-#set tstring "X1Y0"
-#lappend TxFF1s $tstring
-#lappend RxFF1s $tstring
-#set tstring "X1Y1"
-#lappend TxFF1s $tstring
-#lappend RxFF1s $tstring
+set tstring "X1Y0"
+lappend TxFF2s $tstring
+lappend RxFF2s $tstring
+set tstring "X1Y1"
+lappend TxFF2s $tstring
+lappend RxFF2s $tstring
 
 foreach Tx $TxFF2s Rx $RxFF2s {
     puts "MGT $i"
-    puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]
-    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Tx*->*apollo3006:2542/1_1*$Rx*"]] 0 ]]
+    puts [lsearch -all -inline $mgt_link_list "$hw_target/1_1*$Tx*->$hw_target/1_1*$Rx*"]
+    set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "$hw_target/1_1*$Tx*->$hw_target/1_1*$Rx*"]] 0 ]]
     set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
     set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -303,13 +330,13 @@ foreach Tx $TxFF2s Rx $RxFF2s {
     set FFRx [string map $FF_dict $trimRx]
     set QuadTx [string map $Quad_dict $trimTx]
     set QuadRx [string map $Quad_dict $trimRx]
-    write_hw_sio_scan -force "${path}/eyescan_F2${FFTx}${QuadTx}${trimTx}_to_F2${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
-    write_hw_sio_scan -force "${nfspath}/eyescan_F2${FFTx}${QuadTx}${trimTx}_to_F2${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
+    write_hw_sio_scan -force "${path}/eyescan_F2_${FFTx}${QuadTx}${trimTx}_to_F2_${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
+    write_hw_sio_scan -force "${nfspath}/eyescan_F2_${FFTx}${QuadTx}${trimTx}_to_F2_${FFRx}${QuadRx}${trimRx}" [get_hw_sio_scans $xil_newScan]
 
     if {$Tx != $Rx} {
 	puts "MGT $i"
-	puts [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/1_1*$Tx*"]
-	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "*apollo3006:2542/1_1*$Rx*->*apollo3006:2542/1_1*$Tx*"]] 0 ]]
+	puts [lsearch -all -inline $mgt_link_list "$hw_target/1_1*$Rx*->$hw_target/1_1*$Tx*"]
+	set xil_newScan [create_hw_sio_scan -description "Scan $i" 2d_full_eye  [lindex [get_hw_sio_links [lsearch -all -inline $mgt_link_list "$hw_target/1_1*$Rx*->$hw_target/1_1*$Tx*"]] 0 ]]
 	set_property HORIZONTAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property VERTICAL_INCREMENT {1} [get_hw_sio_scans $xil_newScan]
 	set_property HORIZONTAL_RANGE {-0.200 UI to 0.200 UI} [get_hw_sio_scans $xil_newScan]
@@ -318,8 +345,8 @@ foreach Tx $TxFF2s Rx $RxFF2s {
 	incr i 1
 	wait_on_hw_sio_scan [get_hw_sio_scans $xil_newScan]
 	#write_hw_sio_scan -force "/mnt/scratch/ad683/Cornell_CM_Production_Scripts/scans/CM203/${date}/eyescan_${trimRx}(xcvu13p_1)_to_${trimTx}(xcvu13p_1)" [get_hw_sio_scans $xil_newScan]
-        write_hw_sio_scan -force "${path}/eyescan_F2${FFRx}${QuadRx}${trimRx}_to_F2${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
-        write_hw_sio_scan -force "${nfspath}/eyescan_F2${FFRx}${QuadRx}${trimRx}_to_F2${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
+        write_hw_sio_scan -force "${path}/eyescan_F2_${FFRx}${QuadRx}${trimRx}_to_F2_${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
+        write_hw_sio_scan -force "${nfspath}/eyescan_F2_${FFRx}${QuadRx}${trimRx}_to_F2_${FFTx}${QuadTx}${trimTx}" [get_hw_sio_scans $xil_newScan]
     }
     ;
 }
