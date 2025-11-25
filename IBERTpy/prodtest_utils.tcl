@@ -2,7 +2,7 @@
 
 # two functions defined:
 # load_and_run CM3NNN --> for regular links, inter-FPGA and Firefly
-# load_and_run_smcm CM3NNN --> for SM links (TCDS and C2C)
+# load_and_run_sm CM3NNN --> for SM links (TCDS and C2C)
 
 # script to be run in vivado tcl console to scan and run on a given CM
 # usage: source prodtest_utils.tcl; load_and_run CM3006. Source command
@@ -42,7 +42,7 @@ proc load_and_run {CM} {
     source /nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/autotuning/tcl/rev3_prodtest_eyescan.tcl
 
 
-proc load_and_run_smcm {CM} {
+proc load_and_run_sm {CM} {
     puts "Loading and running on CM ${CM} for SM links"
     # make sure CM has the form CM3 followed by exactly three digits (CM3NNN)
     if {![regexp {^CM3\d{3}$} $CM]} {
