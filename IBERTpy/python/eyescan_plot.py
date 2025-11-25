@@ -29,9 +29,9 @@ def get_mb(two_points):
 
 def gen_mask(size,two_points,operator, mask=[]):
     [m, b] = get_mb(two_points)
-    if mask ==[]:
+    if len(mask)==0:
         mask = np.ones(list(reversed(size)), dtype=bool)
-    for (y,x), value in np.ndenumerate(mask):
+    for (y,x), _ in np.ndenumerate(mask):
         mask[y][x] &= operator(y,m*x+b)
     return mask
 
@@ -202,7 +202,7 @@ def eyescan_plot(filename_i, filename_o, minlog10ber, colorbar=True, xaxis=True,
     #print("xticks_n: ", xticks_n)
     yticks_r = [y for y in reversed(yticks)]
     myplot = plt.imshow(np.log10(img),interpolation='none', vmin = minlog10ber, vmax = 0, aspect='auto', extent = get_extent(xticks_n,yticks_r), cmap = 'jet')
-    if not mask==[]:
+    if not len(mask)==0:
         plt.imshow(mask, interpolation='none', vmin=0, vmax=1, aspect='auto',
                    extent=get_extent(xticks_n, yticks_r), cmap=my_cmap, origin='lower', alpha=0.9)
 

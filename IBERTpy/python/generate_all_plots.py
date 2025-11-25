@@ -57,12 +57,12 @@ if not filename_i_list:
     help_message()
     sys.exit(1)
 
-#    filename_i_list = glob('../../scans/' + sys.argv[1] + '/' + sys.argv[2] + '/*DFE*.csv')
+#    filename_i_list = glob('../../scans/' + CM + '/' + date + '/*DFE*.csv')
 print(filename_i_list)
 #    filename_o_list = [p.replace('csv','pdf').replace(' ','_') for p in filename_i_list]
 
 filename_o_list = [p.replace('csv','pdf') for p in filename_i_list]
-filename_nfso_list = [n.replace('../../scans/' + sys.argv[1] + '/' + sys.argv[2], '/nfs/cms/tracktrigger/apollo/' + sys.argv[1] + '/scans/' + sys.argv[2]) for n in filename_o_list]
+filename_nfso_list = [n.replace('../../scans/' + CM + '/' + date, basedir_nfso + CM + '/scans/' + date) for n in filename_o_list]
 
 #yticks = list(np.arange(-127,0,16))+[0]+list(np.arange(127,0,-16))[-1::-1]
 #xticks = list(np.arange(-0.5,0.625,0.125))
@@ -98,9 +98,10 @@ for i,nfso in zip(filename_i_list, filename_nfso_list):
     #break
 failed_link_list_nfso = list(filter(None, failed_link_list_nfso))
 #work in progress begin
-pattern_to_remove = r"_\test|\../../scans/"+sys.argv[1]+'/'+sys.argv[2]+"/eyescan_|\.csv"
-failed_link_list = [re.sub(pattern_to_remove, "", item) for item in failed_link_list_nfso]
-failed_output_dir = '/nfs/cms/tracktrigger/apollo/' + sys.argv[1] + '/scans/' + sys.argv[2]
+pattern_to_remove = r"_\test|\../../scans/"+CM+'/'+date+"/eyescan_|\.csv"
+failed_link_list = [re.sub(pattern_to_remove, "", item) for item in failed_link_list_o]
+failed_output_dir = basedir_nfso + CM + '/scans/' + date
+#failed_output_dir = filedir
 failed_output_file = 'failed_links.txt'
 full_failed_output_path = os.path.join(failed_output_dir, failed_output_file)
 os.makedirs(failed_output_dir, exist_ok=True)
