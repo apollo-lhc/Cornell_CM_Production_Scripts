@@ -63,19 +63,56 @@ else:
     pattern_to_remove = r"_\test|\../../scans/"+sys.argv[1]+'/'+sys.argv[2]+"/eyescan_|\.csv"
     failed_link_list = [re.sub(pattern_to_remove, "", item) for item in failed_link_list_nfso]
     failed_output_dir = '/nfs/cms/tracktrigger/apollo/' + sys.argv[1] + '/scans/' + sys.argv[2]
-    failed_output_file = 'failed_links.txt'
-    full_failed_output_path = os.path.join(failed_output_dir, failed_output_file)
-    os.makedirs(failed_output_dir, exist_ok=True)
+    both_link_types = False
+    
+    if all("C2CTCDS" in link for link in failed_link_list):
+        failed_output_file = 'failed_C2CTCDS_links.txt'
+    elif all("C2CTCDS" not in link for link in failed_link_list):
+        failed_output_file = 'failed_links.txt'
+    else:
+        both_link_types = True
+        failed_output_file = 'failed_links.txt'
+        failed_C2CTCDS_output_file = 'failed_C2CTCDS_links.txt'
+
     delimiter = " \n "
-    failed_link_string = delimiter.join(failed_link_list)
+    os.makedirs(failed_output_dir, exist_ok=True)
+    if both_link_types:
+        full_failed_output_path = os.path.join(failed_output_dir, failed_output_file)
+        failed_nonC2CTCDS_link_list = []
+        for link in failed_link_list:
+            if "C2CTCDS" not in link:
+                failed_nonC2CTCDS_link_list.append(link)
+                
+        failed_nonC2CTCDS_link_string = delimiter.join(failed_nonC2CTCDS_link_list) #ALL OF THIS STILL NEEDS TO BE TESTED!!!!
+        with open(full_failed_output_path, 'w') as f:
+            f.write('Failed links: ')
+            f.write(failed_nonC2CTCDS_link_string)
+            f.write('\n')
+            
+        print("List of links that fail the open area test:\n", failed_nonC2CTCDS_link_string)
 
-    with open(full_failed_output_path, 'w') as f:
-        f.write('Failed links: ')
-        f.write(failed_link_string)
-        f.write('\n')
-    #work in progress end
-
-    #print("List of links that fail the open area test:\n", failed_link_list_o, "\n")
-    #print("List of links that fail the open area test:\n", failed_link_list_nfso, "\n")
-    #print("The above lists should show the same links failing if the eyescan scripts were run properly.")
-    print("List of links that fail the open area test:\n", failed_link_string)
+        full_C2CTCDS_failed_output_path = os.path.join(failed_output_dir, failed_C2CTCDS_output_file)
+        failed_C2CTCDS_link_list = []
+        for link in failed_link_list:
+            if "C2CTCDS" in link:
+                failed_C2CTCDS_link_list.append(link)
+                
+        failed_C2CTCDS_link_string = delimiter.join(failed_C2CTCDS_link_list)
+        with open(full_C2CTCDS_failed_output_path, 'w') as f2:
+            f2.write('Failed links: ')
+            f2.write(failed_C2CTCDS_link_string)
+            f2.write('\n')
+            
+        print("List of C2C/TCDS links that fail the open area test:\n", failed_C2CTCDS_link_string)
+        
+    else:
+        full_failed_output_path = os.path.join(failed_output_dir, failed_output_file)
+        delimiter = " \n "
+        failed_link_string = delimiter.join(failed_link_list)
+        with open(full_failed_output_path, 'w') as f:
+            f.write('Failed links: ')
+            f.write(failed_link_string)
+            f.write('\n')
+        
+        print("List of links that fail the open area test:\n", failed_link_string)
+#work in progress end
