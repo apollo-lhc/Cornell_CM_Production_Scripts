@@ -82,9 +82,11 @@ is set up correctly.
 After generating pdfs and png files, one can generate a summary pdf that organizes all eyescans
 of the standard rev3 MGT configuration into a more easily navigated summary document by entering
 the following command in /nfs/cms/tracktrigger/apollo/Cornell_CM_Production_Scripts/IBERTpy/latex:
+
 ```sh
-pdflatex --jobname=summary_eyescans --output-directory=/nfs/cms/tracktrigger/apollo/<board id>/scans/<date of scans> "\def\dateofscans{<date of scans>} \def\CM{<board id>} \input{rev3_prodtest_eyescan_summary.tex}"
+pdflatex --interaction=nonstopmode --jobname=summary_eyescans --output-directory=/nfs/cms/tracktrigger/apollo/<board id>/scans/<date of scans> "\def\dateofscans{<date of scans>} \def\CM{<board id>} \input{rev3_prodtest_eyescan_summary.tex}"
 ```
+
 Upon encountering a warning, type the letter r and hit enter to force the computer to ignore
 all further warnings. The "jobname" argument sets the name of the output pdf. If you wish to
 save the output files to a different directory you can change --output-directory=`<desired output directory>`.
